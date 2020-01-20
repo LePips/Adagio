@@ -37,7 +37,7 @@ class RootViewController: UITabBarController {
     
     private func setupTabBar() {
         tabBar.tintColor = UIColor.Adagio.textColor
-        tabBar.backgroundColor = UIColor.clear
+        tabBar.backgroundColor = UIColor.Adagio.backgroundColor
         tabBar.backgroundImage = UIImage()
         tabBar.shadowImage = UIImage()
         tabBar.isTranslucent = true

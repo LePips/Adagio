@@ -6,6 +6,7 @@
 //  Copyright © 2020 Ethan Pippin. All rights reserved.
 //
 
+import CoreData
 import UIKit
 import SharedPips
 
@@ -40,6 +41,10 @@ class SelectionCell: AdagioCell {
         titleLabel.text = configuration.title
         addButton.setTitle(configuration.buttonTitle, for: .normal)
         self.configuration = configuration
+        
+        for subview in stackView.arrangedSubviews {
+            subview.removeFromSuperview()
+        }
         
         for item in configuration.items {
             let itemLabel = UILabel.forAutoLayout()

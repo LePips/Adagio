@@ -36,7 +36,7 @@ extension EditItemRow {
             if instrument.pieces?.count == 1 {
                 subtitle = "1 piece"
             } else {
-                subtitle = "\(String(describing: instrument.pieces?.count)) pieces"
+                subtitle = "\(instrument.pieces?.count ?? 0) pieces"
             }
             cell.configure(title: instrument.title, subtitle: subtitle)
             return cell

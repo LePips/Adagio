@@ -38,3 +38,7 @@ extension Instrument {
     @NSManaged public func removeFromPieces(_ values: NSSet)
 
 }
+
+extension Instrument: Titlable {
+    
+}

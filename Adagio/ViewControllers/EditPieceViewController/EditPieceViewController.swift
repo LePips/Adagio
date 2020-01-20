@@ -65,6 +65,16 @@ private class EditPieceViewController: SubAdagioViewController {
     }
     
     @objc private func doneSelected() {
+        
+        let verifiableCells = tableView.visibleCells.compactMap({ $0 as? Verifiable })
+        guard verifiableCells.allSatisfy({ $0.isValid }) else {
+            let invalidCells = verifiableCells.filter({ !$0.isValid })
+            invalidCells.forEach { (cell) in
+                cell.setInvalid()
+            }
+            return
+        }
+        
         viewModel.savePiece()
     }
     
@@ -92,6 +102,11 @@ extension EditPieceViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return viewModel.rows[indexPath.row].height()
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell: Selectable? = tableView.visibleCells[indexPath.row] as? Selectable
+        cell?.select()
+    }
 }
 
 extension EditPieceViewController: EditPieceViewModelDelegate {
@@ -107,6 +122,15 @@ extension EditPieceViewController: EditPieceViewModelDelegate {
     func dismiss() {
         self.dismiss(animated: true, completion: nil)
     }
+    
+    func presentInstrumentPicker(with viewModel: CoreDataPickerViewModel<Instrument>) {
+        let pickerViewController = PickerViewController(viewModel: viewModel)
+        present(pickerViewController, animated: true, completion: nil)
+    }
+    
+    func presentGroupPicker(with viewModel: CoreDataPickerViewModel<Group>) {
+        present(PickerViewController(viewModel: viewModel), animated: true, completion: nil)
+    }
 }
 
 extension UITableView {
@@ -117,4 +141,12 @@ extension UITableView {
         self.endUpdates()
         UIView.setAnimationsEnabled(true)
     }
+}
+
+extension Collection {
+
+    subscript(optional i: Index) -> Iterator.Element? {
+        return self.indices.contains(i) ? self[i] : nil
+    }
+
 }

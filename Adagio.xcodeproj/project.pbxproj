@@ -50,6 +50,10 @@
 		E12FFCB123D51C6F00705CFC /* PiecesRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFCB023D51C6F00705CFC /* PiecesRow.swift */; };
 		E12FFCB323D53F8900705CFC /* PieceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFCB223D53F8900705CFC /* PieceCell.swift */; };
 		E12FFCB523D5412200705CFC /* SelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFCB423D5412200705CFC /* SelectionCell.swift */; };
+		E12FFCB723D54D4F00705CFC /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFCB623D54D4F00705CFC /* PickerViewController.swift */; };
+		E12FFCB923D54F4300705CFC /* PickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFCB823D54F4300705CFC /* PickerViewModel.swift */; };
+		E12FFCBE23D568D600705CFC /* Selectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFCBD23D568D600705CFC /* Selectable.swift */; };
+		E12FFCC123D57C7E00705CFC /* Verifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFCC023D57C7E00705CFC /* Verifiable.swift */; };
 		E146BAE823D251420036052B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E146BAE723D251420036052B /* HomeViewModel.swift */; };
 		E146BAEB23D251510036052B /* PiecesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E146BAEA23D251510036052B /* PiecesViewModel.swift */; };
 		E146BAEE23D2515F0036052B /* YouViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E146BAED23D2515F0036052B /* YouViewModel.swift */; };
@@ -140,6 +144,10 @@
 		E12FFCB023D51C6F00705CFC /* PiecesRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiecesRow.swift; sourceTree = "<group>"; };
 		E12FFCB223D53F8900705CFC /* PieceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieceCell.swift; sourceTree = "<group>"; };
 		E12FFCB423D5412200705CFC /* SelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionCell.swift; sourceTree = "<group>"; };
+		E12FFCB623D54D4F00705CFC /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
+		E12FFCB823D54F4300705CFC /* PickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewModel.swift; sourceTree = "<group>"; };
+		E12FFCBD23D568D600705CFC /* Selectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selectable.swift; sourceTree = "<group>"; };
+		E12FFCC023D57C7E00705CFC /* Verifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Verifiable.swift; sourceTree = "<group>"; };
 		E146BAE723D251420036052B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		E146BAEA23D251510036052B /* PiecesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiecesViewModel.swift; sourceTree = "<group>"; };
 		E146BAED23D2515F0036052B /* YouViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouViewModel.swift; sourceTree = "<group>"; };
@@ -202,6 +210,8 @@
 				E16B880C23D2FBF800A8CF07 /* AdagioCell.swift */,
 				E12FFC7223D3EDD400705CFC /* SpacerCell.swift */,
 				E12FFCAE23D5142500705CFC /* Array+Diff.swift */,
+				E12FFCBD23D568D600705CFC /* Selectable.swift */,
+				E12FFCC023D57C7E00705CFC /* Verifiable.swift */,
 				E146BAF823D258EA0036052B /* UIColor+Adagio.swift */,
 				E17C8ADC23D2488200C74BBD /* AdagioModel.xcdatamodeld */,
 				E103FEBC23CE6B6F00BDE96A /* Main.storyboard */,
@@ -264,6 +274,15 @@
 				E12FFCAC23D50D5800705CFC /* EditPieceRow.swift */,
 			);
 			path = EditPieceViewController;
+			sourceTree = "<group>";
+		};
+		E12FFCBA23D54FE600705CFC /* PickerViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E12FFCB623D54D4F00705CFC /* PickerViewController.swift */,
+				E12FFCB823D54F4300705CFC /* PickerViewModel.swift */,
+			);
+			path = PickerViewController;
 			sourceTree = "<group>";
 		};
 		E146BAE323D251230036052B /* HomeViewController */ = {
@@ -355,6 +374,7 @@
 				E12FFC7C23D4312500705CFC /* EditItemsViewController */,
 				E12FFC8523D43ABA00705CFC /* CreateItemViewController */,
 				E12FFC8E23D4D1FC00705CFC /* RequestFeatureViewController */,
+				E12FFCBA23D54FE600705CFC /* PickerViewController */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -459,6 +479,7 @@
 				E12FFC7E23D4312F00705CFC /* EditItemsViewModel.swift in Sources */,
 				E12FFC6823D3909C00705CFC /* SettingsViewController.swift in Sources */,
 				E12FFCA023D5063A00705CFC /* Piece+CoreDataProperties.swift in Sources */,
+				E12FFCC123D57C7E00705CFC /* Verifiable.swift in Sources */,
 				E12FFC7723D4245400705CFC /* SettingsItemCell.swift in Sources */,
 				E146BAF423D2579C0036052B /* PracticeViewModel.swift in Sources */,
 				E146BAEB23D251510036052B /* PiecesViewModel.swift in Sources */,
@@ -467,10 +488,12 @@
 				E146BAE823D251420036052B /* HomeViewModel.swift in Sources */,
 				E12FFC8723D43C0D00705CFC /* PracticeRow.swift in Sources */,
 				E12FFC6F23D393C900705CFC /* SettingsSectionCell.swift in Sources */,
+				E12FFCBE23D568D600705CFC /* Selectable.swift in Sources */,
 				E12FFC8D23D4D1CA00705CFC /* RequestFeatureViewModel.swift in Sources */,
 				E103FEB723CE6B6F00BDE96A /* AppDelegate.swift in Sources */,
 				E12FFCA123D5063A00705CFC /* Practice+CoreDataClass.swift in Sources */,
 				E12FFCAF23D5142500705CFC /* Array+Diff.swift in Sources */,
+				E12FFCB723D54D4F00705CFC /* PickerViewController.swift in Sources */,
 				E16B880D23D2FBF800A8CF07 /* AdagioCell.swift in Sources */,
 				E146BAF723D258A20036052B /* AdagioViewController.swift in Sources */,
 				E12FFC9023D4D61A00705CFC /* AdagioTextField.swift in Sources */,
@@ -500,6 +523,7 @@
 				E12FFCB123D51C6F00705CFC /* PiecesRow.swift in Sources */,
 				E12FFCA323D5063A00705CFC /* Group+CoreDataClass.swift in Sources */,
 				E12FFC9D23D5063A00705CFC /* Instrument+CoreDataClass.swift in Sources */,
+				E12FFCB923D54F4300705CFC /* PickerViewModel.swift in Sources */,
 				E12FFCA223D5063A00705CFC /* Practice+CoreDataProperties.swift in Sources */,
 				E12FFCB323D53F8900705CFC /* PieceCell.swift in Sources */,
 				E12FFC6B23D3915200705CFC /* SettingsViewModel.swift in Sources */,

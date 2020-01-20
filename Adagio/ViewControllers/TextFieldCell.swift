@@ -40,12 +40,13 @@ class TextFieldCellConfiguration: Hashable {
 }
 
 // MARK: - TextFieldcell
-class TextFieldCell: AdagioCell {
+class TextFieldCell: AdagioCell, Selectable, Verifiable {
     
     private lazy var titleLabel = makeTitleLabel()
     private lazy var requiredView = makeRequiredView()
     fileprivate lazy var textView = makeTextView()
     private lazy var separatorView = makeSeparatorView()
+    private lazy var invalidView = makeInvalidView()
     private var configuration: TextFieldCellConfiguration?
     
     func configure(with configuration: TextFieldCellConfiguration) {
@@ -55,7 +56,35 @@ class TextFieldCell: AdagioCell {
         self.configuration = configuration
     }
     
+    func select() {
+        textView.becomeFirstResponder()
+    }
+    
+    func deselect() {
+        textView.resignFirstResponder()
+    }
+    
+    var isValid: Bool {
+        guard let configuration = configuration, configuration.required else { return true }
+        return !textView.text.isEmpty
+    }
+    
+    func setInvalid() {
+        invalidView.alpha = 1
+        separatorView.alpha = 0
+        UIView.animate(withDuration: 0.3, animations: {
+            self.invalidView.alpha = 0
+            self.separatorView.alpha = 1
+        }, completion: nil)
+    }
+    
+    func setValid() {
+        
+    }
+    
     override func setupSubviews() {
+        contentView.addSubview(invalidView)
+        invalidView.alpha = 0
         contentView.addSubview(titleLabel)
         contentView.addSubview(requiredView)
         contentView.addSubview(textView)
@@ -83,6 +112,12 @@ class TextFieldCell: AdagioCell {
             separatorView.rightAnchor ⩵ contentView.rightAnchor - 17,
             separatorView.heightAnchor ⩵ 1
         ])
+        NSLayoutConstraint.activate([
+            invalidView.topAnchor ⩵ contentView.topAnchor,
+            invalidView.bottomAnchor ⩵ separatorView.bottomAnchor,
+            invalidView.leftAnchor ⩵ contentView.leftAnchor + 10,
+            invalidView.rightAnchor ⩵ contentView.rightAnchor - 10
+        ])
     }
     
     private func makeTitleLabel() -> UILabel {
@@ -108,13 +143,20 @@ class TextFieldCell: AdagioCell {
         textView.textColor = UIColor.Adagio.textColor
         textView.delegate = self
         textView.isScrollEnabled = false
-        
+        textView.backgroundColor = .clear
         return textView
     }
     
     private func makeSeparatorView() -> UIView {
         let view = UIView.forAutoLayout()
         view.backgroundColor = UIColor.secondaryLabel
+        return view
+    }
+    
+    private func makeInvalidView() -> UIView {
+        let view = UIView.forAutoLayout()
+        view.backgroundColor = UIColor.systemPink.withAlphaComponent(0.25)
+        view.layer.cornerRadius = 8.91
         return view
     }
 }

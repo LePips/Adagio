@@ -38,3 +38,7 @@ extension Group {
     @NSManaged public func removeFromPieces(_ values: NSSet)
 
 }
+
+extension Group: Titlable {
+    
+}
