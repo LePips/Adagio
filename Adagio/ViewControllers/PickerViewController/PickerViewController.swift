@@ -10,21 +10,21 @@ import CoreData
 import UIKit
 import SharedPips
 
-class PickerViewController<ObjectType: NSManagedObject & Titlable>: BasicViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class PickerViewController: BasicViewController {
     
-    private let animator = FadeInAnimator()
     private lazy var cardView = makeCardView()
     private lazy var titleLabel = makeTitleLabel()
+    private lazy var createButton = makeCreateButton()
     private lazy var pickerView = makePickerView()
     private lazy var doneButton = makeDoneButton()
     private lazy var cancelButton = makeCancelButton()
     
-    private let viewModel: CoreDataPickerViewModel<ObjectType>
+    private let viewModel: CoreDataPickerViewModelProtocol
     
-    init(viewModel: CoreDataPickerViewModel<ObjectType>) {
+    init(viewModel: CoreDataPickerViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        self.isModalInPresentation = true
+        viewModel.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -34,6 +34,7 @@ class PickerViewController<ObjectType: NSManagedObject & Titlable>: BasicViewCon
     override func setupSubviews() {
         view.addSubview(cardView)
         view.addSubview(titleLabel)
+//        view.addSubview(createButton)
         view.addSubview(pickerView)
         view.addSubview(doneButton)
         view.addSubview(cancelButton)
@@ -60,6 +61,10 @@ class PickerViewController<ObjectType: NSManagedObject & Titlable>: BasicViewCon
             titleLabel.bottomAnchor ⩵ pickerView.topAnchor - 10,
             titleLabel.centerXAnchor ⩵ view.centerXAnchor
         ])
+//        NSLayoutConstraint.activate([
+//            createButton.centerYAnchor ⩵ titleLabel.centerYAnchor,
+//            createButton.rightAnchor ⩵ cardView.rightAnchor - 20
+//        ])
         NSLayoutConstraint.activate([
             cardView.bottomAnchor ⩵ cancelButton.topAnchor - 20,
             cardView.leftAnchor ⩵ view.leftAnchor + 10,
@@ -74,6 +79,8 @@ class PickerViewController<ObjectType: NSManagedObject & Titlable>: BasicViewCon
         titleLabel.text = viewModel.title
         doneButton.setTitle(viewModel.doneButtonTitle, for: .normal)
         pickerView.reloadAllComponents()
+        
+        doneButton.isEnabled = !viewModel.objects.isEmpty
     }
     
     private func makeCardView() -> UIView {
@@ -90,6 +97,18 @@ class PickerViewController<ObjectType: NSManagedObject & Titlable>: BasicViewCon
         return label
     }
     
+    private func makeCreateButton() -> UIButton {
+        let button = UIButton.forAutoLayout()
+        let configuration = UIImage.SymbolConfiguration(pointSize: 17, weight: .regular)
+        button.setImage(UIImage(systemName: "plus", withConfiguration: configuration), for: .normal)
+        button.addTarget(self, action: #selector(createSelected), for: .touchUpInside)
+        return button
+    }
+    
+    @objc private func createSelected() {
+        viewModel.createItem()
+    }
+    
     private func makePickerView() -> UIPickerView {
         let picker = UIPickerView.forAutoLayout()
         picker.delegate = self
@@ -101,6 +120,7 @@ class PickerViewController<ObjectType: NSManagedObject & Titlable>: BasicViewCon
     private func makeDoneButton() -> UIButton {
         let button = UIButton.forAutoLayout()
         button.setTitleColor(UIColor.systemBlue, for: .normal)
+        button.setTitleColor(UIColor.secondaryLabel, for: .disabled)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         button.addTarget(self, action: #selector(doneSelected), for: .touchUpInside)
         return button
@@ -125,6 +145,9 @@ class PickerViewController<ObjectType: NSManagedObject & Titlable>: BasicViewCon
     @objc private func cancelSelected() {
         dismiss(animated: true, completion: nil)
     }
+}
+
+extension PickerViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -135,6 +158,38 @@ class PickerViewController<ObjectType: NSManagedObject & Titlable>: BasicViewCon
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return viewModel.objects[row].title
+        return viewModel.objects[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        doneButton.isEnabled = true
+    }
+}
+
+extension PickerViewController: PickerViewModelDelegate {
+    
+    func reloadRows() {
+        DispatchQueue.main.async {
+            self.pickerView.reloadAllComponents()
+            self.doneButton.isEnabled = !self.viewModel.objects.isEmpty
+        }
+    }
+    
+    func selectItem(withTitle: String) {
+        DispatchQueue.main.async {
+            self.viewModel.reloadRows()
+            guard let index = self.viewModel.objects.firstIndex(of: withTitle) else { return }
+            self.pickerView.selectRow(index, inComponent: 0, animated: true)
+        }
+    }
+    
+    func presentCreateInstrumentViewController(with viewModel: CreateItemViewModel<Instrument>) {
+        let createInstrumentViewController = CreateItemViewController<Instrument>(viewModel: viewModel)
+        self.present(createInstrumentViewController, animated: true, completion: nil)
+    }
+    
+    func presentCreateGroupViewController(with viewModel: CreateItemViewModel<Group>) {
+        let createGroupViewController = CreateItemViewController<Group>(viewModel: viewModel)
+        self.present(createGroupViewController, animated: true, completion: nil)
     }
 }

@@ -15,14 +15,18 @@ protocol EditPieceViewModelDelegate {
     func updateRows()
     func dismiss()
     
-    func presentInstrumentPicker(with viewModel: CoreDataPickerViewModel<Instrument>)
-    func presentGroupPicker(with viewModel: CoreDataPickerViewModel<Group>)
+    func didSavePiece()
+    
+    func presentInstrumentPicker(with viewModel: InstrumentPickerViewModel)
+    func presentGroupPicker(with viewModel: GroupPickerViewModel)
 }
 
 protocol EditPieceViewModelProtocol: class {
     
     var rows: [EditPieceRow] { get set }
     var piece: Piece { get set }
+    var editing: Bool { get set }
+    var isExisting: Bool { get set }
     var managedObjectContext: NSManagedObjectContext { get set }
     var delegate: EditPieceViewModelDelegate? { get set }
     
@@ -32,14 +36,16 @@ protocol EditPieceViewModelProtocol: class {
     func setArtist(_ artist: String)
     func setNote(_ note: String)
     
-    func presentInstrumentPicker(with viewModel: CoreDataPickerViewModel<Instrument>)
-    func presentGroupPicker(with viewModel: CoreDataPickerViewModel<Group>)
+    func presentInstrumentPicker(with viewModel: InstrumentPickerViewModel)
+    func presentGroupPicker(with viewModel: GroupPickerViewModel)
     
     func add(instrument: Instrument)
     func add(group: Group)
     func remove(from instrument: Instrument)
     func remove(from group: Group)
     
+    func close()
+    func beginEditing()
     func savePiece()
 }
 
@@ -55,50 +61,84 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
         }
     }
     var piece: Piece
+    var editing: Bool
+    var isExisting: Bool
     var managedObjectContext: NSManagedObjectContext
     var delegate: EditPieceViewModelDelegate?
     
-    init(piece: Piece?, managedObjectContext: NSManagedObjectContext) {
+    // MARK: - initialization
+    init(piece: Piece?, managedObjectContext: NSManagedObjectContext, editing: Bool) {
         self.rows = []
         self.managedObjectContext = managedObjectContext
+        self.editing = editing
         if let piece = piece {
             self.piece = piece
-            self.rows = [.title(TextFieldCellConfiguration(title: "Title", required: true, text: piece.title, textAction: setTitle(_:), allowNewLines: false)),
-                         .artist(TextFieldCellConfiguration(title: "Artist/Composer", required: false, text: piece.artist, textAction: setArtist(_:), allowNewLines: false)),
-                         .note(TextFieldCellConfiguration(title: "Notes", required: false, text: nil, textAction: setNote(_:), allowNewLines: true))
-            ]
+            self.isExisting = true
+            reloadRows()
         } else {
             self.piece = Piece(context: managedObjectContext)
+            self.isExisting = false
             self.rows = [.title(TextFieldCellConfiguration(title: "Title", required: true, text: nil, textAction: setTitle(_:), allowNewLines: false)),
                          .artist(TextFieldCellConfiguration(title: "Artist/Composer", required: false, text: nil, textAction: setArtist(_:), allowNewLines: false)),
                          .note(TextFieldCellConfiguration(title: "Notes", required: false, text: nil, textAction: setNote(_:), allowNewLines: true)),
                          .instruments(SelectionCellConfiguration(title: "Instruments", buttonTitle: "Add Instrument", items: [], selectionAction: {
-                            let instrumentPickerViewModel = CoreDataPickerViewModel<Instrument>(title: "Add Instrument",
-                                                                                                doneButtonTitle: "Add") { (instrument) in
-                                                                                                    self.add(instrument: instrument)
+                            let instrumentPickerViewModel = InstrumentPickerViewModel(title: "Add Instrument",
+                                                                                      doneButtonTitle: "Add") { (instrument) in
+                                                                                        self.addToInstrument(title: instrument)
                             }
                             self.presentInstrumentPicker(with: instrumentPickerViewModel)
                          })),
-                         .groups(SelectionCellConfiguration(title: "Groups", buttonTitle: "Add Group", items: [], selectionAction: { }))
+                         .groups(SelectionCellConfiguration(title: "Groups", buttonTitle: "Add Group", items: [], selectionAction: {
+                            let groupPickerViewModel = GroupPickerViewModel(title: "Add group",
+                                                                            doneButtonTitle: "Add") { (group) in
+                                                                                self.addToGroup(title: group)
+                            }
+                            self.presentGroupPicker(with: groupPickerViewModel)
+                         }))
             ]
         }
     }
     
+    // MARK: - reloadRows
     func reloadRows() {
-        self.rows = [.title(TextFieldCellConfiguration(title: "Title", required: true, text: piece.title, textAction: setTitle(_:), allowNewLines: false)),
-                     .artist(TextFieldCellConfiguration(title: "Artist/Composer", required: false, text: piece.artist, textAction: setArtist(_:), allowNewLines: false)),
-                     .note(TextFieldCellConfiguration(title: "Notes", required: false, text: nil, textAction: setNote(_:), allowNewLines: true)),
+        self.rows = [.title(TextFieldCellConfiguration(title: "Title",
+                                                       required: true,
+                                                       text: piece.title,
+                                                       textAction: setTitle(_:),
+                                                       allowNewLines: false,
+                                                       editing: self.editing)),
+                     .artist(TextFieldCellConfiguration(title: "Artist/Composer",
+                                                        required: false,
+                                                        text: piece.artist,
+                                                        textAction: setArtist(_:),
+                                                        allowNewLines: false,
+                                                        editing: self.editing)),
+                     .note(TextFieldCellConfiguration(title: "Notes",
+                                                      required: false,
+                                                      text: nil,
+                                                      textAction: setNote(_:),
+                                                      allowNewLines: true,
+                                                      editing: self.editing)),
                      .instruments(SelectionCellConfiguration(title: "Instruments",
                                                              buttonTitle: "Add Instrument",
                                                              items: piece.instruments?.allObjects.compactMap({ ($0 as? Instrument)?.title }) ?? [],
                                                              selectionAction: {
-                        let instrumentPickerViewModel = CoreDataPickerViewModel<Instrument>(title: "Add Instrument",
-                                                                                            doneButtonTitle: "Add") { (instrument) in
-                                                                                                self.add(instrument: instrument)
+                        let instrumentPickerViewModel = InstrumentPickerViewModel(title: "Add Instrument",
+                                                                                  doneButtonTitle: "Add") { (instrument) in
+                                                                                    self.addToInstrument(title: instrument)
                         }
                         self.presentInstrumentPicker(with: instrumentPickerViewModel)
-                     })),
-                     .groups(SelectionCellConfiguration(title: "Groups", buttonTitle: "Add Group", items: [], selectionAction: { }))
+                     }, editing: self.editing)),
+                     .groups(SelectionCellConfiguration(title: "Groups",
+                                                        buttonTitle: "Add Group",
+                                                        items: piece.groups?.allObjects.compactMap({ ($0 as? Group)?.title }) ?? [],
+                                                        selectionAction: {
+                                                            let groupPickerViewModel = GroupPickerViewModel(title: "Add group",
+                                                                                                            doneButtonTitle: "Add") { (group) in
+                                                                                                                self.addToGroup(title: group)
+                                                            }
+                                                            self.presentGroupPicker(with: groupPickerViewModel)
+                     }, editing: self.editing))
         ]
     }
     
@@ -117,11 +157,11 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
         delegate?.updateRows()
     }
     
-    func presentInstrumentPicker(with viewModel: CoreDataPickerViewModel<Instrument>) {
+    func presentInstrumentPicker(with viewModel: InstrumentPickerViewModel) {
         delegate?.presentInstrumentPicker(with: viewModel)
     }
     
-    func presentGroupPicker(with viewModel: CoreDataPickerViewModel<Group>) {
+    func presentGroupPicker(with viewModel: GroupPickerViewModel) {
         delegate?.presentGroupPicker(with: viewModel)
     }
     
@@ -145,15 +185,34 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
     
     func add(instrument: Instrument) {
         guard let correctContextInstrument = managedObjectContext.object(with: instrument.objectID) as? Instrument else { assertionFailure(); return }
-        piece.addToInstruments(correctContextInstrument)
+        correctContextInstrument.addToPieces(piece)
         self.reloadRows()
         delegate?.reloadRows()
     }
     
+    func addToInstrument(title: String) {
+        let fetchRequest: NSFetchRequest<Instrument> = Instrument.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "title = %@", title)
+        CoreDataManager.main.fetch(request: fetchRequest) { (objects) in
+            guard objects.count == 1 else { assertionFailure(); return }
+            self.add(instrument: objects[0])
+        }
+    }
+    
     func add(group: Group) {
-        piece.addToGroups(group)
+        guard let correctContextGroup = managedObjectContext.object(with: group.objectID) as? Group else { assertionFailure(); return }
+        correctContextGroup.addToPieces(piece)
         self.reloadRows()
         delegate?.reloadRows()
+    }
+    
+    func addToGroup(title: String) {
+        let fetchRequest: NSFetchRequest<Group> = Group.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "title = %@", title)
+        CoreDataManager.main.fetch(request: fetchRequest) { (objects) in
+            guard objects.count == 1 else { assertionFailure(); return }
+            self.add(group: objects[0])
+        }
     }
     
     func remove(from instrument: Instrument)  {
@@ -169,12 +228,25 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
     }
     
     func close() {
+        managedObjectContext.rollback()
+    }
+    
+    func beginEditing() {
+        self.editing = true
+        self.reloadRows()
+        self.delegate?.updateRows()
     }
     
     func savePiece() {
+        self.editing = false
+        self.reloadRows()
+        self.isExisting = true
+        
+        piece.addToInstruments(piece.instruments ?? [])
+        piece.addToGroups(piece.groups ?? [])
         piece.save(writeToDisk: true) { (_) in
             DispatchQueue.main.async {
-                self.delegate?.dismiss()
+                self.delegate?.didSavePiece()
             }
         }
     }

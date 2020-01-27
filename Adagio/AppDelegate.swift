@@ -15,12 +15,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        window?.rootViewController = GlobalRootViewController()
+        
         CoreDataManager.start(modelName: "AdagioModel", completion: setRootViewController)
         
         return true
     }
     
     private func setRootViewController() {
-        window?.rootViewController = RootViewController()
+        guard let rootViewController = window?.rootViewController as? GlobalRootViewController else { assertionFailure(); return }
+        rootViewController.setTabBarViewController()
     }
 }

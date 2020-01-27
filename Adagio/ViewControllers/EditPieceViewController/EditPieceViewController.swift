@@ -23,7 +23,7 @@ class EditPieceRootViewController: UINavigationController {
     }
 }
 
-private class EditPieceViewController: SubAdagioViewController {
+private class EditPieceViewController: SubAdagioViewController, UIAdaptivePresentationControllerDelegate {
     
     private lazy var tableView = makeTableView()
     
@@ -33,6 +33,7 @@ private class EditPieceViewController: SubAdagioViewController {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         viewModel.delegate = self
+        self.isModalInPresentation = true
         self.title = "Create Piece"
     }
     
@@ -52,16 +53,29 @@ private class EditPieceViewController: SubAdagioViewController {
         super.viewDidLoad()
         self.prefersLargeTitles = false
         
-        let cancelBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelSelected))
-        let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneSelected))
-        self.navigationItem.leftBarButtonItem = cancelBarButton
-        self.navigationItem.rightBarButtonItem = doneBarButton
+        if viewModel.editing {
+            let cancelBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelSelected))
+            let doneBarButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(doneSelected))
+            self.navigationItem.leftBarButtonItem = cancelBarButton
+            self.navigationItem.rightBarButtonItem = doneBarButton
+        } else {
+            let closeBarButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeSelected))
+            let editBarButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editSelected))
+            self.navigationItem.setLeftBarButton(closeBarButton, animated: true)
+            self.navigationItem.setRightBarButton(editBarButton, animated: true)
+        }
         
         tableView.reloadData()
     }
     
     @objc private func cancelSelected() {
-        dismiss(animated: true, completion: nil)
+        
+        if viewModel.isExisting {
+            didSavePiece()
+        } else {
+            viewModel.close()
+            dismiss()
+        }
     }
     
     @objc private func doneSelected() {
@@ -86,6 +100,21 @@ private class EditPieceViewController: SubAdagioViewController {
         tableView.backgroundColor = .clear
         EditPieceRow.register(tableView: tableView)
         return tableView
+    }
+    
+    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
+        return true
+    }
+    
+    func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
+        if viewModel.editing {
+            let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            alertViewController.addAction(UIAlertAction(title: "Discard Changes", style: .destructive, handler: { (_) in
+                self.viewModel.close()
+                self.dismiss()
+            }))
+            alertViewController.addAction(UIAlertAction(title: "Continue Editing", style: .cancel, handler: nil))
+        }
     }
 }
 
@@ -119,16 +148,49 @@ extension EditPieceViewController: EditPieceViewModelDelegate {
         tableView.updateRows()
     }
     
-    func dismiss() {
+    @objc func dismiss() {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func presentInstrumentPicker(with viewModel: CoreDataPickerViewModel<Instrument>) {
-        let pickerViewController = PickerViewController(viewModel: viewModel)
-        present(pickerViewController, animated: true, completion: nil)
+    func didSavePiece() {
+        let closeBarButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeSelected))
+        let editBarButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editSelected))
+        self.navigationItem.setLeftBarButton(closeBarButton, animated: true)
+        self.navigationItem.setRightBarButton(editBarButton, animated: true)
+        
+        tableView.visibleCells.forEach { (cell) in
+            guard var editableCell = cell as? Editable else { return }
+            editableCell.isEditing = false
+        }
     }
     
-    func presentGroupPicker(with viewModel: CoreDataPickerViewModel<Group>) {
+    @objc private func closeSelected() {
+        self.dismiss()
+    }
+    
+    @objc private func editSelected() {
+        let saveBarButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveSelected))
+        self.navigationItem.setLeftBarButton(nil, animated: true)
+        self.navigationItem.setRightBarButton(saveBarButton, animated: true)
+        
+        viewModel.editing = true
+        
+        tableView.visibleCells.forEach { (cell) in
+            guard var editableCell = cell as? Editable else { return }
+            editableCell.isEditing = true
+        }
+    }
+    
+    @objc private func saveSelected() {
+        doneSelected()
+    }
+    
+    func presentInstrumentPicker(with viewModel: InstrumentPickerViewModel) {
+        let createInstrumentPicker = PickerViewController(viewModel: viewModel)
+        present(createInstrumentPicker, animated: true, completion: nil)
+    }
+    
+    func presentGroupPicker(with viewModel: GroupPickerViewModel) {
         present(PickerViewController(viewModel: viewModel), animated: true, completion: nil)
     }
 }
@@ -149,4 +211,22 @@ extension Collection {
         return self.indices.contains(i) ? self[i] : nil
     }
 
+}
+
+extension UIViewController {
+    
+    var rootViewController: UIViewController? {
+        var holder: UIViewController? = self
+        var current: UIViewController? = self
+        
+        while holder != nil {
+            if holder?.parent != nil {
+                current = current?.parent
+            }
+            
+            holder = holder?.parent
+        }
+        
+        return current
+    }
 }

@@ -16,13 +16,15 @@ class TextFieldCellConfiguration: Hashable {
     var text: String?
     var textAction: (String) -> Void
     var allowNewLines: Bool
+    var editing: Bool
     
-    init(title: String, required: Bool, text: String?, textAction: @escaping (String) -> Void, allowNewLines: Bool) {
+    init(title: String, required: Bool, text: String?, textAction: @escaping (String) -> Void, allowNewLines: Bool, editing: Bool = true) {
         self.title = title
         self.required = required
         self.text = text
         self.textAction = textAction
         self.allowNewLines = allowNewLines
+        self.editing = editing
     }
     
     static func == (lhs: TextFieldCellConfiguration, rhs: TextFieldCellConfiguration) -> Bool {
@@ -40,20 +42,44 @@ class TextFieldCellConfiguration: Hashable {
 }
 
 // MARK: - TextFieldcell
-class TextFieldCell: AdagioCell, Selectable, Verifiable {
+class TextFieldCell: AdagioCell, Selectable, Verifiable, Editable {
     
     private lazy var titleLabel = makeTitleLabel()
     private lazy var requiredView = makeRequiredView()
     fileprivate lazy var textView = makeTextView()
     private lazy var separatorView = makeSeparatorView()
     private lazy var invalidView = makeInvalidView()
+    private lazy var noneLabel = makeNoneLabel()
     private var configuration: TextFieldCellConfiguration?
+    
+    override var isEditing: Bool {
+        didSet {
+            self.textView.isEditable = isEditing
+            if isEditing {
+                UIView.animate(withDuration: 0.2) {
+                    self.separatorView.alpha = 1
+                    
+                    self.noneLabel.alpha = 0
+                }
+            } else {
+                UIView.animate(withDuration: 0.2) {
+                    self.separatorView.alpha = 0
+                    
+                    self.noneLabel.alpha = self.textView.text.isEmpty ? 1 : 0
+                }
+                self.textView.resignFirstResponder()
+            }
+        }
+    }
     
     func configure(with configuration: TextFieldCellConfiguration) {
         titleLabel.text = configuration.title
         textView.text = configuration.text ?? ""
         requiredView.isHidden = !configuration.required
         self.configuration = configuration
+        self.isEditing = configuration.editing
+        
+        self.noneLabel.alpha = !configuration.editing && textView.text.isEmpty ? 1 : 0
     }
     
     func select() {
@@ -89,11 +115,12 @@ class TextFieldCell: AdagioCell, Selectable, Verifiable {
         contentView.addSubview(requiredView)
         contentView.addSubview(textView)
         contentView.addSubview(separatorView)
+        contentView.addSubview(noneLabel)
     }
     
     override func setupLayoutConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor ⩵ contentView.topAnchor,
+            titleLabel.topAnchor ⩵ contentView.topAnchor + 10,
             titleLabel.leftAnchor ⩵ contentView.leftAnchor + 17
         ])
         NSLayoutConstraint.activate([
@@ -107,7 +134,7 @@ class TextFieldCell: AdagioCell, Selectable, Verifiable {
             textView.bottomAnchor ⩵ separatorView.topAnchor - 10
         ])
         NSLayoutConstraint.activate([
-            separatorView.bottomAnchor ⩵ contentView.bottomAnchor - 20,
+            separatorView.bottomAnchor ⩵ contentView.bottomAnchor - 10,
             separatorView.leftAnchor ⩵ contentView.leftAnchor + 17,
             separatorView.rightAnchor ⩵ contentView.rightAnchor - 17,
             separatorView.heightAnchor ⩵ 1
@@ -115,8 +142,12 @@ class TextFieldCell: AdagioCell, Selectable, Verifiable {
         NSLayoutConstraint.activate([
             invalidView.topAnchor ⩵ contentView.topAnchor,
             invalidView.bottomAnchor ⩵ separatorView.bottomAnchor,
-            invalidView.leftAnchor ⩵ contentView.leftAnchor + 10,
-            invalidView.rightAnchor ⩵ contentView.rightAnchor - 10
+            invalidView.leftAnchor ⩵ contentView.leftAnchor,
+            invalidView.rightAnchor ⩵ contentView.rightAnchor
+        ])
+        NSLayoutConstraint.activate([
+            noneLabel.topAnchor ⩵ titleLabel.bottomAnchor + 10,
+            noneLabel.leftAnchor ⩵ contentView.leftAnchor + 17
         ])
     }
     
@@ -156,8 +187,15 @@ class TextFieldCell: AdagioCell, Selectable, Verifiable {
     private func makeInvalidView() -> UIView {
         let view = UIView.forAutoLayout()
         view.backgroundColor = UIColor.systemPink.withAlphaComponent(0.25)
-        view.layer.cornerRadius = 8.91
         return view
+    }
+    
+    private func makeNoneLabel() -> UILabel {
+        let label = UILabel.forAutoLayout()
+        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        label.textColor = UIColor.tertiaryLabel
+        label.text = "None"
+        return label
     }
 }
 

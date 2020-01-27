@@ -43,17 +43,7 @@ class EditItemsViewController: SubAdagioViewController {
     }
     
     @objc private func createItemSelected() {
-        let managedObjectContext = CoreDataManager.main.privateChildManagedObjectContext()
-        let newInstrument = Instrument(context: managedObjectContext)
-        newInstrument.title = "Piano \(Date())"
-        newInstrument.save(writeToDisk: true) { (result) in
-            switch result {
-            case .success:
-                self.viewModel.reloadRows()
-            case .failure(let error):
-                assertionFailure(error.localizedDescription)
-            }
-        }
+        viewModel.createItem()
     }
     
     private func makeTableView() -> UITableView {
@@ -88,5 +78,13 @@ extension EditItemsViewController: EditItemsViewModelDelegate {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+    
+    func presentCreateInstrumentViewController(with viewModel: CreateItemViewModel<Instrument>) {
+        present(CreateItemViewController(viewModel: viewModel), animated: true, completion: nil)
+    }
+    
+    func presentCreateGroupViewController(with viewModel: CreateItemViewModel<Group>) {
+        present(CreateItemViewController(viewModel: viewModel), animated: true, completion: nil)
     }
 }

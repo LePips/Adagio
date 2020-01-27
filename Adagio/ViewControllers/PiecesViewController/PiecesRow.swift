@@ -16,14 +16,14 @@ extension PiecesRow {
     
     static func register(tableView: UITableView) {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(PieceCell.self, forCellReuseIdentifier: PieceCell.identifier)
     }
     
     func cell(for path: IndexPath, in tableView: UITableView) -> UITableViewCell {
         switch self {
         case .piece(let piece):
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: path)
-            cell.textLabel?.text = piece.title
-            cell.backgroundColor = .clear
+            let cell = tableView.dequeueReusableCell(withIdentifier: PieceCell.identifier, for: path) as! PieceCell
+            cell.configure(piece: piece)
             return cell
         }
     }

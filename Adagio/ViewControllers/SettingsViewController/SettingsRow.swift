@@ -14,6 +14,8 @@ enum SettingsRow {
     case switchSetting(SettingsBooleanType)
     case section(SettingsSectionType)
     case feedback(SettingsFeedbackType)
+    
+    case purge
 }
 
 extension SettingsRow {
@@ -23,6 +25,8 @@ extension SettingsRow {
         tableView.register(SettingsSectionCell.self, forCellReuseIdentifier: SettingsSectionCell.identifier)
         tableView.register(SettingsBoolCell.self, forCellReuseIdentifier: SettingsBoolCell.identifier)
         tableView.register(SettingsItemCell.self, forCellReuseIdentifier: SettingsItemCell.identifier)
+        
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
     func cell(for path: IndexPath, in tableView: UITableView) -> UITableViewCell {
@@ -45,6 +49,12 @@ extension SettingsRow {
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsItemCell.identifier, for: path) as! SettingsItemCell
             cell.configure(feedbackType: feedbackType)
             return cell
+        case .purge:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: path)
+            cell.textLabel?.textColor = UIColor.systemRed
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+            cell.textLabel?.text = "Purge"
+            return cell
         }
     }
     
@@ -57,6 +67,8 @@ extension SettingsRow {
         case .section(_), .switchSetting(_):
             return "tHeight".height(withConstrainedWidth: 100, font: UIFont.systemFont(ofSize: 18, weight: .medium)) +
             "d\nHeight".height(withConstrainedWidth: 100, font: UIFont.systemFont(ofSize: 12, weight: .regular)) + 32
+        case .purge:
+            return 50
         }
     }
 }

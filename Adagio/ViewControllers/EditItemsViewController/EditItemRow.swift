@@ -12,6 +12,7 @@ enum EditItemRow {
     case spacer(CGFloat)
     case subtitle(String)
     case instrument(Instrument)
+    case group(Group)
 }
 
 extension EditItemRow {
@@ -40,6 +41,16 @@ extension EditItemRow {
             }
             cell.configure(title: instrument.title, subtitle: subtitle)
             return cell
+        case .group(let group):
+            let cell = tableView.dequeueReusableCell(withIdentifier: EditItemCell.identifier, for: path) as! EditItemCell
+            let subtitle: String
+            if group.pieces?.count == 1 {
+                subtitle = "1 piece"
+            } else {
+                subtitle = "\(group.pieces?.count ?? 0) pieces"
+            }
+            cell.configure(title: group.title, subtitle: subtitle)
+            return cell
         }
     }
     
@@ -50,6 +61,8 @@ extension EditItemRow {
         case .subtitle(_):
             return "height".height(withConstrainedWidth: 100, font: UIFont.systemFont(ofSize: 18, weight: .medium))
         case .instrument(_):
+            return 80
+        case .group(_):
             return 80
         }
     }

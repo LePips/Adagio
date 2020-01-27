@@ -20,10 +20,6 @@ public class CoreDataManager {
     
     private let initCompletion: () -> Void
     
-    private enum StorageKeys: String, CaseIterable {
-        case placeholder
-    }
-    
     public static let saveNotification = Notification.Name("saveNotification")
     
     // MARK: - init
@@ -64,6 +60,8 @@ public class CoreDataManager {
             do {
                 if self.mainManagedObjectContext.hasChanges {
                     try self.mainManagedObjectContext.save()
+                } else {
+                    completion?(.success(true))
                 }
             } catch {
                 print("Unable to Save Changes of Main Managed Object Context")
@@ -78,6 +76,52 @@ public class CoreDataManager {
                     try self.privateManagedObjectContext.save()
                     completion?(.success(true))
                     NotificationCenter.default.post(name: CoreDataManager.saveNotification, object: nil)
+                } else {
+                    completion?(.success(true))
+                }
+            } catch {
+                print("Unable to Save Changes of Private Managed Object Context")
+                print("\(error), \(error.localizedDescription)")
+                completion?(.failure(error))
+            }
+        }
+    }
+    
+    public func save(object: NSManagedObject, completion: ((Result<NSManagedObject, Error>) -> Void)? = nil) {
+        guard let objectContext = object.managedObjectContext else {
+            completion?(.failure(SimpleError("No managed object context")))
+            return }
+        
+        objectContext.performAndWait {
+            do {
+                if objectContext.hasChanges {
+                    try objectContext.save()
+                }
+            } catch {
+                print("Unable to Save Changes of Main Managed Object Context")
+                print("\(error), \(error.localizedDescription)")
+                completion?(.failure(error))
+            }
+        }
+        
+        mainManagedObjectContext.performAndWait {
+            do {
+                if self.mainManagedObjectContext.hasChanges {
+                    try self.mainManagedObjectContext.save()
+                }
+            } catch {
+                print("Unable to Save Changes of Main Managed Object Context")
+                print("\(error), \(error.localizedDescription)")
+                completion?(.failure(error))
+            }
+        }
+        
+        privateManagedObjectContext.perform {
+            do {
+                if self.privateManagedObjectContext.hasChanges {
+                    try self.privateManagedObjectContext.save()
+                    completion?(.success(object))
+                    NotificationCenter.default.post(name: CoreDataManager.saveNotification, object: nil)
                 }
             } catch {
                 print("Unable to Save Changes of Private Managed Object Context")
@@ -89,25 +133,25 @@ public class CoreDataManager {
     
     // MARK: - Purge
     
-//    public func purge() {
-//        for key in StorageKeys.allCases {
-//            let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: key.rawValue)
-//            do {
-//                try actuallyPurge(with: request)
-//            } catch let error as NSError {
-//                print(error)
-//            }
-//        }
-//        NotificationCenter.default.post(name: CoreDataManager.saveNotification, object: nil)
-//    }
-//    
-//    private func actuallyPurge(with request: NSFetchRequest<NSFetchRequestResult>) throws {
-//        let context = AppDelegate.coreDataManager.mainManagedObjectContext
-//        guard let objects = try context.fetch(request) as? [NSManagedObject] else { return }
-//        for object in objects {
-//            context.delete(object)
-//        }
-//    }
+    public func purge() {
+        for key in mainManagedObjectContext.persistentStoreCoordinator?.managedObjectModel.entities.compactMap({ $0.name }) ?? [] {
+            let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: key)
+            do {
+                try actuallyPurge(with: request)
+            } catch let error as NSError {
+                print(error)
+            }
+        }
+        saveChanges()
+        NotificationCenter.default.post(name: CoreDataManager.saveNotification, object: nil)
+    }
+    
+    private func actuallyPurge(with request: NSFetchRequest<NSFetchRequestResult>) throws {
+        guard let objects = try mainManagedObjectContext.fetch(request) as? [NSManagedObject] else { return }
+        for object in objects {
+            mainManagedObjectContext.delete(object)
+        }
+    }
     
     // MARK: - Core Data Stack
     
@@ -224,6 +268,8 @@ extension NSManagedObjectContext {
                     } else {
                         completion?(.success(true))
                     }
+                } else {
+                    completion?(.success(true))
                 }
             } catch {
                 print("Unable to Save Changes of Main Managed Object Context")

@@ -12,6 +12,9 @@ import CoreData
 protocol EditItemsViewModelDelegate {
     
     func reloadRows()
+    
+    func presentCreateInstrumentViewController(with viewModel: CreateItemViewModel<Instrument>)
+    func presentCreateGroupViewController(with viewModel: CreateItemViewModel<Group>)
 }
 
 protocol EditItemsViewModelProtocol: class {
@@ -21,6 +24,8 @@ protocol EditItemsViewModelProtocol: class {
     var delgate: EditItemsViewModelDelegate? { get set }
     
     func reloadRows()
+    
+    func createItem()
 }
 
 class EditInstrumentsViewModel: EditItemsViewModelProtocol {
@@ -31,9 +36,10 @@ class EditInstrumentsViewModel: EditItemsViewModelProtocol {
     
     init() {
         reloadRows()
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadRows), name: CoreDataManager.saveNotification, object: nil)
     }
     
-    func reloadRows() {
+    @objc func reloadRows() {
         let fetchRequest: NSFetchRequest<Instrument> = Instrument.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
         CoreDataManager.main.fetch(request: fetchRequest) { (instruments) in
@@ -49,5 +55,45 @@ class EditInstrumentsViewModel: EditItemsViewModelProtocol {
             self.rows = newRows
             self.delgate?.reloadRows()
         }
+    }
+    
+    func createItem() {
+        let createInstrumentViewModel = CreateItemViewModel<Instrument>(title: "Create Instrument", doneButtonTitle: "Create")
+        self.delgate?.presentCreateInstrumentViewController(with: createInstrumentViewModel)
+    }
+}
+
+class EditGroupsViewModel: EditItemsViewModelProtocol {
+    
+    var title: String = "Groups"
+    var rows: [EditItemRow] = []
+    var delgate: EditItemsViewModelDelegate?
+    
+    init() {
+        reloadRows()
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadRows), name: CoreDataManager.saveNotification, object: nil)
+    }
+    
+    @objc func reloadRows() {
+        let fetchRequest: NSFetchRequest<Group> = Group.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        CoreDataManager.main.fetch(request: fetchRequest) { (groups) in
+            var subtitle: String
+            if groups.count == 1 {
+                subtitle = "1 group"
+            } else {
+                subtitle = "\(groups.count) groups"
+            }
+            
+            var newRows: [EditItemRow] = [.subtitle(subtitle), .spacer(30)]
+            newRows.append(contentsOf: groups.compactMap({ EditItemRow.group($0) }))
+            self.rows = newRows
+            self.delgate?.reloadRows()
+        }
+    }
+    
+    func createItem() {
+        let createGroupViewModel = CreateItemViewModel<Group>(title: "Create Group", doneButtonTitle: "Create")
+        self.delgate?.presentCreateGroupViewController(with: createGroupViewModel)
     }
 }

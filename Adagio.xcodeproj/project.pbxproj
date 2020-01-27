@@ -66,12 +66,14 @@
 		E16B880B23D2F6AB00A8CF07 /* HomeSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16B880A23D2F6AB00A8CF07 /* HomeSubtitleCell.swift */; };
 		E16B880D23D2FBF800A8CF07 /* AdagioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16B880C23D2FBF800A8CF07 /* AdagioCell.swift */; };
 		E17C8ADE23D2488200C74BBD /* AdagioModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E17C8ADC23D2488200C74BBD /* AdagioModel.xcdatamodeld */; };
+		E181303E23D810B300A45C8B /* Editable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181303D23D810B300A45C8B /* Editable.swift */; };
 		E1A2CC8323D24E2E0054522B /* SharedPips.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17C8AE423D24E0D00C74BBD /* SharedPips.framework */; };
 		E1A2CC8423D24E2E0054522B /* SharedPips.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E17C8AE423D24E0D00C74BBD /* SharedPips.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E1A2CC8823D24E810054522B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A2CC8723D24E810054522B /* HomeViewController.swift */; };
 		E1A2CC8A23D24EA70054522B /* PiecesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A2CC8923D24EA70054522B /* PiecesViewController.swift */; };
 		E1A2CC8C23D24EAD0054522B /* YouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A2CC8B23D24EAD0054522B /* YouViewController.swift */; };
 		E1CA892323D1098600E4FD3C /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CA892223D1098600E4FD3C /* CoreDataManager.swift */; };
+		E1F3110D23D6D01F008A2BBD /* Titlable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F3110C23D6D01F008A2BBD /* Titlable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -161,10 +163,12 @@
 		E16B880C23D2FBF800A8CF07 /* AdagioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdagioCell.swift; sourceTree = "<group>"; };
 		E17C8ADD23D2488200C74BBD /* AdagioModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AdagioModel.xcdatamodel; sourceTree = "<group>"; };
 		E17C8ADF23D24E0D00C74BBD /* SharedPips.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SharedPips.xcodeproj; path = ../SharedPips/SharedPips.xcodeproj; sourceTree = "<group>"; };
+		E181303D23D810B300A45C8B /* Editable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Editable.swift; sourceTree = "<group>"; };
 		E1A2CC8723D24E810054522B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E1A2CC8923D24EA70054522B /* PiecesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiecesViewController.swift; sourceTree = "<group>"; };
 		E1A2CC8B23D24EAD0054522B /* YouViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouViewController.swift; sourceTree = "<group>"; };
 		E1CA892223D1098600E4FD3C /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		E1F3110C23D6D01F008A2BBD /* Titlable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Titlable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,6 +216,8 @@
 				E12FFCAE23D5142500705CFC /* Array+Diff.swift */,
 				E12FFCBD23D568D600705CFC /* Selectable.swift */,
 				E12FFCC023D57C7E00705CFC /* Verifiable.swift */,
+				E1F3110C23D6D01F008A2BBD /* Titlable.swift */,
+				E181303D23D810B300A45C8B /* Editable.swift */,
 				E146BAF823D258EA0036052B /* UIColor+Adagio.swift */,
 				E17C8ADC23D2488200C74BBD /* AdagioModel.xcdatamodeld */,
 				E103FEBC23CE6B6F00BDE96A /* Main.storyboard */,
@@ -396,6 +402,8 @@
 			dependencies = (
 			);
 			name = Adagio;
+			packageProductDependencies = (
+			);
 			productName = Adagio;
 			productReference = E103FEB323CE6B6F00BDE96A /* Adagio.app */;
 			productType = "com.apple.product-type.application";
@@ -424,6 +432,8 @@
 				Base,
 			);
 			mainGroup = E103FEAA23CE6B6E00BDE96A;
+			packageReferences = (
+			);
 			productRefGroup = E103FEB423CE6B6F00BDE96A /* Products */;
 			projectDirPath = "";
 			projectReferences = (
@@ -486,6 +496,7 @@
 				E16B880B23D2F6AB00A8CF07 /* HomeSubtitleCell.swift in Sources */,
 				E12FFC9E23D5063A00705CFC /* Instrument+CoreDataProperties.swift in Sources */,
 				E146BAE823D251420036052B /* HomeViewModel.swift in Sources */,
+				E1F3110D23D6D01F008A2BBD /* Titlable.swift in Sources */,
 				E12FFC8723D43C0D00705CFC /* PracticeRow.swift in Sources */,
 				E12FFC6F23D393C900705CFC /* SettingsSectionCell.swift in Sources */,
 				E12FFCBE23D568D600705CFC /* Selectable.swift in Sources */,
@@ -495,6 +506,7 @@
 				E12FFCAF23D5142500705CFC /* Array+Diff.swift in Sources */,
 				E12FFCB723D54D4F00705CFC /* PickerViewController.swift in Sources */,
 				E16B880D23D2FBF800A8CF07 /* AdagioCell.swift in Sources */,
+				E181303E23D810B300A45C8B /* Editable.swift in Sources */,
 				E146BAF723D258A20036052B /* AdagioViewController.swift in Sources */,
 				E12FFC9023D4D61A00705CFC /* AdagioTextField.swift in Sources */,
 				E12FFC8423D43AB400705CFC /* CreateItemViewModel.swift in Sources */,
@@ -680,7 +692,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = pips.Adagio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -698,7 +710,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = pips.Adagio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

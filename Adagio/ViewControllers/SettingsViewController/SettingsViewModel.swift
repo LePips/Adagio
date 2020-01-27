@@ -54,6 +54,8 @@ class SettingsViewModel: SettingsViewModelProtocol {
                 guard let feedbackViewController = feedbackType.viewController else { assertionFailure(); return }
                 delegate?.presentViewController(feedbackViewController)
             }
+        case .purge:
+            CoreDataManager.main.purge()
         }
     }
 }

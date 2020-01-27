@@ -131,7 +131,8 @@ enum SettingsItemType {
             let editInstrumentsViewModel = EditInstrumentsViewModel()
             return EditItemsViewController(viewModel: editInstrumentsViewModel)
         case .groups:
-            return UIViewController()
+            let editGroupsViewModel = EditGroupsViewModel()
+            return EditItemsViewController(viewModel: editGroupsViewModel)
         }
     }
 }

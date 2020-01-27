@@ -58,12 +58,15 @@ private class PiecesViewController: MainAdagioViewController {
         let createPieceButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createPieceSelected))
         self.navigationItem.rightBarButtonItem = createPieceButton
         self.navigationController?.navigationBar.tintColor = UIColor.Adagio.textColor
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadRows), name: CoreDataManager.saveNotification, object: nil)
     }
     
     @objc private func createPieceSelected() {
         let managedObjectContext = CoreDataManager.main.privateChildManagedObjectContext()
-        let createPieceViewModel = EditPieceViewModel(piece: nil, managedObjectContext: managedObjectContext)
-        self.present(EditPieceRootViewController(viewModel: createPieceViewModel), animated: true, completion: nil)
+        let createPieceViewModel = EditPieceViewModel(piece: nil, managedObjectContext: managedObjectContext, editing: true)
+        let createPieceViewController = EditPieceRootViewController(viewModel: createPieceViewModel)
+        self.present(createPieceViewController, animated: true, completion: nil)
     }
     
     private func makeTableView() -> UITableView {
@@ -86,11 +89,31 @@ extension PiecesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return viewModel.rows[indexPath.row].cell(for: indexPath, in: tableView)
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if case PiecesRow.piece(let piece) = viewModel.rows[indexPath.row] {
+            let managedObjectContext = CoreDataManager.main.privateChildManagedObjectContext()
+            let createPieceViewModel = EditPieceViewModel(piece: piece, managedObjectContext: managedObjectContext, editing: false)
+            let createPieceViewController = EditPieceRootViewController(viewModel: createPieceViewModel)
+            self.present(createPieceViewController, animated: true, completion: nil)
+        }
+    }
+    
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+        }
+    }
 }
 
 extension PiecesViewController: PiecesViewModelDelegate {
     
-    func reloadRows() {
+    @objc func reloadRows() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }

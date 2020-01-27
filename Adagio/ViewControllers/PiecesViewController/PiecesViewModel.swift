@@ -33,4 +33,10 @@ class PiecesViewModel {
             self.delegate?.reloadRows()
         }
     }
+    
+    func deletePiece(path: IndexPath) {
+        if case PiecesRow.piece(let piece) = rows[path.row] {
+            
+        }
+    }
 }

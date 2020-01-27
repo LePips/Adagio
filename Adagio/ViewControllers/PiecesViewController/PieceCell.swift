@@ -19,12 +19,23 @@ class PieceCell: AdagioCell {
     func configure(piece: Piece) {
         titleLabel.text = piece.title
         let instruments: [Instrument] = piece.instruments?.allObjects.compactMap({ $0 as? Instrument }) ?? []
-        instrumentsLabel.text = "\(instruments)"
+        
+        if !instruments.isEmpty {
+            instrumentsLabel.text = instruments.compactMap({ $0.title }).reduce("", { (result, instrument) -> String in
+                return result + "\(instrument), "
+            })
+            
+            instrumentsLabel.text?.removeLast()
+        } else {
+            instrumentsLabel.text = " "
+        }
     }
     
     override func setupSubviews() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(instrumentsLabel)
+        contentView.addSubview(separatorView)
+//        contentView.addSubview(indicatorView)
     }
     
     override func setupLayoutConstraints() {
@@ -43,10 +54,10 @@ class PieceCell: AdagioCell {
             separatorView.leftAnchor ⩵ contentView.leftAnchor + 17,
             separatorView.rightAnchor ⩵ contentView.rightAnchor - 17
         ])
-        NSLayoutConstraint.activate([
-            indicatorView.rightAnchor ⩵ contentView.rightAnchor - 17,
-            indicatorView.topAnchor ⩵ contentView.topAnchor + 15
-        ])
+//        NSLayoutConstraint.activate([
+//            indicatorView.rightAnchor ⩵ contentView.rightAnchor - 17,
+//            indicatorView.topAnchor ⩵ contentView.topAnchor + 15
+//        ])
     }
     
     private func makeTitleLabel() -> UILabel {

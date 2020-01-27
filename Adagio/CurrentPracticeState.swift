@@ -42,7 +42,7 @@ struct CurrentPracticeState: State {
 //            fetchRequest.predicate = predicate
         case .endPractice(let completion):
             UserDefaults.standard.currentPracticeID = nil
-            practice?.save(writeToDisk: true, completion: completion)
+//            practice?.save(writeToDisk: true, completion: completion)
         }
     }
     
