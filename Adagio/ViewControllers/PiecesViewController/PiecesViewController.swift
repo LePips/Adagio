@@ -103,10 +103,23 @@ extension PiecesViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            confirmPieceDeletion(at: indexPath)
+        }
+    }
+    
+    private func confirmPieceDeletion(at path: IndexPath) {
+        if case PiecesRow.piece(let piece) = viewModel.rows[path.row] {
+            let alertViewController = UIAlertController(title: "Warning!", message: "Do you want to delete \(piece.title)? This will delete all occurences of \(piece.title) in previous practices.", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: .none)
+            let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                self.viewModel.deletePiece(path: path)
+            })
             
+            alertViewController.addAction(cancelAction)
+            alertViewController.addAction(deleteAction)
+            present(alertViewController, animated: true, completion: nil)
         }
     }
 }

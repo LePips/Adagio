@@ -288,4 +288,15 @@ extension NSManagedObject {
             return }
         objectContext.save(writeToDisk: writeToDisk, completion: completion)
     }
+    
+    func delete(writeToDisk: Bool = false, completion: ((Result<Bool, Error>) -> Void)? = nil) {
+        guard let objectContext = self.managedObjectContext else {
+            completion?(.failure(SimpleError("No managed object context")))
+            return }
+        
+        objectContext.performAndWait {
+            objectContext.delete(self)
+            objectContext.save(writeToDisk: writeToDisk, completion: completion)
+        }
+    }
 }

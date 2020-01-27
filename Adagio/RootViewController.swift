@@ -9,22 +9,6 @@
 import UIKit
 import SharedPips
 
-class GlobalRootViewController: UIViewController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.backgroundColor = UIColor.Adagio.backgroundColor
-    }
-    
-    func setTabBarViewController() {
-        let tabBarViewController = RootViewController()
-        self.addChild(tabBarViewController)
-        view.addSubview(tabBarViewController.view)
-        tabBarViewController.didMove(toParent: self)
-    }
-}
-
 class RootViewController: UITabBarController {
     
     init() {

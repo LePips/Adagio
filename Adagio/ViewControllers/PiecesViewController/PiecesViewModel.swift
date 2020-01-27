@@ -36,7 +36,9 @@ class PiecesViewModel {
     
     func deletePiece(path: IndexPath) {
         if case PiecesRow.piece(let piece) = rows[path.row] {
-            
+            piece.delete(writeToDisk: true) { (_) in
+                self.fetchPieces()
+            }
         }
     }
 }
