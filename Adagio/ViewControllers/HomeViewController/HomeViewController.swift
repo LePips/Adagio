@@ -103,7 +103,7 @@ private class HomeViewController: MainAdagioViewController {
         let managedObjectContext = CoreDataManager.main.privateChildManagedObjectContext()
         let newPractice = Practice(context: managedObjectContext)
         let practiceViewModel = PracticeViewModel(practice: newPractice, managedObjectContext: managedObjectContext)
-        let practiceViewController = PracticeViewController(viewModel: practiceViewModel)
+        let practiceViewController = PracticeRootViewController(viewModel: practiceViewModel)
         self.present(practiceViewController, animated: true, completion: nil)
     }
 }

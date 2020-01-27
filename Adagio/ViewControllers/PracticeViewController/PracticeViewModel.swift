@@ -11,6 +11,8 @@ import Foundation
 
 protocol PracticeViewModelDelegate {
     
+    func updateRows()
+    func reloadRows()
 }
 
 protocol PracticeViewModelProtocol: class {

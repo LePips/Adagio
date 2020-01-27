@@ -57,6 +57,12 @@ private class RequestFeatureViewController: SubAdagioViewController {
             descriptionLabel.topAnchor ⩵ titleLabel.bottomAnchor + 15,
             descriptionLabel.leftAnchor ⩵ view.leftAnchor + 17
         ])
+        NSLayoutConstraint.activate([
+            textView.topAnchor ⩵ descriptionLabel.bottomAnchor + 20,
+            textView.leftAnchor ⩵ view.leftAnchor + 17,
+            textView.rightAnchor ⩵ view.rightAnchor - 17,
+            textView.bottomAnchor ⩵ view.safeAreaLayoutGuide.bottomAnchor
+        ])
     }
     
     override func viewDidLoad() {
@@ -97,6 +103,10 @@ private class RequestFeatureViewController: SubAdagioViewController {
     }
     
     private func makeTextView() -> UITextView {
-        return UITextView.forAutoLayout()
+        let textView = UITextView.forAutoLayout()
+        textView.backgroundColor = UIColor.tertiarySystemBackground
+        textView.layer.cornerRadius = 8.91
+        textView.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        return textView
     }
 }

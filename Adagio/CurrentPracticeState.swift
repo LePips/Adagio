@@ -40,7 +40,7 @@ struct CurrentPracticeState: State {
 //            let fetchRequest: NSFetchRequest<Practice> = Practice.fetchRequest()
 //            let predicate = NSPredicate(format: "objectID.uriRepresentation = %@", currentPracticeID)
 //            fetchRequest.predicate = predicate
-        case .endPractice(let completion):
+        case .endPractice(_):
             UserDefaults.standard.currentPracticeID = nil
 //            practice?.save(writeToDisk: true, completion: completion)
         }

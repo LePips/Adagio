@@ -32,10 +32,10 @@
         <relationship name="practice" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Practice" inverseName="sections" inverseEntity="Practice"/>
     </entity>
     <elements>
+        <element name="Group" positionX="-45" positionY="72" width="128" height="73"/>
+        <element name="Instrument" positionX="-45" positionY="63" width="128" height="73"/>
         <element name="Piece" positionX="-63" positionY="-18" width="128" height="148"/>
         <element name="Practice" positionX="-54" positionY="27" width="128" height="118"/>
         <element name="Section" positionX="-36" positionY="54" width="128" height="118"/>
-        <element name="Instrument" positionX="-45" positionY="63" width="128" height="73"/>
-        <element name="Group" positionX="-45" positionY="72" width="128" height="73"/>
     </elements>
 </model>
