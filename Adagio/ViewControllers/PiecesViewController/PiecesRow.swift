@@ -20,11 +20,12 @@ extension PiecesRow {
     }
     
     func cell(for path: IndexPath, in tableView: UITableView) -> UITableViewCell {
-        switch self {
-        case .piece(let piece):
-            let cell = tableView.dequeueReusableCell(withIdentifier: PieceCell.identifier, for: path) as! PieceCell
-            cell.configure(piece: piece)
-            return cell
-        }
+        return UITableViewCell()
+//        switch self {
+//        case .piece(let piece):
+//            let cell = tableView.dequeueReusableCell(withIdentifier: PieceCell.identifier, for: path) as! PieceCell
+//            cell.configure(piece: piece)
+//            return cell
+//        }
     }
 }

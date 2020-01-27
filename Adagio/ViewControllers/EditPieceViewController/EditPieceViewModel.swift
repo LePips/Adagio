@@ -250,4 +250,11 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
             }
         }
     }
+    
+    func deletePiece() {
+        piece.delete(writeToDisk: true) { (_) in
+            NotificationCenter.default.post(name: CoreDataManager.saveNotification, object: nil)
+            self.delegate?.dismiss()
+        }
+    }
 }

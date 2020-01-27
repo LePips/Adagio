@@ -62,6 +62,7 @@
 		E146BAF423D2579C0036052B /* PracticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E146BAF323D2579C0036052B /* PracticeViewModel.swift */; };
 		E146BAF723D258A20036052B /* AdagioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E146BAF623D258A20036052B /* AdagioViewController.swift */; };
 		E146BAF923D258EA0036052B /* UIColor+Adagio.swift in Sources */ = {isa = PBXBuildFile; fileRef = E146BAF823D258EA0036052B /* UIColor+Adagio.swift */; };
+		E1522AEC23DF9E9F00221A79 /* BouncyLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1522AEB23DF9E9F00221A79 /* BouncyLayout.swift */; };
 		E16B880823D2F3C400A8CF07 /* HomeRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16B880723D2F3C400A8CF07 /* HomeRow.swift */; };
 		E16B880B23D2F6AB00A8CF07 /* HomeSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16B880A23D2F6AB00A8CF07 /* HomeSubtitleCell.swift */; };
 		E16B880D23D2FBF800A8CF07 /* AdagioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16B880C23D2FBF800A8CF07 /* AdagioCell.swift */; };
@@ -158,6 +159,7 @@
 		E146BAF323D2579C0036052B /* PracticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeViewModel.swift; sourceTree = "<group>"; };
 		E146BAF623D258A20036052B /* AdagioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdagioViewController.swift; sourceTree = "<group>"; };
 		E146BAF823D258EA0036052B /* UIColor+Adagio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Adagio.swift"; sourceTree = "<group>"; };
+		E1522AEB23DF9E9F00221A79 /* BouncyLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BouncyLayout.swift; sourceTree = "<group>"; };
 		E16B880723D2F3C400A8CF07 /* HomeRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRow.swift; sourceTree = "<group>"; };
 		E16B880A23D2F6AB00A8CF07 /* HomeSubtitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSubtitleCell.swift; sourceTree = "<group>"; };
 		E16B880C23D2FBF800A8CF07 /* AdagioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdagioCell.swift; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 				E1F3110C23D6D01F008A2BBD /* Titlable.swift */,
 				E181303D23D810B300A45C8B /* Editable.swift */,
 				E146BAF823D258EA0036052B /* UIColor+Adagio.swift */,
+				E1522AEB23DF9E9F00221A79 /* BouncyLayout.swift */,
 				E17C8ADC23D2488200C74BBD /* AdagioModel.xcdatamodeld */,
 				E103FEBC23CE6B6F00BDE96A /* Main.storyboard */,
 				E103FEBF23CE6B7100BDE96A /* Assets.xcassets */,
@@ -489,6 +492,7 @@
 				E12FFC7E23D4312F00705CFC /* EditItemsViewModel.swift in Sources */,
 				E12FFC6823D3909C00705CFC /* SettingsViewController.swift in Sources */,
 				E12FFCA023D5063A00705CFC /* Piece+CoreDataProperties.swift in Sources */,
+				E1522AEC23DF9E9F00221A79 /* BouncyLayout.swift in Sources */,
 				E12FFCC123D57C7E00705CFC /* Verifiable.swift in Sources */,
 				E12FFC7723D4245400705CFC /* SettingsItemCell.swift in Sources */,
 				E146BAF423D2579C0036052B /* PracticeViewModel.swift in Sources */,

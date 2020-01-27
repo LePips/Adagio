@@ -149,7 +149,9 @@ extension EditPieceViewController: EditPieceViewModelDelegate {
     }
     
     @objc func dismiss() {
-        self.dismiss(animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     func didSavePiece() {
@@ -170,8 +172,11 @@ extension EditPieceViewController: EditPieceViewModelDelegate {
     
     @objc private func editSelected() {
         let saveBarButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveSelected))
+        let deleteBarButton = UIBarButtonItem(title: "Delete", style: .plain, target: self, action: #selector(deleteSelected))
+        deleteBarButton.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemPink], for: .normal)
         self.navigationItem.setLeftBarButton(nil, animated: true)
         self.navigationItem.setRightBarButton(saveBarButton, animated: true)
+        self.navigationItem.setLeftBarButton(deleteBarButton, animated: true)
         
         viewModel.editing = true
         
@@ -183,6 +188,18 @@ extension EditPieceViewController: EditPieceViewModelDelegate {
     
     @objc private func saveSelected() {
         doneSelected()
+    }
+    
+    @objc private func deleteSelected() {
+        let alertViewController = UIAlertController(title: "Warning!", message: "Do you want to delete \(viewModel.piece.title)? This will delete all occurences of \(viewModel.piece.title) in previous practices.", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: .none)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+            self.viewModel.deletePiece()
+        })
+        
+        alertViewController.addAction(cancelAction)
+        alertViewController.addAction(deleteAction)
+        present(alertViewController, animated: true, completion: nil)
     }
     
     func presentInstrumentPicker(with viewModel: InstrumentPickerViewModel) {

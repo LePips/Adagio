@@ -9,7 +9,7 @@
 import UIKit
 import SharedPips
 
-class PieceCell: AdagioCell {
+class PieceCell: BasicCollectionViewCell {
     
     private lazy var titleLabel = makeTitleLabel()
     private lazy var instrumentsLabel = makeInstrumentsLabel()
@@ -36,6 +36,7 @@ class PieceCell: AdagioCell {
         contentView.addSubview(instrumentsLabel)
         contentView.addSubview(separatorView)
 //        contentView.addSubview(indicatorView)
+        backgroundColor = .clear
     }
     
     override func setupLayoutConstraints() {

@@ -26,6 +26,8 @@ class PiecesRootViewController: UINavigationController {
 private class PiecesViewController: MainAdagioViewController {
     
     private lazy var tableView = makeTableView()
+    private lazy var collectionView = makeCollectionView()
+    private lazy var noPiecesLabel = makeNoPiecesLabel()
     
     let viewModel: PiecesViewModel
     
@@ -45,11 +47,16 @@ private class PiecesViewController: MainAdagioViewController {
     }
     
     override func setupSubviews() {
-        view.embed(tableView)
+//        view.embed(tableView)
+        view.embed(collectionView)
+        view.addSubview(noPiecesLabel)
     }
     
     override func setupLayoutConstraints() {
-        
+        NSLayoutConstraint.activate([
+            noPiecesLabel.centerXAnchor ⩵ view.centerXAnchor,
+            noPiecesLabel.centerYAnchor ⩵ view.centerYAnchor
+        ])
     }
     
     override func viewDidLoad() {
@@ -58,8 +65,6 @@ private class PiecesViewController: MainAdagioViewController {
         let createPieceButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createPieceSelected))
         self.navigationItem.rightBarButtonItem = createPieceButton
         self.navigationController?.navigationBar.tintColor = UIColor.Adagio.textColor
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadRows), name: CoreDataManager.saveNotification, object: nil)
     }
     
     @objc private func createPieceSelected() {
@@ -77,6 +82,56 @@ private class PiecesViewController: MainAdagioViewController {
         tableView.backgroundColor = .clear
         PiecesRow.register(tableView: tableView)
         return tableView
+    }
+    
+    private func makeCollectionView() -> UICollectionView {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: BouncyLayout(style: .subtle))
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .clear
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.alwaysBounceVertical = true
+        collectionView.register(PieceCell.self, forCellWithReuseIdentifier: PieceCell.identifier)
+        return collectionView
+    }
+    
+    private func makeNoPiecesLabel() -> UILabel {
+        let label = UILabel.forAutoLayout()
+        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.textColor = UIColor.secondaryLabel
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        label.text = "No pieces yet"
+        return label
+    }
+}
+
+extension PiecesViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.rows.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if case PiecesRow.piece(let piece) = viewModel.rows[indexPath.row] {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PieceCell.identifier, for: indexPath) as! PieceCell
+            cell.configure(piece: piece)
+            return cell
+        }
+        return UICollectionViewCell()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.width, height: 60)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if case PiecesRow.piece(let piece) = viewModel.rows[indexPath.row] {
+            let managedObjectContext = CoreDataManager.main.privateChildManagedObjectContext()
+            let createPieceViewModel = EditPieceViewModel(piece: piece, managedObjectContext: managedObjectContext, editing: false)
+            let createPieceViewController = EditPieceRootViewController(viewModel: createPieceViewModel)
+            self.present(createPieceViewController, animated: true, completion: nil)
+        }
     }
 }
 
@@ -128,7 +183,8 @@ extension PiecesViewController: PiecesViewModelDelegate {
     
     @objc func reloadRows() {
         DispatchQueue.main.async {
-            self.tableView.reloadData()
+//            self.tableView.reloadData()
+            self.collectionView.reloadData()
         }
     }
 }
