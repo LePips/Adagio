@@ -48,6 +48,8 @@ private class PiecesViewController: MainAdagioViewController {
     override func setupSubviews() {
         view.embed(collectionView)
         view.addSubview(noPiecesLabel)
+        
+        collectionView.alwaysBounceVertical = !viewModel.rows.isEmpty
     }
     
     override func setupLayoutConstraints() {
@@ -128,6 +130,7 @@ extension PiecesViewController: PiecesViewModelDelegate {
     @objc func reloadRows() {
         DispatchQueue.main.async {
             self.collectionView.reloadData()
+            self.noPiecesLabel.isHidden = !self.viewModel.rows.isEmpty
         }
     }
 }

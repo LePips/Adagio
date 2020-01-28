@@ -13,6 +13,8 @@ protocol PracticeViewModelDelegate {
     
     func updateRows()
     func reloadRows()
+    
+    func addPieceSelected()
 }
 
 protocol PracticeViewModelProtocol: class {
@@ -27,17 +29,21 @@ protocol PracticeViewModelProtocol: class {
     func setNote(_ note: String?)
     func createRows()
     func deleteSection(_ section: Section)
-    func setSectionWarmUp(_ section: Section, warmUp: Bool)
-    func addNoteToSection(_ section: Section)
-    func setNoteTo(_ section: Section, note: String?)
-    func otherSelected(on section: Section)
     func createPieceSection(with piece: Piece)
     func saveEntry(current: Bool, completion: @escaping () -> Void)
 }
 
 class PracticeViewModel: PracticeViewModelProtocol {
     
-    var rows: [PracticeRow] = []
+    var rows: [PracticeRow] = [] {
+        didSet {
+            if !oldValue.difference(from: rows).isEmpty {
+                delegate?.reloadRows()
+            } else {
+                delegate?.updateRows()
+            }
+        }
+    }
     var duration: TimeInterval = 0
     var delegate: PracticeViewModelDelegate?
     var practice: Practice
@@ -46,42 +52,37 @@ class PracticeViewModel: PracticeViewModelProtocol {
     init(practice: Practice, managedObjectContext: NSManagedObjectContext) {
         self.practice = practice
         self.managedObjectContext = managedObjectContext
+        createRows()
     }
     
     func setTitle(_ title: String) {
-        
+        practice.title = title
+        delegate?.updateRows()
     }
     
     func setNote(_ note: String?) {
-        
+        practice.note = note
+        delegate?.updateRows()
     }
     
     func createRows() {
-        
+        self.rows = [.title(TextFieldCellConfiguration(title: "", required: false, text: "Evening Practice", textAction: setTitle(_:), allowNewLines: false)),
+                     .subtitle,
+                     .notes(TextFieldCellConfiguration(title: "Notes", required: false, text: nil, textAction: setNote(_:), allowNewLines: true)),
+                     .addPiece(AddPieceConfiguration(selectedAction: addPieceSelected))
+        ]
     }
     
     func deleteSection(_ section: Section) {
         
     }
     
-    func setSectionWarmUp(_ section: Section, warmUp: Bool) {
-        
-    }
-    
-    func addNoteToSection(_ section: Section) {
-        
-    }
-    
-    func setNoteTo(_ section: Section, note: String?) {
-        
-    }
-    
-    func otherSelected(on section: Section) {
-        
-    }
-    
     func createPieceSection(with piece: Piece) {
         
+    }
+    
+    func addPieceSelected() {
+        delegate?.addPieceSelected()
     }
     
     func saveEntry(current: Bool, completion: @escaping () -> Void) {

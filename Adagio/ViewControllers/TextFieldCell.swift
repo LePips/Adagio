@@ -47,7 +47,7 @@ class TextFieldCell: AdagioCell, Selectable, Verifiable, Editable {
     private lazy var titleLabel = makeTitleLabel()
     private lazy var requiredView = makeRequiredView()
     fileprivate lazy var textView = makeTextView()
-    private lazy var separatorView = makeSeparatorView()
+    fileprivate lazy var separatorView = makeSeparatorView()
     private lazy var invalidView = makeInvalidView()
     private lazy var noneLabel = makeNoneLabel()
     private var configuration: TextFieldCellConfiguration?
@@ -216,5 +216,15 @@ class LargeTextFieldCell: TextFieldCell {
     override func setupSubviews() {
         super.setupSubviews()
         textView.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
+    }
+}
+
+// MARK: - LargerTextFieldCell
+class LargerTextFieldCell: TextFieldCell {
+    
+    override func setupSubviews() {
+        super.setupSubviews()
+        textView.font = UIFont.systemFont(ofSize: 30, weight: .semibold)
+        self.separatorView.isHidden = true
     }
 }

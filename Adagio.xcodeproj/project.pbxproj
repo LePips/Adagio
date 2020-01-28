@@ -63,6 +63,8 @@
 		E146BAF723D258A20036052B /* AdagioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E146BAF623D258A20036052B /* AdagioViewController.swift */; };
 		E146BAF923D258EA0036052B /* UIColor+Adagio.swift in Sources */ = {isa = PBXBuildFile; fileRef = E146BAF823D258EA0036052B /* UIColor+Adagio.swift */; };
 		E1522AEC23DF9E9F00221A79 /* BouncyLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1522AEB23DF9E9F00221A79 /* BouncyLayout.swift */; };
+		E1522AF123E0126900221A79 /* FocusSectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1522AF023E0126900221A79 /* FocusSectionViewController.swift */; };
+		E1522AF423E012BF00221A79 /* AddPieceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1522AF323E012BF00221A79 /* AddPieceCell.swift */; };
 		E16B880823D2F3C400A8CF07 /* HomeRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16B880723D2F3C400A8CF07 /* HomeRow.swift */; };
 		E16B880B23D2F6AB00A8CF07 /* HomeSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16B880A23D2F6AB00A8CF07 /* HomeSubtitleCell.swift */; };
 		E16B880D23D2FBF800A8CF07 /* AdagioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16B880C23D2FBF800A8CF07 /* AdagioCell.swift */; };
@@ -160,6 +162,8 @@
 		E146BAF623D258A20036052B /* AdagioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdagioViewController.swift; sourceTree = "<group>"; };
 		E146BAF823D258EA0036052B /* UIColor+Adagio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Adagio.swift"; sourceTree = "<group>"; };
 		E1522AEB23DF9E9F00221A79 /* BouncyLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BouncyLayout.swift; sourceTree = "<group>"; };
+		E1522AF023E0126900221A79 /* FocusSectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusSectionViewController.swift; sourceTree = "<group>"; };
+		E1522AF323E012BF00221A79 /* AddPieceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPieceCell.swift; sourceTree = "<group>"; };
 		E16B880723D2F3C400A8CF07 /* HomeRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRow.swift; sourceTree = "<group>"; };
 		E16B880A23D2F6AB00A8CF07 /* HomeSubtitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSubtitleCell.swift; sourceTree = "<group>"; };
 		E16B880C23D2FBF800A8CF07 /* AdagioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdagioCell.swift; sourceTree = "<group>"; };
@@ -331,8 +335,17 @@
 				E146BAF123D257820036052B /* PracticeViewController.swift */,
 				E146BAF323D2579C0036052B /* PracticeViewModel.swift */,
 				E12FFC8623D43C0D00705CFC /* PracticeRow.swift */,
+				E1522AF323E012BF00221A79 /* AddPieceCell.swift */,
 			);
 			path = PracticeViewController;
+			sourceTree = "<group>";
+		};
+		E1522AF223E0126C00221A79 /* FocusSectionViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E1522AF023E0126900221A79 /* FocusSectionViewController.swift */,
+			);
+			path = FocusSectionViewController;
 			sourceTree = "<group>";
 		};
 		E17C8AE023D24E0D00C74BBD /* Products */ = {
@@ -384,6 +397,7 @@
 				E12FFC8523D43ABA00705CFC /* CreateItemViewController */,
 				E12FFC8E23D4D1FC00705CFC /* RequestFeatureViewController */,
 				E12FFCBA23D54FE600705CFC /* PickerViewController */,
+				E1522AF223E0126C00221A79 /* FocusSectionViewController */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -488,6 +502,7 @@
 				E1A2CC8C23D24EAD0054522B /* YouViewController.swift in Sources */,
 				E103FEBB23CE6B6F00BDE96A /* RootViewController.swift in Sources */,
 				E12FFC9C23D5063A00705CFC /* Section+CoreDataProperties.swift in Sources */,
+				E1522AF423E012BF00221A79 /* AddPieceCell.swift in Sources */,
 				E12FFC8923D4416500705CFC /* EditItemCell.swift in Sources */,
 				E12FFC7E23D4312F00705CFC /* EditItemsViewModel.swift in Sources */,
 				E12FFC6823D3909C00705CFC /* SettingsViewController.swift in Sources */,
@@ -510,6 +525,7 @@
 				E12FFCAF23D5142500705CFC /* Array+Diff.swift in Sources */,
 				E12FFCB723D54D4F00705CFC /* PickerViewController.swift in Sources */,
 				E16B880D23D2FBF800A8CF07 /* AdagioCell.swift in Sources */,
+				E1522AF123E0126900221A79 /* FocusSectionViewController.swift in Sources */,
 				E181303E23D810B300A45C8B /* Editable.swift in Sources */,
 				E146BAF723D258A20036052B /* AdagioViewController.swift in Sources */,
 				E12FFC9023D4D61A00705CFC /* AdagioTextField.swift in Sources */,

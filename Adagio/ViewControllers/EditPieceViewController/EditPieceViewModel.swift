@@ -82,17 +82,11 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
                          .artist(TextFieldCellConfiguration(title: "Artist/Composer", required: false, text: nil, textAction: setArtist(_:), allowNewLines: false)),
                          .note(TextFieldCellConfiguration(title: "Notes", required: false, text: nil, textAction: setNote(_:), allowNewLines: true)),
                          .instruments(SelectionCellConfiguration(title: "Instruments", buttonTitle: "Add Instrument", items: [], selectionAction: {
-                            let instrumentPickerViewModel = InstrumentPickerViewModel(title: "Add Instrument",
-                                                                                      doneButtonTitle: "Add") { (instrument) in
-                                                                                        self.addToInstrument(title: instrument)
-                            }
+                            let instrumentPickerViewModel = InstrumentPickerViewModel(title: "Add Instrument",doneButtonTitle: "Add", selectedAction: self.addToInstrument(title:))
                             self.presentInstrumentPicker(with: instrumentPickerViewModel)
                          })),
                          .groups(SelectionCellConfiguration(title: "Groups", buttonTitle: "Add Group", items: [], selectionAction: {
-                            let groupPickerViewModel = GroupPickerViewModel(title: "Add group",
-                                                                            doneButtonTitle: "Add") { (group) in
-                                                                                self.addToGroup(title: group)
-                            }
+                            let groupPickerViewModel = GroupPickerViewModel(title: "Add group", doneButtonTitle: "Add", selectedAction: self.addToGroup(title:))
                             self.presentGroupPicker(with: groupPickerViewModel)
                          }))
             ]
@@ -123,20 +117,14 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
                                                              buttonTitle: "Add Instrument",
                                                              items: piece.instruments?.allObjects.compactMap({ ($0 as? Instrument)?.title }) ?? [],
                                                              selectionAction: {
-                        let instrumentPickerViewModel = InstrumentPickerViewModel(title: "Add Instrument",
-                                                                                  doneButtonTitle: "Add") { (instrument) in
-                                                                                    self.addToInstrument(title: instrument)
-                        }
-                        self.presentInstrumentPicker(with: instrumentPickerViewModel)
+                                                                let instrumentPickerViewModel = InstrumentPickerViewModel(title: "Add Instrument",doneButtonTitle: "Add", selectedAction: self.addToInstrument(title:))
+                                                                self.presentInstrumentPicker(with: instrumentPickerViewModel)
                      }, editing: self.editing)),
                      .groups(SelectionCellConfiguration(title: "Groups",
                                                         buttonTitle: "Add Group",
                                                         items: piece.groups?.allObjects.compactMap({ ($0 as? Group)?.title }) ?? [],
                                                         selectionAction: {
-                                                            let groupPickerViewModel = GroupPickerViewModel(title: "Add group",
-                                                                                                            doneButtonTitle: "Add") { (group) in
-                                                                                                                self.addToGroup(title: group)
-                                                            }
+                                                            let groupPickerViewModel = GroupPickerViewModel(title: "Add group", doneButtonTitle: "Add", selectedAction: self.addToGroup(title:))
                                                             self.presentGroupPicker(with: groupPickerViewModel)
                      }, editing: self.editing))
         ]

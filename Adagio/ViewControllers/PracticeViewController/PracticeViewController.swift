@@ -15,6 +15,7 @@ class PracticeRootViewController: UINavigationController {
         super.init(nibName: nil, bundle: nil)
         
         viewControllers = [PracticeViewController(viewModel: viewModel)]
+        self.makeBarTransparent()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -22,7 +23,7 @@ class PracticeRootViewController: UINavigationController {
     }
 }
 
-private class PracticeViewController: MainAdagioViewController {
+private class PracticeViewController: SubAdagioViewController {
     
     private lazy var tableView = makeTableView()
     
@@ -50,15 +51,19 @@ private class PracticeViewController: MainAdagioViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+        
         let closeConfiguration = UIImage.SymbolConfiguration(pointSize: 17, weight: .regular)
         let closeBarButton = UIBarButtonItem(image: UIImage(systemName: "chevron.down.circle.fill", withConfiguration: closeConfiguration), style: .plain, target: self, action: #selector(closeSelected))
         let finishBarButton = UIBarButtonItem(title: "Finish", style: .done, target: self, action: #selector(finishSelected))
         self.navigationItem.leftBarButtonItem = closeBarButton
         self.navigationItem.rightBarButtonItem = finishBarButton
+        
+        self.reloadRows()
     }
     
     @objc private func closeSelected() {
-        
+        dismiss(animated: true, completion: nil)
     }
     
     @objc private func finishSelected() {
@@ -71,6 +76,7 @@ private class PracticeViewController: MainAdagioViewController {
         tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
+        PracticeRow.register(tableView: tableView)
         return tableView
     }
 }
@@ -88,15 +94,28 @@ extension PracticeViewController: PracticeViewModelDelegate {
             self.tableView.reloadData()
         }
     }
+    
+    func addPieceSelected() {
+        self.present(SubAdagioViewController(), animated: true, completion: nil)
+    }
 }
 
 extension PracticeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return viewModel.rows.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        return viewModel.rows[indexPath.row].cell(for: indexPath, in: tableView)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return viewModel.rows[indexPath.row].height()
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell: Selectable? = tableView.visibleCells[indexPath.row] as? Selectable
+        cell?.select()
     }
 }
