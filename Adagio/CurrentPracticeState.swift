@@ -11,15 +11,15 @@ import Foundation
 import SharedPips
 
 enum CurrentPracticeChange {
-    case startPractice(Practice)
+    case startNewPractice(Practice, NSManagedObjectContext)
     case saveCurrentPractice
     case loadCurrentPractice
     case endPractice(((Result<Bool, Error>) -> Void)?)
 }
 
-fileprivate var sharedCore: Core<CurrentPracticeState> {
+fileprivate var sharedCore: Core<CurrentPracticeState> = {
     return Core(state: CurrentPracticeState())
-}
+}()
 
 struct CurrentPracticeState: State {
     
@@ -29,19 +29,27 @@ struct CurrentPracticeState: State {
     
     mutating func respond(to event: CurrentPracticeChange) {
         switch event {
-        case .startPractice(let practice):
-            self.practice = practice
+        case .startNewPractice(let newPractice, _):
+            newPractice.startDate = Date()
+            self.practice = newPractice
         case .saveCurrentPractice:
-            assert(practice != nil)
-            UserDefaults.standard.currentPracticeID = practice?.objectID.uriRepresentation()
-            practice?.save(writeToDisk: true, completion: nil)
+            guard let practice = practice else { return }
+            UserDefaults.standard.currentSessionDate = practice.startDate
+            practice.save(writeToDisk: true, completion: nil)
         case .loadCurrentPractice: ()
-//            guard let currentPracticeID = UserDefaults.standard.currentPracticeID?.absoluteString else { return }
-//            let fetchRequest: NSFetchRequest<Practice> = Practice.fetchRequest()
-//            let predicate = NSPredicate(format: "objectID.uriRepresentation = %@", currentPracticeID)
-//            fetchRequest.predicate = predicate
+            guard let startDate = UserDefaults.standard.currentSessionDate else { return }
+            let fetchRequest: NSFetchRequest<Practice> = Practice.fetchRequest()
+            let predicate = NSPredicate(format: "startDate == %@", startDate as NSDate)
+            fetchRequest.predicate = predicate
+        CoreDataManager.main.fetch(request: fetchRequest) { (practices) in
+//            guard let currentPractice = practices.first(where: { $0.startDate == startDate }) else { return }
+            guard let currentPractice = practices.first, practices.count == 1 else { return }
+            let privateContext = CoreDataManager.main.privateChildManagedObjectContext()
+            guard let privateContextObject = privateContext.object(with: currentPractice.objectID) as? Practice else { return }
+            CurrentPracticeState.core.fire(.startNewPractice(privateContextObject, privateContext))
+            }
         case .endPractice(_):
-            UserDefaults.standard.currentPracticeID = nil
+            ()
 //            practice?.save(writeToDisk: true, completion: completion)
         }
     }
@@ -53,12 +61,12 @@ struct CurrentPracticeState: State {
 
 extension UserDefaults {
     
-    var currentPracticeID: URL? {
+    var currentSessionDate: Date? {
         get {
-            return UserDefaults.standard.url(forKey: "currentPracticeID")
+            return self.object(forKey: "currentSessionDate") as? Date
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: "currentPracticeID")
+            self.set(newValue, forKey: "currentSessionDate")
         }
     }
 }

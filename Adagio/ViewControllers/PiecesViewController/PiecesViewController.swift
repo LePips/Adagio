@@ -65,6 +65,8 @@ private class PiecesViewController: MainAdagioViewController {
         let createPieceButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createPieceSelected))
         self.navigationItem.rightBarButtonItem = createPieceButton
         self.navigationController?.navigationBar.tintColor = UIColor.Adagio.textColor
+        
+        reloadRows()
     }
     
     @objc private func createPieceSelected() {

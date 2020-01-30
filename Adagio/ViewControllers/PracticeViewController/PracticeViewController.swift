@@ -96,7 +96,8 @@ extension PracticeViewController: PracticeViewModelDelegate {
     }
     
     func addPieceSelected() {
-        self.present(SubAdagioViewController(), animated: true, completion: nil)
+        let piecesViewModel = PiecesViewModel()
+        self.present(PiecesRootViewController(viewModel: piecesViewModel), animated: true, completion: nil)
     }
 }
 

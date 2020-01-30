@@ -66,6 +66,9 @@ private class HomeViewController: MainAdagioViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        CurrentPracticeState.core.addSubscriber(subscriber: self, update: HomeViewController.update)
+        
         viewModel.reloadRows()
     }
     
@@ -100,11 +103,9 @@ private class HomeViewController: MainAdagioViewController {
     }
     
     @objc private func startPracticeSelected() {
-        let managedObjectContext = CoreDataManager.main.privateChildManagedObjectContext()
-        let newPractice = Practice(context: managedObjectContext)
-        let practiceViewModel = PracticeViewModel(practice: newPractice, managedObjectContext: managedObjectContext)
-        let practiceViewController = PracticeRootViewController(viewModel: practiceViewModel)
-        self.present(practiceViewController, animated: true, completion: nil)
+        let privateContext = CoreDataManager.main.privateChildManagedObjectContext()
+        let newPractice = Practice(context: privateContext)
+        CurrentPracticeState.core.fire(.startNewPractice(newPractice, privateContext))
     }
 }
 
@@ -127,5 +128,19 @@ extension HomeViewController: HomeViewModelDelegate {
         startPracticeLabel.isHidden = self.viewModel.rows.count - 1 != 0
         tableView.isScrollEnabled = self.viewModel.rows.count - 1 != 0
         tableView.reloadData()
+    }
+}
+
+extension HomeViewController: Subscriber {
+    
+    func update(state: CurrentPracticeState) {
+        guard let lastEvent = CurrentPracticeState.core.lastEvent else { return }
+        switch lastEvent {
+        case .startNewPractice(_, _):
+            self.startPracticeButton.isHidden = true
+        case .endPractice(_):
+            self.startPracticeButton.isHidden = false
+        default: ()
+        }
     }
 }

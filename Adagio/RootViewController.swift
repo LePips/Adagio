@@ -30,6 +30,12 @@ class RootViewController: UITabBarController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        CurrentPracticeState.core.addSubscriber(subscriber: self, update: RootViewController.update)
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setupTabBar()
@@ -44,5 +50,26 @@ class RootViewController: UITabBarController {
         self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -10, right: 0)
         tabBar.frame.size.height -= self.additionalSafeAreaInsets.bottom
         tabBar.frame.origin.y = view.frame.height - tabBar.frame.size.height
+    }
+}
+
+extension RootViewController: Subscriber {
+    
+    func update(state: CurrentPracticeState) {
+        guard let lastEvent = CurrentPracticeState.core.lastEvent else { return }
+        switch lastEvent {
+        case .startNewPractice(let newPractice, let managedObjectContext):
+            let practiceViewModel = PracticeViewModel(practice: newPractice, managedObjectContext: managedObjectContext)
+            let practiceViewController = PracticeRootViewController(viewModel: practiceViewModel)
+            self.present(practiceViewController, animated: true, completion: nil)
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
+        case .saveCurrentPractice: ()
+            
+        case .loadCurrentPractice: ()
+            
+        case .endPractice(_): ()
+            
+        }
     }
 }
