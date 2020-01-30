@@ -60,6 +60,11 @@ private class YouViewController: MainAdagioViewController {
         self.navigationController?.navigationBar.tintColor = UIColor.Adagio.textColor
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.reloadRows()
+    }
+    
     @objc private func settingsSelected() {
         var settingsRows = SettingsSectionType.allCases.compactMap({ SettingsRow.section($0) })
         settingsRows.append(.purge)
@@ -98,6 +103,8 @@ extension YouViewController: UITableViewDelegate, UITableViewDataSource {
 extension YouViewController: YouViewModelDelegate {
     
     func reloadRows() {
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }

@@ -51,6 +51,7 @@ class PracticeViewModel: PracticeViewModelProtocol {
     
     init(practice: Practice, managedObjectContext: NSManagedObjectContext) {
         self.practice = practice
+        practice.title = "Evening Practice"
         self.managedObjectContext = managedObjectContext
         createRows()
     }
@@ -66,7 +67,7 @@ class PracticeViewModel: PracticeViewModelProtocol {
     }
     
     func createRows() {
-        self.rows = [.title(TextFieldCellConfiguration(title: "", required: false, text: "Evening Practice", textAction: setTitle(_:), allowNewLines: false)),
+        self.rows = [.title(TextFieldCellConfiguration(title: "", required: false, text: practice.title, textAction: setTitle(_:), allowNewLines: false)),
                      .subtitle,
                      .notes(TextFieldCellConfiguration(title: "Notes", required: false, text: nil, textAction: setNote(_:), allowNewLines: true)),
                      .addPiece(AddPieceConfiguration(selectedAction: addPieceSelected))

@@ -75,6 +75,7 @@
 		E1A2CC8823D24E810054522B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A2CC8723D24E810054522B /* HomeViewController.swift */; };
 		E1A2CC8A23D24EA70054522B /* PiecesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A2CC8923D24EA70054522B /* PiecesViewController.swift */; };
 		E1A2CC8C23D24EAD0054522B /* YouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A2CC8B23D24EAD0054522B /* YouViewController.swift */; };
+		E1AA21D523E2B12F00D299CC /* CurrentSessionBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AA21D423E2B12F00D299CC /* CurrentSessionBar.swift */; };
 		E1CA892323D1098600E4FD3C /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CA892223D1098600E4FD3C /* CoreDataManager.swift */; };
 		E1F3110D23D6D01F008A2BBD /* Titlable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F3110C23D6D01F008A2BBD /* Titlable.swift */; };
 /* End PBXBuildFile section */
@@ -173,6 +174,7 @@
 		E1A2CC8723D24E810054522B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E1A2CC8923D24EA70054522B /* PiecesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiecesViewController.swift; sourceTree = "<group>"; };
 		E1A2CC8B23D24EAD0054522B /* YouViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouViewController.swift; sourceTree = "<group>"; };
+		E1AA21D423E2B12F00D299CC /* CurrentSessionBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentSessionBar.swift; sourceTree = "<group>"; };
 		E1CA892223D1098600E4FD3C /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		E1F3110C23D6D01F008A2BBD /* Titlable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Titlable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -212,6 +214,7 @@
 			children = (
 				E103FEB623CE6B6F00BDE96A /* AppDelegate.swift */,
 				E103FEBA23CE6B6F00BDE96A /* RootViewController.swift */,
+				E1AA21D423E2B12F00D299CC /* CurrentSessionBar.swift */,
 				E1A2CC8E23D250A90054522B /* ViewControllers */,
 				E1A2CC8D23D24ED90054522B /* CoreData */,
 				E146BAEF23D2535A0036052B /* CurrentPracticeState.swift */,
@@ -526,6 +529,7 @@
 				E12FFCB723D54D4F00705CFC /* PickerViewController.swift in Sources */,
 				E16B880D23D2FBF800A8CF07 /* AdagioCell.swift in Sources */,
 				E1522AF123E0126900221A79 /* FocusSectionViewController.swift in Sources */,
+				E1AA21D523E2B12F00D299CC /* CurrentSessionBar.swift in Sources */,
 				E181303E23D810B300A45C8B /* Editable.swift in Sources */,
 				E146BAF723D258A20036052B /* AdagioViewController.swift in Sources */,
 				E12FFC9023D4D61A00705CFC /* AdagioTextField.swift in Sources */,

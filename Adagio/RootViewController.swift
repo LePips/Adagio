@@ -11,6 +11,8 @@ import SharedPips
 
 class RootViewController: UITabBarController {
     
+    private lazy var currentSessionBar = makeCurrentSessionBar()
+    
     init() {
         super.init(nibName: nil, bundle: nil)
         
@@ -30,8 +32,24 @@ class RootViewController: UITabBarController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setupSubviews() {
+        view.addSubview(currentSessionBar)
+        currentSessionBar.alpha = 0
+    }
+    
+    func setupConstraints() {
+        NSLayoutConstraint.activate([
+            currentSessionBar.leftAnchor ⩵ view.leftAnchor,
+            currentSessionBar.rightAnchor ⩵ view.rightAnchor,
+            currentSessionBar.heightAnchor ⩵ 50,
+            currentSessionBar.bottomAnchor ⩵ tabBar.topAnchor
+        ])
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupSubviews()
+        setupConstraints()
         
         CurrentPracticeState.core.addSubscriber(subscriber: self, update: RootViewController.update)
     }
@@ -51,6 +69,21 @@ class RootViewController: UITabBarController {
         tabBar.frame.size.height -= self.additionalSafeAreaInsets.bottom
         tabBar.frame.origin.y = view.frame.height - tabBar.frame.size.height
     }
+    
+    private func makeCurrentSessionBar() -> CurrentSessionBar {
+        let view = CurrentSessionBar.forAutoLayout()
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(currentSessionSelected))
+        view.addGestureRecognizer(tapRecognizer)
+        return view
+    }
+    
+    @objc private func currentSessionSelected() {
+        guard let currentPractice = CurrentPracticeState.core.state.practice else { assertionFailure(); return }
+        guard let managedObjectContext = CurrentPracticeState.core.state.managedObjectContext else { assertionFailure(); return }
+        let currentPracticeViewModel = PracticeViewModel(practice: currentPractice, managedObjectContext: managedObjectContext)
+        let currentPracticeViewController = PracticeRootViewController(viewModel: currentPracticeViewModel)
+        self.present(currentPracticeViewController, animated: true, completion: nil)
+    }
 }
 
 extension RootViewController: Subscriber {
@@ -64,6 +97,9 @@ extension RootViewController: Subscriber {
             self.present(practiceViewController, animated: true, completion: nil)
             let generator = UINotificationFeedbackGenerator()
             generator.notificationOccurred(.success)
+            currentSessionBar.configure(practice: newPractice)
+            currentSessionBar.alpha = 1
+            self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -60, right: 0)
         case .saveCurrentPractice: ()
             
         case .loadCurrentPractice: ()

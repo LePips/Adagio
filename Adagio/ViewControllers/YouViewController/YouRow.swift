@@ -15,12 +15,17 @@ enum YouRow {
 
 extension YouRow {
     
-    static func buildRows() -> [YouRow] {
-        return [.subtitle]
+    static func buildRows(practices: [Practice]) -> [YouRow] {
+        var rows: [YouRow] = [.subtitle]
+        
+        rows.append(contentsOf: practices.compactMap({ YouRow.practice($0) }))
+        
+        return rows
     }
     
     static func register(tableView: UITableView) {
         tableView.register(HomeSubtitleCell.self, forCellReuseIdentifier: HomeSubtitleCell.identifier)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
     func cell(for path: IndexPath, in tableView: UITableView) -> UITableViewCell {
@@ -29,8 +34,11 @@ extension YouRow {
             let cell = tableView.dequeueReusableCell(withIdentifier: HomeSubtitleCell.identifier, for: path) as! HomeSubtitleCell
             cell.configure(with: "History")
             return cell
-        case .practice(_):
-            return UITableViewCell()
+        case .practice(let practice):
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: path)
+            cell.textLabel?.text = practice.title
+            cell.detailTextLabel?.text = "\(practice.startDate)"
+            return cell
         }
     }
     
@@ -39,7 +47,7 @@ extension YouRow {
         case .subtitle:
             return "height".height(withConstrainedWidth: 200, font: UIFont.systemFont(ofSize: 18, weight: .medium))
         case .practice(_):
-            return 0
+            return 50
         }
     }
 }

@@ -26,23 +26,25 @@ struct CurrentPracticeState: State {
     typealias EventType = CurrentPracticeChange
     
     var practice: Practice?
+    var managedObjectContext: NSManagedObjectContext?
     
     mutating func respond(to event: CurrentPracticeChange) {
         switch event {
-        case .startNewPractice(let newPractice, _):
+        case .startNewPractice(let newPractice, let managedObjectContext):
             newPractice.startDate = Date()
             self.practice = newPractice
+            self.managedObjectContext = managedObjectContext
         case .saveCurrentPractice:
             guard let practice = practice else { return }
             UserDefaults.standard.currentSessionDate = practice.startDate
             practice.save(writeToDisk: true, completion: nil)
-        case .loadCurrentPractice: ()
+        case .loadCurrentPractice:
+            guard practice != nil else { return }
             guard let startDate = UserDefaults.standard.currentSessionDate else { return }
             let fetchRequest: NSFetchRequest<Practice> = Practice.fetchRequest()
             let predicate = NSPredicate(format: "startDate == %@", startDate as NSDate)
             fetchRequest.predicate = predicate
         CoreDataManager.main.fetch(request: fetchRequest) { (practices) in
-//            guard let currentPractice = practices.first(where: { $0.startDate == startDate }) else { return }
             guard let currentPractice = practices.first, practices.count == 1 else { return }
             let privateContext = CoreDataManager.main.privateChildManagedObjectContext()
             guard let privateContextObject = privateContext.object(with: currentPractice.objectID) as? Practice else { return }

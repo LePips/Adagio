@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func setRootViewController() {
         window?.rootViewController = RootViewController()
+        CurrentPracticeState.core.fire(.loadCurrentPractice)
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -31,8 +32,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(_ application: UIApplication) {
         CurrentPracticeState.core.fire(.loadCurrentPractice)
     }
-    
-//    func applicationDidBecomeActive(_ application: UIApplication) {
-//        CurrentPracticeState.core.fire(.loadCurrentPractice)
-//    }
 }
