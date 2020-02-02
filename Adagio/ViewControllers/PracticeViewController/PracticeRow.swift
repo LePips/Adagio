@@ -14,6 +14,7 @@ enum PracticeRow {
     case notes(TextFieldCellConfiguration)
     case section(Section)
     case addPiece(AddPieceConfiguration)
+    case deletePractice(DeletePracticeConfiguration)
     
     var key: String {
         switch self {
@@ -27,6 +28,8 @@ enum PracticeRow {
             return "\(section)"
         case .addPiece(_):
             return "add piece"
+        case .deletePractice(_):
+            return "delete practice"
         }
     }
 }
@@ -48,6 +51,7 @@ extension PracticeRow {
         tableView.register(TextFieldCell.self, forCellReuseIdentifier: TextFieldCell.identifier)
         tableView.register(HomeSubtitleCell.self, forCellReuseIdentifier: HomeSubtitleCell.identifier)
         tableView.register(AddPieceCell.self, forCellReuseIdentifier: AddPieceCell.identifier)
+        tableView.register(DeletePracticeCell.self, forCellReuseIdentifier: DeletePracticeCell.identifier)
     }
     
     func cell(for path: IndexPath, in tableView: UITableView) -> UITableViewCell {
@@ -71,6 +75,10 @@ extension PracticeRow {
             let cell = tableView.dequeueReusableCell(withIdentifier: AddPieceCell.identifier, for: path) as! AddPieceCell
             cell.configure(configuration: configuration)
             return cell
+        case .deletePractice(let configuration):
+            let cell = tableView.dequeueReusableCell(withIdentifier: DeletePracticeCell.identifier, for: path) as! DeletePracticeCell
+            cell.configure(configuration: configuration)
+            return cell
         }
     }
     
@@ -88,6 +96,8 @@ extension PracticeRow {
             return 0
         case .addPiece(_):
             return 100
+        case .deletePractice(_):
+            return 50
         }
     }
 }

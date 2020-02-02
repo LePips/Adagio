@@ -26,6 +26,8 @@ class EditPieceRootViewController: UINavigationController {
 private class EditPieceViewController: SubAdagioViewController, UIAdaptivePresentationControllerDelegate {
     
     private lazy var tableView = makeTableView()
+    private lazy var hideKeyboardButton = makeHideKeyboardButton()
+    private lazy var keyboardTopAnchor = makeKeyboardTopAnchor()
     
     private let viewModel: EditPieceViewModel
     
@@ -34,7 +36,6 @@ private class EditPieceViewController: SubAdagioViewController, UIAdaptivePresen
         super.init(nibName: nil, bundle: nil)
         viewModel.delegate = self
         self.isModalInPresentation = true
-        self.title = "Create Piece"
     }
     
     required init?(coder: NSCoder) {
@@ -42,11 +43,24 @@ private class EditPieceViewController: SubAdagioViewController, UIAdaptivePresen
     }
     
     override func setupSubviews() {
-        view.embed(tableView)
+        view.addSubview(tableView)
+        view.addSubview(hideKeyboardButton)
+        hideKeyboardButton.alpha = 0
     }
     
     override func setupLayoutConstraints() {
-        
+        NSLayoutConstraint.activate([
+            tableView.topAnchor ⩵ view.safeAreaLayoutGuide.topAnchor,
+            tableView.leftAnchor ⩵ view.leftAnchor,
+            tableView.rightAnchor ⩵ view.rightAnchor,
+            keyboardTopAnchor
+        ])
+        NSLayoutConstraint.activate([
+            hideKeyboardButton.heightAnchor ⩵ 40,
+            hideKeyboardButton.widthAnchor ⩵ 40,
+            hideKeyboardButton.rightAnchor ⩵ view.rightAnchor - 17,
+            hideKeyboardButton.bottomAnchor ⩵ tableView.bottomAnchor - 17
+        ])
     }
     
     override func viewDidLoad() {
@@ -58,6 +72,7 @@ private class EditPieceViewController: SubAdagioViewController, UIAdaptivePresen
             let doneBarButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(doneSelected))
             self.navigationItem.leftBarButtonItem = cancelBarButton
             self.navigationItem.rightBarButtonItem = doneBarButton
+            self.title = "Create Piece"
         } else {
             let closeBarButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeSelected))
             let editBarButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editSelected))
@@ -66,6 +81,9 @@ private class EditPieceViewController: SubAdagioViewController, UIAdaptivePresen
         }
         
         tableView.reloadData()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc private func cancelSelected() {
@@ -92,6 +110,26 @@ private class EditPieceViewController: SubAdagioViewController, UIAdaptivePresen
         viewModel.savePiece()
     }
     
+    @objc private func keyboardWillShow(notification: Notification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            keyboardTopAnchor.constant = -keyboardSize.height
+            UIView.animate(withDuration: 0.2) {
+                self.hideKeyboardButton.alpha = 1
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+    
+    @objc private func keyboardWillHide(notification: Notification) {
+        if let _ = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            keyboardTopAnchor.constant = 0
+            UIView.animate(withDuration: 0.2) {
+                self.hideKeyboardButton.alpha = 0
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+    
     private func makeTableView() -> UITableView {
         let tableView = UITableView.forAutoLayout()
         tableView.delegate = self
@@ -100,6 +138,20 @@ private class EditPieceViewController: SubAdagioViewController, UIAdaptivePresen
         tableView.backgroundColor = .clear
         EditPieceRow.register(tableView: tableView)
         return tableView
+    }
+    
+    private func makeHideKeyboardButton() -> HideKeyboardButton {
+        let button = HideKeyboardButton()
+        button.addTarget(self, action: #selector(hideKeyboardSelected), for: .touchUpInside)
+        return button
+    }
+    
+    @objc private func hideKeyboardSelected() {
+        view.endEditing(true)
+    }
+    
+    private func makeKeyboardTopAnchor() -> NSLayoutConstraint {
+        return tableView.bottomAnchor ⩵ view.bottomAnchor
     }
     
     func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
@@ -159,6 +211,7 @@ extension EditPieceViewController: EditPieceViewModelDelegate {
         let editBarButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editSelected))
         self.navigationItem.setLeftBarButton(closeBarButton, animated: true)
         self.navigationItem.setRightBarButton(editBarButton, animated: true)
+        self.title = ""
         
         tableView.visibleCells.forEach { (cell) in
             guard var editableCell = cell as? Editable else { return }
@@ -177,6 +230,7 @@ extension EditPieceViewController: EditPieceViewModelDelegate {
         self.navigationItem.setLeftBarButton(nil, animated: true)
         self.navigationItem.setRightBarButton(saveBarButton, animated: true)
         self.navigationItem.setLeftBarButton(deleteBarButton, animated: true)
+        self.title = "Edit Piece"
         
         viewModel.editing = true
         

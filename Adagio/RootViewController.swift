@@ -65,7 +65,7 @@ class RootViewController: UITabBarController {
         tabBar.backgroundImage = UIImage()
         tabBar.shadowImage = UIImage()
         tabBar.isTranslucent = true
-        self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -10, right: 0)
+        self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -15, right: 0)
         tabBar.frame.size.height -= self.additionalSafeAreaInsets.bottom
         tabBar.frame.origin.y = view.frame.height - tabBar.frame.size.height
     }
@@ -94,18 +94,22 @@ extension RootViewController: Subscriber {
         case .startNewPractice(let newPractice, let managedObjectContext):
             let practiceViewModel = PracticeViewModel(practice: newPractice, managedObjectContext: managedObjectContext)
             let practiceViewController = PracticeRootViewController(viewModel: practiceViewModel)
-            self.present(practiceViewController, animated: true, completion: nil)
+            self.present(practiceViewController, animated: true, completion: newPracticePresented)
             let generator = UINotificationFeedbackGenerator()
             generator.notificationOccurred(.success)
             currentSessionBar.configure(practice: newPractice)
-            currentSessionBar.alpha = 1
-            self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -60, right: 0)
         case .saveCurrentPractice: ()
             
         case .loadCurrentPractice: ()
             
-        case .endPractice(_): ()
-            
+        case .endPractice(_):
+            currentSessionBar.alpha = 0
+            self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -15, right: 0)
         }
+    }
+    
+    private func newPracticePresented() {
+        currentSessionBar.alpha = 1
+        self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -65, right: 0)
     }
 }

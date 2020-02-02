@@ -75,10 +75,10 @@ public class CoreDataManager {
                 if self.privateManagedObjectContext.hasChanges {
                     try self.privateManagedObjectContext.save()
                     completion?(.success(true))
-                    NotificationCenter.default.post(name: CoreDataManager.saveNotification, object: nil)
                 } else {
                     completion?(.success(true))
                 }
+                NotificationCenter.default.post(name: CoreDataManager.saveNotification, object: nil)
             } catch {
                 print("Unable to Save Changes of Private Managed Object Context")
                 print("\(error), \(error.localizedDescription)")

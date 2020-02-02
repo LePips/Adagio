@@ -15,6 +15,7 @@ protocol PracticeViewModelDelegate {
     func reloadRows()
     
     func addPieceSelected()
+    func deletePracticeSelected()
 }
 
 protocol PracticeViewModelProtocol: class {
@@ -67,10 +68,18 @@ class PracticeViewModel: PracticeViewModelProtocol {
     }
     
     func createRows() {
-        self.rows = [.title(TextFieldCellConfiguration(title: "", required: false, text: practice.title, textAction: setTitle(_:), allowNewLines: false)),
+        self.rows = [.title(TextFieldCellConfiguration(title: "", required: false, text: practice.title, textAction: setTitle(_:), allowNewLines: false, textAutocapitalizationType: .words)),
                      .subtitle,
-                     .notes(TextFieldCellConfiguration(title: "Notes", required: false, text: nil, textAction: setNote(_:), allowNewLines: true)),
-                     .addPiece(AddPieceConfiguration(selectedAction: addPieceSelected))
+                     .notes(TextFieldCellConfiguration(title: "Notes",
+                                                       required: false,
+                                                       text: practice.note,
+                                                       textAction: setNote(_:),
+                                                       allowNewLines: true,
+                                                       returnKeyType: .default,
+                                                       returnAction: { _ in },
+                                                       textAutocapitalizationType: .sentences)),
+                     .addPiece(AddPieceConfiguration(selectedAction: addPieceSelected)),
+                     .deletePractice(DeletePracticeConfiguration(selectedAction: deletePracticeSelected))
         ]
     }
     
@@ -79,11 +88,20 @@ class PracticeViewModel: PracticeViewModelProtocol {
     }
     
     func createPieceSection(with piece: Piece) {
-        
+        guard let currentContextPiece = managedObjectContext.object(with: piece.objectID) as? Piece else { return }
+        print(currentContextPiece.title)
     }
     
     func addPieceSelected() {
         delegate?.addPieceSelected()
+    }
+    
+    func deletePracticeSelected() {
+        delegate?.deletePracticeSelected()
+    }
+    
+    func deletePracticeConfirmed() {
+        practice.delete(writeToDisk: true, completion: nil)
     }
     
     func saveEntry(current: Bool, completion: @escaping () -> Void) {

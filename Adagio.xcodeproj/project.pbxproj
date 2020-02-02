@@ -12,6 +12,7 @@
 		E103FEBE23CE6B6F00BDE96A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E103FEBC23CE6B6F00BDE96A /* Main.storyboard */; };
 		E103FEC023CE6B7100BDE96A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E103FEBF23CE6B7100BDE96A /* Assets.xcassets */; };
 		E103FEC323CE6B7100BDE96A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E103FEC123CE6B7100BDE96A /* LaunchScreen.storyboard */; };
+		E10CE1FD23E53F7500BE8537 /* ChoosePieceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10CE1FC23E53F7500BE8537 /* ChoosePieceViewController.swift */; };
 		E12FFC6523D38C5200705CFC /* YouRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFC6423D38C5200705CFC /* YouRow.swift */; };
 		E12FFC6823D3909C00705CFC /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFC6723D3909C00705CFC /* SettingsViewController.swift */; };
 		E12FFC6B23D3915200705CFC /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFC6A23D3915200705CFC /* SettingsViewModel.swift */; };
@@ -77,6 +78,9 @@
 		E1A2CC8C23D24EAD0054522B /* YouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A2CC8B23D24EAD0054522B /* YouViewController.swift */; };
 		E1AA21D523E2B12F00D299CC /* CurrentSessionBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AA21D423E2B12F00D299CC /* CurrentSessionBar.swift */; };
 		E1CA892323D1098600E4FD3C /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CA892223D1098600E4FD3C /* CoreDataManager.swift */; };
+		E1E869CD23E5431C00569475 /* ChoosePieceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E869CC23E5431C00569475 /* ChoosePieceViewModel.swift */; };
+		E1E869D023E5627B00569475 /* HideKeyboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E869CF23E5627B00569475 /* HideKeyboardButton.swift */; };
+		E1E869D323E56A6000569475 /* DeletePracticeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E869D223E56A6000569475 /* DeletePracticeCell.swift */; };
 		E1F3110D23D6D01F008A2BBD /* Titlable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F3110C23D6D01F008A2BBD /* Titlable.swift */; };
 /* End PBXBuildFile section */
 
@@ -112,6 +116,7 @@
 		E103FEBF23CE6B7100BDE96A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E103FEC223CE6B7100BDE96A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E103FEC423CE6B7100BDE96A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E10CE1FC23E53F7500BE8537 /* ChoosePieceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePieceViewController.swift; sourceTree = "<group>"; };
 		E12FFC6423D38C5200705CFC /* YouRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouRow.swift; sourceTree = "<group>"; };
 		E12FFC6723D3909C00705CFC /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		E12FFC6A23D3915200705CFC /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -176,6 +181,9 @@
 		E1A2CC8B23D24EAD0054522B /* YouViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouViewController.swift; sourceTree = "<group>"; };
 		E1AA21D423E2B12F00D299CC /* CurrentSessionBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentSessionBar.swift; sourceTree = "<group>"; };
 		E1CA892223D1098600E4FD3C /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		E1E869CC23E5431C00569475 /* ChoosePieceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePieceViewModel.swift; sourceTree = "<group>"; };
+		E1E869CF23E5627B00569475 /* HideKeyboardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboardButton.swift; sourceTree = "<group>"; };
+		E1E869D223E56A6000569475 /* DeletePracticeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePracticeCell.swift; sourceTree = "<group>"; };
 		E1F3110C23D6D01F008A2BBD /* Titlable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Titlable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -218,6 +226,7 @@
 				E1A2CC8E23D250A90054522B /* ViewControllers */,
 				E1A2CC8D23D24ED90054522B /* CoreData */,
 				E146BAEF23D2535A0036052B /* CurrentPracticeState.swift */,
+				E1E869CF23E5627B00569475 /* HideKeyboardButton.swift */,
 				E12FFC8F23D4D61A00705CFC /* AdagioTextField.swift */,
 				E146BAF623D258A20036052B /* AdagioViewController.swift */,
 				E16B880C23D2FBF800A8CF07 /* AdagioCell.swift */,
@@ -339,6 +348,9 @@
 				E146BAF323D2579C0036052B /* PracticeViewModel.swift */,
 				E12FFC8623D43C0D00705CFC /* PracticeRow.swift */,
 				E1522AF323E012BF00221A79 /* AddPieceCell.swift */,
+				E1E869D223E56A6000569475 /* DeletePracticeCell.swift */,
+				E10CE1FC23E53F7500BE8537 /* ChoosePieceViewController.swift */,
+				E1E869CC23E5431C00569475 /* ChoosePieceViewModel.swift */,
 			);
 			path = PracticeViewController;
 			sourceTree = "<group>";
@@ -512,6 +524,7 @@
 				E12FFCA023D5063A00705CFC /* Piece+CoreDataProperties.swift in Sources */,
 				E1522AEC23DF9E9F00221A79 /* BouncyLayout.swift in Sources */,
 				E12FFCC123D57C7E00705CFC /* Verifiable.swift in Sources */,
+				E10CE1FD23E53F7500BE8537 /* ChoosePieceViewController.swift in Sources */,
 				E12FFC7723D4245400705CFC /* SettingsItemCell.swift in Sources */,
 				E146BAF423D2579C0036052B /* PracticeViewModel.swift in Sources */,
 				E146BAEB23D251510036052B /* PiecesViewModel.swift in Sources */,
@@ -549,9 +562,12 @@
 				E146BAF023D2535A0036052B /* CurrentPracticeState.swift in Sources */,
 				E12FFC7923D42FDF00705CFC /* SettingsSelectionCell.swift in Sources */,
 				E1CA892323D1098600E4FD3C /* CoreDataManager.swift in Sources */,
+				E1E869D023E5627B00569475 /* HideKeyboardButton.swift in Sources */,
 				E146BAF223D257820036052B /* PracticeViewController.swift in Sources */,
+				E1E869D323E56A6000569475 /* DeletePracticeCell.swift in Sources */,
 				E12FFCB523D5412200705CFC /* SelectionCell.swift in Sources */,
 				E12FFC9F23D5063A00705CFC /* Piece+CoreDataClass.swift in Sources */,
+				E1E869CD23E5431C00569475 /* ChoosePieceViewModel.swift in Sources */,
 				E12FFC8223D43A9500705CFC /* CreateItemViewController.swift in Sources */,
 				E146BAEE23D2515F0036052B /* YouViewModel.swift in Sources */,
 				E12FFC6D23D3917600705CFC /* SettingsRow.swift in Sources */,

@@ -29,7 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CurrentPracticeState.core.fire(.saveCurrentPractice)
     }
     
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        CurrentPracticeState.core.fire(.loadCurrentPractice)
+//    func applicationWillEnterForeground(_ application: UIApplication) {
+//        CurrentPracticeState.core.fire(.loadCurrentPractice)
+//    }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        CurrentPracticeState.core.fire(.saveCurrentPractice)
     }
 }

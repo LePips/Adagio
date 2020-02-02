@@ -17,14 +17,29 @@ class TextFieldCellConfiguration: Hashable {
     var textAction: (String) -> Void
     var allowNewLines: Bool
     var editing: Bool
+    var returnKeyType: UIReturnKeyType
+    var returnAction: (UITextView) -> Void
+    var textAutocapitalizationType: UITextAutocapitalizationType
     
-    init(title: String, required: Bool, text: String?, textAction: @escaping (String) -> Void, allowNewLines: Bool, editing: Bool = true) {
+    init(title: String,
+         required: Bool,
+         text: String?,
+         textAction: @escaping (String) -> Void,
+         allowNewLines: Bool,
+         editing: Bool = true,
+         returnKeyType: UIReturnKeyType = .done,
+         returnAction: @escaping (UITextView) -> Void = { textView in textView.resignFirstResponder()},
+         textAutocapitalizationType: UITextAutocapitalizationType = .none
+    ) {
         self.title = title
         self.required = required
         self.text = text
         self.textAction = textAction
         self.allowNewLines = allowNewLines
         self.editing = editing
+        self.returnKeyType = returnKeyType
+        self.returnAction = returnAction
+        self.textAutocapitalizationType = textAutocapitalizationType
     }
     
     static func == (lhs: TextFieldCellConfiguration, rhs: TextFieldCellConfiguration) -> Bool {
@@ -58,12 +73,14 @@ class TextFieldCell: AdagioCell, Selectable, Verifiable, Editable {
             if isEditing {
                 UIView.animate(withDuration: 0.2) {
                     self.separatorView.alpha = 1
+                    self.requiredView.alpha = 1
                     
                     self.noneLabel.alpha = 0
                 }
             } else {
                 UIView.animate(withDuration: 0.2) {
                     self.separatorView.alpha = 0
+                    self.requiredView.alpha = 0
                     
                     self.noneLabel.alpha = self.textView.text.isEmpty ? 1 : 0
                 }
@@ -75,6 +92,8 @@ class TextFieldCell: AdagioCell, Selectable, Verifiable, Editable {
     func configure(with configuration: TextFieldCellConfiguration) {
         titleLabel.text = configuration.title
         textView.text = configuration.text ?? ""
+        textView.returnKeyType = configuration.returnKeyType
+        textView.autocapitalizationType = configuration.textAutocapitalizationType
         requiredView.isHidden = !configuration.required
         self.configuration = configuration
         self.isEditing = configuration.editing
@@ -206,6 +225,7 @@ extension TextFieldCell: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         guard text == "\n" else { return true }
+        configuration?.returnAction(textView)
         return configuration?.allowNewLines ?? true
     }
 }

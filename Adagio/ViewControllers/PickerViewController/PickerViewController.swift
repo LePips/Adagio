@@ -85,7 +85,7 @@ class PickerViewController: BasicViewController {
     
     private func makeCardView() -> UIView {
         let view = UIView.forAutoLayout()
-        view.backgroundColor = UIColor.tertiarySystemBackground
+        view.backgroundColor = UIColor.secondarySystemBackground
         view.layer.cornerRadius = 8.91
         return view
     }
@@ -136,7 +136,7 @@ class PickerViewController: BasicViewController {
         button.setTitleColor(UIColor.systemBlue, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         button.addTarget(self, action: #selector(cancelSelected), for: .touchUpInside)
-        button.backgroundColor = UIColor.tertiarySystemBackground
+        button.backgroundColor = UIColor.secondarySystemBackground
         button.layer.cornerRadius = 14
         button.setTitle("Cancel", for: .normal)
         return button

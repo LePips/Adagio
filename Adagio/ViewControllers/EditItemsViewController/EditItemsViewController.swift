@@ -81,10 +81,61 @@ extension EditItemsViewController: EditItemsViewModelDelegate {
     }
     
     func presentCreateInstrumentViewController(with viewModel: CreateItemViewModel<Instrument>) {
-        present(CreateItemViewController(viewModel: viewModel), animated: true, completion: nil)
+        let alertViewController = UIAlertController(title: "Create Instrument", message: nil, preferredStyle: .alert)
+        alertViewController.addTextField { (textField) in
+            textField.autocapitalizationType = .words
+            textField.enablesReturnKeyAutomatically = true
+            textField.returnKeyType = .done
+            textField.addTarget(alertViewController, action: #selector(alertViewController.textDidChangeNotEmpty), for: .editingChanged)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: .none)
+        let createAction = UIAlertAction(title: "Create", style: .default) { (_) in
+            viewModel.set(text: alertViewController.textFields?.first?.text)
+            viewModel.saveItem()
+        }
+        createAction.isEnabled = false
+        
+        alertViewController.addAction(cancelAction)
+        alertViewController.addAction(createAction)
+        
+        self.present(alertViewController, animated: true, completion: nil)
     }
     
     func presentCreateGroupViewController(with viewModel: CreateItemViewModel<Group>) {
-        present(CreateItemViewController(viewModel: viewModel), animated: true, completion: nil)
+        let alertViewController = UIAlertController(title: "Create Instrument", message: nil, preferredStyle: .alert)
+        alertViewController.addTextField { (textField) in
+            textField.autocapitalizationType = .words
+            textField.enablesReturnKeyAutomatically = true
+            textField.returnKeyType = .done
+            textField.addTarget(alertViewController, action: #selector(alertViewController.textDidChangeNotEmpty), for: .editingChanged)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: .none)
+        let createAction = UIAlertAction(title: "Create", style: .default) { (_) in
+            viewModel.set(text: alertViewController.textFields?.first?.text)
+            viewModel.saveItem()
+        }
+        createAction.isEnabled = false
+        
+        alertViewController.addAction(cancelAction)
+        alertViewController.addAction(createAction)
+        
+        self.present(alertViewController, animated: true, completion: nil)
+    }
+}
+
+fileprivate extension UIAlertController {
+    
+    @objc func textDidChangeNotEmpty() {
+        guard let textField = textFields?.first else { return }
+        guard let addAction = actions.last else { return }
+        if let text = textField.text {
+            addAction.isEnabled = !text.isEmpty
+        } else {
+            addAction.isEnabled = false
+        }
+    }
+    
+    @objc private func doneKeySelected() {
+        
     }
 }

@@ -1,35 +1,27 @@
 //
-//  PiecesViewModel.swift
+//  ChoosePieceViewModel.swift
 //  Adagio
 //
-//  Created by Ethan Pippin on 1/17/20.
+//  Created by Ethan Pippin on 1/31/20.
 //  Copyright © 2020 Ethan Pippin. All rights reserved.
 //
 
 import Foundation
 import CoreData
-import SharedPips
 
-protocol PiecesViewModelDelegate {
+protocol ChoosePieceViewModelDelegate {
     
     func reloadRows()
 }
 
-protocol PiecesViewModelProtocol {
-    
-    var rows: [PiecesRow] { get set }
-    var delegate: PiecesViewModelDelegate? { get set }
-    
-    func fetchPieces()
-    func deletePiece(path: IndexPath)
-}
-
-class PiecesViewModel: PiecesViewModelProtocol {
+class ChoosePieceViewModel {
     
     var rows: [PiecesRow] = []
-    var delegate: PiecesViewModelDelegate?
+    var delegate: ChoosePieceViewModelDelegate?
+    var pieceSelectedAction: (Piece) -> Void
     
-    init() {
+    init(pieceSelectedAction: @escaping (Piece) -> Void) {
+        self.pieceSelectedAction = pieceSelectedAction
         NotificationCenter.default.addObserver(self, selector: #selector(fetchPieces), name: CoreDataManager.saveNotification, object: nil)
         fetchPieces()
     }
@@ -43,11 +35,9 @@ class PiecesViewModel: PiecesViewModelProtocol {
         }
     }
     
-    func deletePiece(path: IndexPath) {
+    func selectPiece(at path: IndexPath) {
         if case PiecesRow.piece(let piece) = rows[path.row] {
-            piece.delete(writeToDisk: true) { (_) in
-                self.fetchPieces()
-            }
+            self.pieceSelectedAction(piece)
         }
     }
 }
