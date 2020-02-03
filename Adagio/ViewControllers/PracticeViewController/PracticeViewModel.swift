@@ -21,7 +21,6 @@ protocol PracticeViewModelDelegate {
 protocol PracticeViewModelProtocol: class {
     
     var rows: [PracticeRow] { get set }
-    var duration: TimeInterval { get set }
     var delegate: PracticeViewModelDelegate? { get set }
     var practice: Practice { get }
     var managedObjectContext: NSManagedObjectContext { get }
@@ -45,7 +44,6 @@ class PracticeViewModel: PracticeViewModelProtocol {
             }
         }
     }
-    var duration: TimeInterval = 0
     var delegate: PracticeViewModelDelegate?
     var practice: Practice
     var managedObjectContext: NSManagedObjectContext
@@ -101,10 +99,10 @@ class PracticeViewModel: PracticeViewModelProtocol {
     }
     
     func deletePracticeConfirmed() {
-        practice.delete(writeToDisk: true, completion: nil)
+        CurrentPracticeState.core.fire(.deleteCurrentPractice(nil))
     }
     
     func saveEntry(current: Bool, completion: @escaping () -> Void) {
-        
+        CurrentPracticeState.core.fire(.saveCurrentPractice)
     }
 }

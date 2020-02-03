@@ -137,9 +137,13 @@ extension HomeViewController: Subscriber {
         guard let lastEvent = CurrentPracticeState.core.lastEvent else { return }
         switch lastEvent {
         case .startNewPractice(_, _):
-            self.startPracticeButton.isHidden = true
-        case .endPractice(_):
-            self.startPracticeButton.isHidden = false
+            UIView.animate(withDuration: 0.2) {
+                self.startPracticeButton.alpha = 0
+            }
+        case .endPractice(_), .deleteCurrentPractice(_):
+            UIView.animate(withDuration: 0.2) {
+                self.startPracticeButton.alpha = 1
+            }
         default: ()
         }
     }

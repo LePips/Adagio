@@ -49,6 +49,7 @@ class AddPieceCell: BasicTableViewCell {
     }
     
     @objc private func addPieceSelected() {
+        Haptics.main.light()
         configuration?.selectedAction()
     }
 }

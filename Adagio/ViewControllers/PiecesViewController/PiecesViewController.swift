@@ -73,6 +73,7 @@ private class PiecesViewController: MainAdagioViewController {
         let managedObjectContext = CoreDataManager.main.privateChildManagedObjectContext()
         let createPieceViewModel = EditPieceViewModel(piece: nil, managedObjectContext: managedObjectContext, editing: true)
         let createPieceViewController = EditPieceRootViewController(viewModel: createPieceViewModel)
+        Haptics.main.light()
         self.present(createPieceViewController, animated: true, completion: nil)
     }
     

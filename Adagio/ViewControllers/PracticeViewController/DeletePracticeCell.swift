@@ -49,6 +49,7 @@ class DeletePracticeCell: BasicTableViewCell {
     }
     
     @objc private func addPieceSelected() {
+        Haptics.main.light()
         configuration?.selectedAction()
     }
 }

@@ -71,11 +71,15 @@
 		E16B880D23D2FBF800A8CF07 /* AdagioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16B880C23D2FBF800A8CF07 /* AdagioCell.swift */; };
 		E17C8ADE23D2488200C74BBD /* AdagioModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E17C8ADC23D2488200C74BBD /* AdagioModel.xcdatamodeld */; };
 		E181303E23D810B300A45C8B /* Editable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181303D23D810B300A45C8B /* Editable.swift */; };
+		E194A08C23E6820B00EBD857 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E194A08B23E6820B00EBD857 /* Haptics.swift */; };
 		E1A2CC8323D24E2E0054522B /* SharedPips.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17C8AE423D24E0D00C74BBD /* SharedPips.framework */; };
 		E1A2CC8423D24E2E0054522B /* SharedPips.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E17C8AE423D24E0D00C74BBD /* SharedPips.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E1A2CC8823D24E810054522B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A2CC8723D24E810054522B /* HomeViewController.swift */; };
 		E1A2CC8A23D24EA70054522B /* PiecesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A2CC8923D24EA70054522B /* PiecesViewController.swift */; };
 		E1A2CC8C23D24EAD0054522B /* YouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A2CC8B23D24EAD0054522B /* YouViewController.swift */; };
+		E1A53AC823E6B2190059BBD5 /* CurrentPracticeTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A53AC723E6B2190059BBD5 /* CurrentPracticeTimer.swift */; };
+		E1A53AED23E8A3C50059BBD5 /* FocusSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A53AEC23E8A3C50059BBD5 /* FocusSectionViewModel.swift */; };
+		E1A53AEF23E8A3CB0059BBD5 /* FocusSectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A53AEE23E8A3CB0059BBD5 /* FocusSectionRow.swift */; };
 		E1AA21D523E2B12F00D299CC /* CurrentSessionBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AA21D423E2B12F00D299CC /* CurrentSessionBar.swift */; };
 		E1CA892323D1098600E4FD3C /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CA892223D1098600E4FD3C /* CoreDataManager.swift */; };
 		E1E869CD23E5431C00569475 /* ChoosePieceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E869CC23E5431C00569475 /* ChoosePieceViewModel.swift */; };
@@ -176,9 +180,13 @@
 		E17C8ADD23D2488200C74BBD /* AdagioModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AdagioModel.xcdatamodel; sourceTree = "<group>"; };
 		E17C8ADF23D24E0D00C74BBD /* SharedPips.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SharedPips.xcodeproj; path = ../SharedPips/SharedPips.xcodeproj; sourceTree = "<group>"; };
 		E181303D23D810B300A45C8B /* Editable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Editable.swift; sourceTree = "<group>"; };
+		E194A08B23E6820B00EBD857 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 		E1A2CC8723D24E810054522B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E1A2CC8923D24EA70054522B /* PiecesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiecesViewController.swift; sourceTree = "<group>"; };
 		E1A2CC8B23D24EAD0054522B /* YouViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouViewController.swift; sourceTree = "<group>"; };
+		E1A53AC723E6B2190059BBD5 /* CurrentPracticeTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentPracticeTimer.swift; sourceTree = "<group>"; };
+		E1A53AEC23E8A3C50059BBD5 /* FocusSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusSectionViewModel.swift; sourceTree = "<group>"; };
+		E1A53AEE23E8A3CB0059BBD5 /* FocusSectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusSectionRow.swift; sourceTree = "<group>"; };
 		E1AA21D423E2B12F00D299CC /* CurrentSessionBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentSessionBar.swift; sourceTree = "<group>"; };
 		E1CA892223D1098600E4FD3C /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		E1E869CC23E5431C00569475 /* ChoosePieceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePieceViewModel.swift; sourceTree = "<group>"; };
@@ -226,7 +234,9 @@
 				E1A2CC8E23D250A90054522B /* ViewControllers */,
 				E1A2CC8D23D24ED90054522B /* CoreData */,
 				E146BAEF23D2535A0036052B /* CurrentPracticeState.swift */,
+				E1A53AC723E6B2190059BBD5 /* CurrentPracticeTimer.swift */,
 				E1E869CF23E5627B00569475 /* HideKeyboardButton.swift */,
+				E194A08B23E6820B00EBD857 /* Haptics.swift */,
 				E12FFC8F23D4D61A00705CFC /* AdagioTextField.swift */,
 				E146BAF623D258A20036052B /* AdagioViewController.swift */,
 				E16B880C23D2FBF800A8CF07 /* AdagioCell.swift */,
@@ -359,6 +369,8 @@
 			isa = PBXGroup;
 			children = (
 				E1522AF023E0126900221A79 /* FocusSectionViewController.swift */,
+				E1A53AEC23E8A3C50059BBD5 /* FocusSectionViewModel.swift */,
+				E1A53AEE23E8A3CB0059BBD5 /* FocusSectionRow.swift */,
 			);
 			path = FocusSectionViewController;
 			sourceTree = "<group>";
@@ -512,6 +524,7 @@
 				E12FFC7123D3D94300705CFC /* SettingsType.swift in Sources */,
 				E12FFCA423D5063A00705CFC /* Group+CoreDataProperties.swift in Sources */,
 				E1A2CC8823D24E810054522B /* HomeViewController.swift in Sources */,
+				E1A53AEF23E8A3CB0059BBD5 /* FocusSectionRow.swift in Sources */,
 				E12FFC7523D40A7F00705CFC /* SettingsBoolCell.swift in Sources */,
 				E12FFC8023D432F300705CFC /* EditItemRow.swift in Sources */,
 				E1A2CC8C23D24EAD0054522B /* YouViewController.swift in Sources */,
@@ -521,6 +534,7 @@
 				E12FFC8923D4416500705CFC /* EditItemCell.swift in Sources */,
 				E12FFC7E23D4312F00705CFC /* EditItemsViewModel.swift in Sources */,
 				E12FFC6823D3909C00705CFC /* SettingsViewController.swift in Sources */,
+				E1A53AED23E8A3C50059BBD5 /* FocusSectionViewModel.swift in Sources */,
 				E12FFCA023D5063A00705CFC /* Piece+CoreDataProperties.swift in Sources */,
 				E1522AEC23DF9E9F00221A79 /* BouncyLayout.swift in Sources */,
 				E12FFCC123D57C7E00705CFC /* Verifiable.swift in Sources */,
@@ -542,6 +556,7 @@
 				E12FFCB723D54D4F00705CFC /* PickerViewController.swift in Sources */,
 				E16B880D23D2FBF800A8CF07 /* AdagioCell.swift in Sources */,
 				E1522AF123E0126900221A79 /* FocusSectionViewController.swift in Sources */,
+				E194A08C23E6820B00EBD857 /* Haptics.swift in Sources */,
 				E1AA21D523E2B12F00D299CC /* CurrentSessionBar.swift in Sources */,
 				E181303E23D810B300A45C8B /* Editable.swift in Sources */,
 				E146BAF723D258A20036052B /* AdagioViewController.swift in Sources */,
@@ -552,6 +567,7 @@
 				E12FFCAD23D50D5800705CFC /* EditPieceRow.swift in Sources */,
 				E12FFCAB23D50A6400705CFC /* TextFieldCell.swift in Sources */,
 				E12FFC8B23D4D19C00705CFC /* RequestFeatureViewController.swift in Sources */,
+				E1A53AC823E6B2190059BBD5 /* CurrentPracticeTimer.swift in Sources */,
 				E12FFC7B23D4310600705CFC /* EditItemsViewController.swift in Sources */,
 				E12FFCA823D508D500705CFC /* EditPieceViewModel.swift in Sources */,
 				E12FFC7323D3EDD400705CFC /* SpacerCell.swift in Sources */,

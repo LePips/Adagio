@@ -52,6 +52,7 @@ class RootViewController: UITabBarController {
         setupConstraints()
         
         CurrentPracticeState.core.addSubscriber(subscriber: self, update: RootViewController.update)
+        CurrentTimerState.core.addSubscriber(subscriber: self, update: RootViewController.update)
     }
     
     override func viewDidLayoutSubviews() {
@@ -95,14 +96,13 @@ extension RootViewController: Subscriber {
             let practiceViewModel = PracticeViewModel(practice: newPractice, managedObjectContext: managedObjectContext)
             let practiceViewController = PracticeRootViewController(viewModel: practiceViewModel)
             self.present(practiceViewController, animated: true, completion: newPracticePresented)
-            let generator = UINotificationFeedbackGenerator()
-            generator.notificationOccurred(.success)
             currentSessionBar.configure(practice: newPractice)
         case .saveCurrentPractice: ()
             
         case .loadCurrentPractice: ()
             
-        case .endPractice(_):
+        case .deleteCurrentPractice(_), .endPractice(_):
+            currentSessionBar.configure(practice: nil)
             currentSessionBar.alpha = 0
             self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -15, right: 0)
         }
@@ -111,5 +111,9 @@ extension RootViewController: Subscriber {
     private func newPracticePresented() {
         currentSessionBar.alpha = 1
         self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -65, right: 0)
+    }
+    
+    func update(state: CurrentTimerState) {
+        currentSessionBar.set(duration: state.currentInterval)
     }
 }

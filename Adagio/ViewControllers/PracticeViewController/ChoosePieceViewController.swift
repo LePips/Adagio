@@ -80,6 +80,7 @@ private class ChoosePieceViewController: MainAdagioViewController {
         let createPieceViewModel = EditPieceViewModel(piece: nil, managedObjectContext: managedObjectContext, editing: true)
         let createPieceViewController = EditPieceRootViewController(viewModel: createPieceViewModel)
         createPieceViewController.modalPresentationStyle = .currentContext
+        Haptics.main.select()
         self.present(createPieceViewController, animated: true, completion: nil)
     }
     

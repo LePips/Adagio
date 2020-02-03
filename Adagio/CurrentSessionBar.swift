@@ -14,15 +14,37 @@ class CurrentSessionBar: BasicView {
     private lazy var topSeparatorView = makeSeparatorView()
     private lazy var bottomSeparatorView = makeSeparatorView()
     private lazy var titleLabel = makeTitleLabel()
+    private lazy var durationLabel = makeDurationLabel()
     
-    func configure(practice: Practice) {
-        titleLabel.text = practice.title
+    func configure(practice: Practice?) {
+        titleLabel.text = practice?.title
+    }
+    
+    func set(duration: TimeInterval) {
+        var timeString: String?
+
+        if duration < 60 {
+            if duration > 9 {
+                timeString = "0:\(Int(duration))"
+            } else {
+                timeString = "0:0\(Int(duration))"
+            }
+        } else {
+            let formatter = DateComponentsFormatter()
+            formatter.unitsStyle = .positional
+            formatter.zeroFormattingBehavior = .dropLeading
+            formatter.allowedUnits = [.second, .minute, .hour]
+            timeString = formatter.string(from: duration)
+        }
+        
+        durationLabel.text = timeString
     }
     
     override func setupSubviews() {
         addSubview(topSeparatorView)
         addSubview(bottomSeparatorView)
         addSubview(titleLabel)
+        addSubview(durationLabel)
     }
     
     override func setupLayoutConstraints() {
@@ -40,7 +62,12 @@ class CurrentSessionBar: BasicView {
         ])
         NSLayoutConstraint.activate([
             titleLabel.centerYAnchor ⩵ centerYAnchor,
-            titleLabel.leftAnchor ⩵ leftAnchor + 17
+            titleLabel.leftAnchor ⩵ leftAnchor + 17,
+            titleLabel.rightAnchor ⩵ durationLabel.leftAnchor
+        ])
+        NSLayoutConstraint.activate([
+            durationLabel.centerYAnchor ⩵ centerYAnchor,
+            durationLabel.rightAnchor ⩵ rightAnchor - 17
         ])
     }
     
@@ -58,6 +85,14 @@ class CurrentSessionBar: BasicView {
         let label = UILabel.forAutoLayout()
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         label.textColor = UIColor.Adagio.textColor
+        return label
+    }
+    
+    private func makeDurationLabel() -> UILabel {
+        let label = UILabel.forAutoLayout()
+        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.textColor = UIColor.Adagio.textColor
+        label.textAlignment = .right
         return label
     }
 }

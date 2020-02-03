@@ -104,6 +104,7 @@ private class EditPieceViewController: SubAdagioViewController, UIAdaptivePresen
             invalidCells.forEach { (cell) in
                 cell.setInvalid()
             }
+            Haptics.main.error()
             return
         }
         

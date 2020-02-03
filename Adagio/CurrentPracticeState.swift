@@ -14,6 +14,7 @@ enum CurrentPracticeChange {
     case startNewPractice(Practice, NSManagedObjectContext)
     case saveCurrentPractice
     case loadCurrentPractice
+    case deleteCurrentPractice(((Result<Bool, Error>) -> Void)?)
     case endPractice(((Result<Bool, Error>) -> Void)?)
 }
 
@@ -35,6 +36,8 @@ struct CurrentPracticeState: State {
             self.practice = newPractice
             self.managedObjectContext = managedObjectContext
             UserDefaults.standard.currentSessionDate = newPractice.startDate
+            Haptics.main.success()
+            CurrentTimerState.core.fire(.start(newPractice.startDate))
         case .saveCurrentPractice:
             guard let practice = practice else { return }
             practice.save(writeToDisk: true, completion: nil)
@@ -50,10 +53,19 @@ struct CurrentPracticeState: State {
             guard let privateContextObject = privateContext.object(with: currentPractice.objectID) as? Practice else { return }
             CurrentPracticeState.core.fire(.startNewPractice(privateContextObject, privateContext))
             }
+        case .deleteCurrentPractice(let completion):
+            self.practice?.delete(writeToDisk: true, completion: completion)
+            self.practice = nil
+            self.managedObjectContext = nil
+            CurrentTimerState.core.fire(.reset)
         case .endPractice(let completion):
             practice?.endDate = Date()
             practice?.save(writeToDisk: true, completion: completion)
             UserDefaults.standard.currentSessionDate = nil
+            self.practice = nil
+            self.managedObjectContext = nil
+            Haptics.main.success()
+            CurrentTimerState.core.fire(.reset)
         }
     }
     
@@ -62,7 +74,7 @@ struct CurrentPracticeState: State {
     }
 }
 
-extension UserDefaults {
+fileprivate extension UserDefaults {
     
     var currentSessionDate: Date? {
         get {

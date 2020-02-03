@@ -78,6 +78,8 @@ private class PracticeViewController: SubAdagioViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        CurrentTimerState.core.addSubscriber(subscriber: self, update: PracticeViewController.update)
     }
     
     @objc private func closeSelected() {
@@ -156,6 +158,12 @@ extension PracticeViewController: PracticeViewModelDelegate {
     }
     
     func deletePracticeSelected() {
+        if CurrentTimerState.core.state.currentInterval < 60 {
+            self.viewModel.deletePracticeConfirmed()
+            self.dismiss(animated: true, completion: nil)
+            return
+        }
+        
         let alertViewController = UIAlertController(title: "Warning!", message: "Are you sure you want to delete this practice?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: .none)
         let confirmAction = UIAlertAction(title: "Delete", style: .destructive) { (_) in
@@ -186,5 +194,29 @@ extension PracticeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell: Selectable? = tableView.visibleCells[indexPath.row] as? Selectable
         cell?.select()
+    }
+}
+
+extension PracticeViewController: Subscriber {
+    
+    func update(state: CurrentTimerState) {
+        let currentInterval = state.currentInterval
+        var currentTitle: String?
+
+        if currentInterval < 60 {
+            if currentInterval > 9 {
+                currentTitle = "0:\(Int(currentInterval))"
+            } else {
+                currentTitle = "0:0\(Int(currentInterval))"
+            }
+        } else {
+            let formatter = DateComponentsFormatter()
+            formatter.unitsStyle = .positional
+            formatter.zeroFormattingBehavior = .dropLeading
+            formatter.allowedUnits = [.second, .minute, .hour]
+            currentTitle = formatter.string(from: currentInterval)
+        }
+        
+        self.title = currentTitle
     }
 }
