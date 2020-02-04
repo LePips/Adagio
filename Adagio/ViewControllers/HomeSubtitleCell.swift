@@ -35,3 +35,30 @@ class HomeSubtitleCell: AdagioCell {
         return label
     }
 }
+
+class CollectionSubtitleCell: BasicCollectionViewCell {
+    
+    private lazy var titleLabel = makeTitleLabel()
+    
+    func configure(with text: String) {
+        titleLabel.text = text
+    }
+    
+    override func setupSubviews() {
+        contentView.addSubview(titleLabel)
+    }
+    
+    override func setupLayoutConstraints() {
+        NSLayoutConstraint.activate([
+            titleLabel.leftAnchor ⩵ contentView.leftAnchor + 17,
+            titleLabel.bottomAnchor ⩵ contentView.bottomAnchor
+        ])
+    }
+    
+    private func makeTitleLabel() -> UILabel {
+        let label = UILabel.forAutoLayout()
+        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.textColor = UIColor.secondaryLabel
+        return label
+    }
+}

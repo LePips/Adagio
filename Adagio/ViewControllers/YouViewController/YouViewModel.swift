@@ -29,7 +29,7 @@ class YouViewModel: YouViewModelProtocol {
     
     func reloadRows() {
         let fetchRequest: NSFetchRequest<Practice> = Practice.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "startDate", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "startDate", ascending: false)]
         CoreDataManager.main.fetch(request: fetchRequest) { (practices) in
             self.rows = YouRow.buildRows(practices: practices)
             self.delegate?.reloadRows()

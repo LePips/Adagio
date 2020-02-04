@@ -25,7 +25,7 @@ class YouRootViewController: UINavigationController {
 
 private class YouViewController: MainAdagioViewController {
     
-    private lazy var tableView = makeTableView()
+    private lazy var collectionView = makeCollectionView()
     
     let viewModel: YouViewModel
     
@@ -44,7 +44,7 @@ private class YouViewController: MainAdagioViewController {
     }
     
     override func setupSubviews() {
-        view.embed(tableView)
+        view.embed(collectionView)
     }
     
     override func setupLayoutConstraints() {
@@ -74,29 +74,30 @@ private class YouViewController: MainAdagioViewController {
         navigationController?.pushViewController(settingsViewController, animated: true)
     }
     
-    private func makeTableView() -> UITableView {
-        let tableView = UITableView.forAutoLayout()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.separatorStyle = .none
-        tableView.backgroundColor = .clear
-        YouRow.register(tableView: tableView)
-        return tableView
+    private func makeCollectionView() -> UICollectionView {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: BouncyLayout(style: .moreSubtle))
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .clear
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.alwaysBounceVertical = true
+        YouRow.register(collectionView: collectionView)
+        return collectionView
     }
 }
 
-extension YouViewController: UITableViewDelegate, UITableViewDataSource {
+extension YouViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.rows.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return viewModel.rows[indexPath.row].cell(for: indexPath, in: tableView)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        return viewModel.rows[indexPath.row].cell(for: indexPath, in: collectionView)
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return viewModel.rows[indexPath.row].height()
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.width, height: viewModel.rows[indexPath.row].height())
     }
 }
 
@@ -104,7 +105,7 @@ extension YouViewController: YouViewModelDelegate {
     
     func reloadRows() {
         DispatchQueue.main.async {
-            self.tableView.reloadData()
+            self.collectionView.reloadData()
         }
     }
 }

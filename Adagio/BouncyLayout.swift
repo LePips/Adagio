@@ -4,12 +4,14 @@ import UIKit
 open class BouncyLayout: UICollectionViewFlowLayout {
     
     public enum BounceStyle {
+        case moreSubtle
         case subtle
         case regular
         case prominent
         
         var damping: CGFloat {
             switch self {
+            case .moreSubtle: return 0.95
             case .subtle: return 0.8
             case .regular: return 0.7
             case .prominent: return 0.5
@@ -18,6 +20,7 @@ open class BouncyLayout: UICollectionViewFlowLayout {
         
         var frequency: CGFloat {
             switch self {
+            case .moreSubtle: return 2.5
             case .subtle: return 2
             case .regular: return 1.5
             case .prominent: return 1

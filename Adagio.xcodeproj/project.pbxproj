@@ -82,6 +82,7 @@
 		E1A53AEF23E8A3CB0059BBD5 /* FocusSectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A53AEE23E8A3CB0059BBD5 /* FocusSectionRow.swift */; };
 		E1AA21D523E2B12F00D299CC /* CurrentSessionBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AA21D423E2B12F00D299CC /* CurrentSessionBar.swift */; };
 		E1CA892323D1098600E4FD3C /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CA892223D1098600E4FD3C /* CoreDataManager.swift */; };
+		E1CF208223EA14B200E05E12 /* PracticeEntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CF208123EA14B200E05E12 /* PracticeEntryCell.swift */; };
 		E1E869CD23E5431C00569475 /* ChoosePieceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E869CC23E5431C00569475 /* ChoosePieceViewModel.swift */; };
 		E1E869D023E5627B00569475 /* HideKeyboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E869CF23E5627B00569475 /* HideKeyboardButton.swift */; };
 		E1E869D323E56A6000569475 /* DeletePracticeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E869D223E56A6000569475 /* DeletePracticeCell.swift */; };
@@ -189,6 +190,7 @@
 		E1A53AEE23E8A3CB0059BBD5 /* FocusSectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusSectionRow.swift; sourceTree = "<group>"; };
 		E1AA21D423E2B12F00D299CC /* CurrentSessionBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentSessionBar.swift; sourceTree = "<group>"; };
 		E1CA892223D1098600E4FD3C /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		E1CF208123EA14B200E05E12 /* PracticeEntryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeEntryCell.swift; sourceTree = "<group>"; };
 		E1E869CC23E5431C00569475 /* ChoosePieceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePieceViewModel.swift; sourceTree = "<group>"; };
 		E1E869CF23E5627B00569475 /* HideKeyboardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboardButton.swift; sourceTree = "<group>"; };
 		E1E869D223E56A6000569475 /* DeletePracticeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePracticeCell.swift; sourceTree = "<group>"; };
@@ -414,6 +416,7 @@
 				E16B880A23D2F6AB00A8CF07 /* HomeSubtitleCell.swift */,
 				E12FFCAA23D50A6400705CFC /* TextFieldCell.swift */,
 				E12FFCB423D5412200705CFC /* SelectionCell.swift */,
+				E1CF208123EA14B200E05E12 /* PracticeEntryCell.swift */,
 				E146BAE323D251230036052B /* HomeViewController */,
 				E146BAE523D251290036052B /* PiecesViewController */,
 				E12FFCA923D5093200705CFC /* EditPieceViewController */,
@@ -546,6 +549,7 @@
 				E12FFC9E23D5063A00705CFC /* Instrument+CoreDataProperties.swift in Sources */,
 				E146BAE823D251420036052B /* HomeViewModel.swift in Sources */,
 				E1F3110D23D6D01F008A2BBD /* Titlable.swift in Sources */,
+				E1CF208223EA14B200E05E12 /* PracticeEntryCell.swift in Sources */,
 				E12FFC8723D43C0D00705CFC /* PracticeRow.swift in Sources */,
 				E12FFC6F23D393C900705CFC /* SettingsSectionCell.swift in Sources */,
 				E12FFCBE23D568D600705CFC /* Selectable.swift in Sources */,
