@@ -10,7 +10,6 @@ import UIKit
 
 enum HomeRow {
     case date
-    case subtitle
     case practice(Practice)
 }
 
@@ -20,28 +19,28 @@ extension HomeRow {
         var rows: [HomeRow] = [.date]
         
         if !practices.isEmpty {
-            rows.append(.subtitle)
             rows.append(contentsOf: practices.compactMap({ HomeRow.practice($0) }))
         }
         
         return rows
     }
     
-    static func register(tableView: UITableView) {
-        tableView.register(HomeSubtitleCell.self, forCellReuseIdentifier: HomeSubtitleCell.identifier)
+    static func register(collectionView: UICollectionView) {
+        collectionView.register(CollectionSubtitleCell.self, forCellWithReuseIdentifier: CollectionSubtitleCell.identifier)
+        collectionView.register(PracticeEntryCell.self, forCellWithReuseIdentifier: PracticeEntryCell.identifier)
     }
     
-    func cell(for path: IndexPath, in tableView: UITableView) -> UITableViewCell {
+    func cell(for path: IndexPath, in collectionView: UICollectionView) -> UICollectionViewCell {
         switch self {
         case .date:
-            let cell = tableView.dequeueReusableCell(withIdentifier: HomeSubtitleCell.identifier, for: path) as! HomeSubtitleCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionSubtitleCell.identifier, for: path) as! CollectionSubtitleCell
             let dateFormatter = DateFormatter(format: "EEEE, MMM d")
             cell.configure(with: dateFormatter.string(from: Date()))
             return cell
-        case .subtitle:
-            return UITableViewCell()
-        case .practice(_):
-            return UITableViewCell()
+        case .practice(let practice):
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PracticeEntryCell.identifier, for: path) as! PracticeEntryCell
+            cell.configure(practice: practice)
+            return cell
         }
     }
     
@@ -49,10 +48,8 @@ extension HomeRow {
         switch self {
         case .date:
             return "height".height(withConstrainedWidth: 200, font: UIFont.systemFont(ofSize: 18, weight: .medium))
-        case .subtitle:
-            return 0
         case .practice(_):
-            return 0
+            return 100
         }
     }
 }

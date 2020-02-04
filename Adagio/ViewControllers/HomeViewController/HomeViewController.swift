@@ -25,7 +25,7 @@ class HomeRootViewController: UINavigationController {
 
 private class HomeViewController: MainAdagioViewController {
     
-    private lazy var tableView = makeTableView()
+    private lazy var collectionView = makeCollectionView()
     private lazy var startPracticeLabel = makeStartPracticeLabel()
     private lazy var startPracticeButton = makeStartPracticeButton()
     
@@ -46,7 +46,7 @@ private class HomeViewController: MainAdagioViewController {
     }
     
     override func setupSubviews() {
-        view.embed(tableView)
+        view.embed(collectionView)
         view.addSubview(startPracticeButton)
         view.addSubview(startPracticeLabel)
     }
@@ -72,14 +72,15 @@ private class HomeViewController: MainAdagioViewController {
         viewModel.reloadRows()
     }
     
-    private func makeTableView() -> UITableView {
-        let tableView = UITableView.forAutoLayout()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.separatorStyle = .none
-        tableView.backgroundColor = .clear
-        HomeRow.register(tableView: tableView)
-        return tableView
+    private func makeCollectionView() -> UICollectionView {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: BouncyLayout(style: .moreSubtle))
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .clear
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.alwaysBounceVertical = true
+        HomeRow.register(collectionView: collectionView)
+        return collectionView
     }
     
     private func makeStartPracticeLabel() -> UILabel {
@@ -109,25 +110,32 @@ private class HomeViewController: MainAdagioViewController {
     }
 }
 
-extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if viewModel.rows.count == 0 {
+            startPracticeLabel.text = "Let's start a\npractice today"
+        }
         return viewModel.rows.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return viewModel.rows[indexPath.row].cell(for: indexPath, in: tableView)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        return viewModel.rows[indexPath.row].cell(for: indexPath, in: collectionView)
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return viewModel.rows[indexPath.row].height()
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.width, height: viewModel.rows[indexPath.row].height())
     }
 }
 
 extension HomeViewController: HomeViewModelDelegate {
+    
     func reloadRows() {
-        startPracticeLabel.isHidden = self.viewModel.rows.count - 1 != 0
-        tableView.isScrollEnabled = self.viewModel.rows.count - 1 != 0
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            self.startPracticeLabel.isHidden = self.viewModel.rows.count - 1 != 0
+            self.collectionView.isScrollEnabled = self.viewModel.rows.count - 1 != 0
+            self.collectionView.reloadData()
+        }
     }
 }
 
@@ -139,6 +147,9 @@ extension HomeViewController: Subscriber {
         case .startNewPractice(_, _):
             UIView.animate(withDuration: 0.2) {
                 self.startPracticeButton.alpha = 0
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.startPracticeLabel.text = "You are currently practicing"
             }
         case .endPractice(_), .deleteCurrentPractice(_):
             UIView.animate(withDuration: 0.2) {

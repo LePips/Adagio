@@ -27,7 +27,15 @@ class YouViewModel: YouViewModelProtocol {
     var rows: [YouRow] = []
     var delegate: YouViewModelDelegate?
     
-    func reloadRows() {
+    init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadRows), name: CoreDataManager.saveNotification, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func reloadRows() {
         let fetchRequest: NSFetchRequest<Practice> = Practice.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "startDate", ascending: false)]
         CoreDataManager.main.fetch(request: fetchRequest) { (practices) in

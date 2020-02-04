@@ -71,16 +71,16 @@ fileprivate class CurrentPracticeTimer {
     func start(from date: Date) {
         self.currentStartDate = date
         
-        DispatchQueue.main.async {
-            self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (_) in
-                self.secondElapsed()
-            })
-            guard let timer = self.timer else { return }
-            RunLoop.main.add(timer, forMode: .default)
+        DispatchQueue.global(qos: .background).async {
+            let timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.secondElapsed), userInfo: nil, repeats: true)
+            let runLoop = RunLoop.current
+            self.timer = timer
+            runLoop.add(timer, forMode: .default)
+            runLoop.run()
         }
     }
     
-    private func secondElapsed() {
+    @objc private func secondElapsed() {
         currentInterval += 1
         CurrentTimerState.core.fire(.secondElapsed(currentDate ?? Date()))
     }
