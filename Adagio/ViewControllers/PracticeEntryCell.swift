@@ -14,6 +14,7 @@ class PracticeEntryCell: BasicCollectionViewCell {
     private lazy var cardView = makeCardView()
     private lazy var dateLabel = makeDateLabel()
     private lazy var titleLabel = makeTitleLabel()
+    private lazy var stackView = makeStackView()
     
     func configure(practice: Practice) {
         guard let endDate = practice.endDate else { assertionFailure("Practice not ended"); return }
@@ -24,17 +25,28 @@ class PracticeEntryCell: BasicCollectionViewCell {
         if calendar.isDateInToday(practice.startDate) {
             dateLabel.text = "Today"
         } else {
-            let formatter = DateComponentsFormatter()
-            formatter.allowedUnits = [.minute, .hour]
-            formatter.unitsStyle = .short
-            dateLabel.text = formatter.string(from: practice.startDate, to: endDate)
+
         }
+        
+        for subview in stackView.subviews {
+            subview.removeFromSuperview()
+        }
+        
+        // Duration
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.minute, .hour]
+        formatter.unitsStyle = .short
+        guard let duration = formatter.string(from: practice.startDate, to: endDate) else { assertionFailure(); return }
+        let durationView = IconLabelView.forAutoLayout()
+        durationView.configure(iconName: "clock.fill", title: duration)
+        stackView.addArrangedSubview(durationView)
     }
     
     override func setupSubviews() {
         contentView.addSubview(cardView)
         contentView.addSubview(dateLabel)
         contentView.addSubview(titleLabel)
+        contentView.addSubview(stackView)
     }
     
     override func setupLayoutConstraints() {
@@ -51,6 +63,11 @@ class PracticeEntryCell: BasicCollectionViewCell {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor ⩵ dateLabel.bottomAnchor + 10,
             titleLabel.leftAnchor ⩵ cardView.leftAnchor + 10
+        ])
+        NSLayoutConstraint.activate([
+            stackView.topAnchor ⩵ titleLabel.bottomAnchor + 10,
+            stackView.leftAnchor ⩵ cardView.leftAnchor + 10,
+            stackView.heightAnchor ⩵ 20
         ])
     }
     
@@ -71,7 +88,14 @@ class PracticeEntryCell: BasicCollectionViewCell {
     private func makeTitleLabel() -> UILabel {
         let label = UILabel.forAutoLayout()
         label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        label.textColor = UIColor.black
+        label.textColor = UIColor.Adagio.Text.primary
         return label
+    }
+    
+    private func makeStackView() -> UIStackView {
+        let stackView = UIStackView.forAutoLayout()
+        stackView.axis = .horizontal
+        stackView.spacing = 15
+        return stackView
     }
 }

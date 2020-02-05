@@ -12,6 +12,12 @@ extension UIColor {
     
     struct Adagio {
         
+        struct Text {
+            
+            static let primary = UIColor(named: "adagio.text.primary")!
+            
+        }
+        
         static let textColor = UIColor(named: "adagio.textColor")!
         static let backgroundColor = UIColor(named: "adagio.backgroundColor")!
         
