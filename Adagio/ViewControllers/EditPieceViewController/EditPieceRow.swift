@@ -14,6 +14,7 @@ enum EditPieceRow {
     case note(TextFieldCellConfiguration)
     case instruments(SelectionCellConfiguration)
     case groups(SelectionCellConfiguration)
+    case segment(SegmentConfiguration)
     
     var key: String {
         switch self {
@@ -27,6 +28,8 @@ enum EditPieceRow {
             return "instruments"
         case .groups(_):
             return "groups"
+        case .segment:
+            return "segment"
         }
     }
 }
@@ -47,6 +50,7 @@ extension EditPieceRow {
         tableView.register(TextFieldCell.self, forCellReuseIdentifier: TextFieldCell.identifier)
         tableView.register(LargeTextFieldCell.self, forCellReuseIdentifier: LargeTextFieldCell.identifier)
         tableView.register(SelectionCell.self, forCellReuseIdentifier: SelectionCell.identifier)
+        tableView.register(SegmentCell.self, forCellReuseIdentifier: SegmentCell.identifier)
     }
     
     func cell(for path: IndexPath, in tableView: UITableView) -> UITableViewCell {
@@ -67,6 +71,10 @@ extension EditPieceRow {
             let cell = tableView.dequeueReusableCell(withIdentifier: SelectionCell.identifier, for: path) as! SelectionCell
             cell.configure(configuration: configuration)
             return cell
+        case .segment(let configuration):
+            let cell = tableView.dequeueReusableCell(withIdentifier: SegmentCell.identifier, for: path) as! SegmentCell
+            cell.configure(configuration: configuration)
+            return cell
         }
     }
     
@@ -80,6 +88,8 @@ extension EditPieceRow {
                 (configuration.text ?? "").height(withConstrainedWidth: UIScreen.main.bounds.width - 34, font: UIFont.systemFont(ofSize: 14, weight: .semibold))
         case .instruments(_), .groups(_):
             return 100
+        case .segment(_):
+            return 50
         }
     }
 }

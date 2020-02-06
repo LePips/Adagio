@@ -18,16 +18,15 @@ class PieceCell: BasicCollectionViewCell {
     
     func configure(piece: Piece) {
         titleLabel.text = piece.title
-        let instruments: [Instrument] = piece.instruments?.allObjects.compactMap({ $0 as? Instrument }) ?? []
+        let instruments: [Instrument] = piece.instruments?.allObjects.compactMap({ $0 as? Instrument }).sorted(by: { $0.title < $1.title }) ?? []
         
         if !instruments.isEmpty {
             instrumentsLabel.text = instruments.compactMap({ $0.title }).reduce("", { (result, instrument) -> String in
                 return result + "\(instrument), "
             })
-            
-            instrumentsLabel.text?.removeLast()
+            instrumentsLabel.text?.removeLast(2)
         } else {
-            instrumentsLabel.text = " "
+            instrumentsLabel.text = "No instruments"
         }
     }
     

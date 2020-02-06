@@ -46,7 +46,7 @@ extension YouRow {
         case .subtitle:
             return "height".height(withConstrainedWidth: 200, font: UIFont.systemFont(ofSize: 18, weight: .medium))
         case .practice(_):
-            return 100
+            return 130
         }
     }
 }

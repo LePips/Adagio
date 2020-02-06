@@ -63,6 +63,7 @@ private class YouViewController: MainAdagioViewController {
     @objc private func settingsSelected() {
         var settingsRows = SettingsSectionType.allCases.compactMap({ SettingsRow.section($0) })
         settingsRows.append(.purge)
+        settingsRows.append(.setTestData)
         let settingsViewModel = SettingsViewModel(title: "Settings",
                                                   rows:  settingsRows)
         let settingsViewController = SettingsViewController(viewModel: settingsViewModel)

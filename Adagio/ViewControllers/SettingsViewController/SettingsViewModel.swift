@@ -56,6 +56,8 @@ class SettingsViewModel: SettingsViewModelProtocol {
             }
         case .purge:
             CoreDataManager.main.purge()
+        case .setTestData:
+            TestData.setTestData()
         }
     }
 }

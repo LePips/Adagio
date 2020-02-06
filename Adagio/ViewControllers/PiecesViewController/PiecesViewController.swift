@@ -48,8 +48,6 @@ private class PiecesViewController: MainAdagioViewController {
     override func setupSubviews() {
         view.embed(collectionView)
         view.addSubview(noPiecesLabel)
-        
-        collectionView.alwaysBounceVertical = !viewModel.rows.isEmpty
     }
     
     override func setupLayoutConstraints() {
@@ -84,7 +82,7 @@ private class PiecesViewController: MainAdagioViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.alwaysBounceVertical = true
-        collectionView.register(PieceCell.self, forCellWithReuseIdentifier: PieceCell.identifier)
+        PiecesRow.register(collectionView: collectionView)
         return collectionView
     }
     
@@ -106,12 +104,7 @@ extension PiecesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if case PiecesRow.piece(let piece) = viewModel.rows[indexPath.row] {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PieceCell.identifier, for: indexPath) as! PieceCell
-            cell.configure(piece: piece)
-            return cell
-        }
-        return UICollectionViewCell()
+        return viewModel.rows[indexPath.row].cell(for: indexPath, in: collectionView)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -123,6 +116,7 @@ extension PiecesViewController: UICollectionViewDelegate, UICollectionViewDataSo
             let managedObjectContext = CoreDataManager.main.privateChildManagedObjectContext()
             let createPieceViewModel = EditPieceViewModel(piece: piece, managedObjectContext: managedObjectContext, editing: false)
             let createPieceViewController = EditPieceRootViewController(viewModel: createPieceViewModel)
+            Haptics.main.light()
             self.present(createPieceViewController, animated: true, completion: nil)
         }
     }
@@ -134,6 +128,7 @@ extension PiecesViewController: PiecesViewModelDelegate {
         DispatchQueue.main.async {
             self.collectionView.reloadData()
             self.noPiecesLabel.isHidden = !self.viewModel.rows.isEmpty
+            self.collectionView.alwaysBounceVertical = !self.viewModel.rows.isEmpty
         }
     }
 }

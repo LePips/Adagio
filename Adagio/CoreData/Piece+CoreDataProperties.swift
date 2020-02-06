@@ -24,6 +24,10 @@ extension Piece {
     @NSManaged public var sections: NSSet?
     @NSManaged public var instruments: NSSet?
     @NSManaged public var groups: NSSet?
+    
+    var key: String {
+        return title + (notes ?? "") + (artist ?? "")
+    }
 
 }
 

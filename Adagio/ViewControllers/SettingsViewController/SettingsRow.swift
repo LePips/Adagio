@@ -16,6 +16,7 @@ enum SettingsRow {
     case feedback(SettingsFeedbackType)
     
     case purge
+    case setTestData
 }
 
 extension SettingsRow {
@@ -55,6 +56,12 @@ extension SettingsRow {
             cell.textLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
             cell.textLabel?.text = "Purge"
             return cell
+        case .setTestData:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: path)
+            cell.backgroundColor = .clear
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+            cell.textLabel?.text = "Set test data"
+            return cell
         }
     }
     
@@ -67,7 +74,7 @@ extension SettingsRow {
         case .section(_), .switchSetting(_):
             return "tHeight".height(withConstrainedWidth: 100, font: UIFont.systemFont(ofSize: 18, weight: .medium)) +
             "d\nHeight".height(withConstrainedWidth: 100, font: UIFont.systemFont(ofSize: 12, weight: .regular)) + 32
-        case .purge:
+        case .purge, .setTestData:
             return 50
         }
     }

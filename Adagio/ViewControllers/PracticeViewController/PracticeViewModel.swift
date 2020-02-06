@@ -87,7 +87,11 @@ class PracticeViewModel: PracticeViewModelProtocol {
     
     func createPieceSection(with piece: Piece) {
         guard let currentContextPiece = managedObjectContext.object(with: piece.objectID) as? Piece else { return }
-        print(currentContextPiece.title)
+        let newSection = Section(context: managedObjectContext)
+        newSection.title = piece.title
+        newSection.piece = currentContextPiece
+        practice.addToSections(newSection)
+        print(newSection.title)
     }
     
     func addPieceSelected() {

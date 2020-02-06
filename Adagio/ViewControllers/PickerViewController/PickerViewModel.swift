@@ -52,6 +52,7 @@ class InstrumentPickerViewModel: CoreDataPickerViewModelProtocol {
     
     @objc func reloadRows() {
         let fetchRequest: NSFetchRequest<Instrument> = Instrument.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
         CoreDataManager.main.fetch(request: fetchRequest) { (objects) in
             self.objects = objects.compactMap({ $0.title })
             self.delegate?.reloadRows()
@@ -83,6 +84,7 @@ class GroupPickerViewModel: CoreDataPickerViewModelProtocol {
     
     @objc func reloadRows() {
         let fetchRequest: NSFetchRequest<Group> = Group.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
         CoreDataManager.main.fetch(request: fetchRequest) { (objects) in
             self.objects = objects.compactMap({ $0.title })
             self.delegate?.reloadRows()

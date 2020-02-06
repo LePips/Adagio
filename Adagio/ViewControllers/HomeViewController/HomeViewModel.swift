@@ -41,7 +41,7 @@ class HomeViewModel: HomeViewModelProtocol {
 
         let fetchRequest: NSFetchRequest<Practice> = Practice.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "(startDate >= %@) AND (startDate <= %@)", startDate as NSDate, endDate as NSDate)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "startDate", ascending: false)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "startDate", ascending: true)]
         CoreDataManager.main.fetch(request: fetchRequest) { (practices) in
             self.rows = HomeRow.buildRows(practices: practices)
             self.delegate?.reloadRows()

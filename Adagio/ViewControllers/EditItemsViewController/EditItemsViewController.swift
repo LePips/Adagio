@@ -102,7 +102,7 @@ extension EditItemsViewController: EditItemsViewModelDelegate {
     }
     
     func presentCreateGroupViewController(with viewModel: CreateItemViewModel<Group>) {
-        let alertViewController = UIAlertController(title: "Create Instrument", message: nil, preferredStyle: .alert)
+        let alertViewController = UIAlertController(title: "Create Group", message: nil, preferredStyle: .alert)
         alertViewController.addTextField { (textField) in
             textField.autocapitalizationType = .words
             textField.enablesReturnKeyAutomatically = true

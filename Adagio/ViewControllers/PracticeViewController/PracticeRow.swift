@@ -69,7 +69,7 @@ extension PracticeRow {
             let cell = tableView.dequeueReusableCell(withIdentifier: TextFieldCell.identifier, for: path) as! TextFieldCell
             cell.configure(with: configuration)
             return cell
-        case .section(let section):
+        case .section(_):
             return UITableViewCell()
         case .addPiece(let configuration):
             let cell = tableView.dequeueReusableCell(withIdentifier: AddPieceCell.identifier, for: path) as! AddPieceCell

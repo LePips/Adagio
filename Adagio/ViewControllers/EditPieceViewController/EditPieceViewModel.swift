@@ -17,6 +17,10 @@ protocol EditPieceViewModelDelegate {
     
     func didSavePiece()
     
+    func presentEntryView()
+    func hideEntryView()
+    func reloadEntryView(practices: [Practice])
+    
     func presentInstrumentPicker(with viewModel: InstrumentPickerViewModel)
     func presentGroupPicker(with viewModel: GroupPickerViewModel)
 }
@@ -66,6 +70,8 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
     var managedObjectContext: NSManagedObjectContext
     var delegate: EditPieceViewModelDelegate?
     
+    var practicesForPiece: [Practice] = []
+    
     // MARK: - initialization
     init(piece: Piece?, managedObjectContext: NSManagedObjectContext, editing: Bool) {
         self.rows = []
@@ -78,8 +84,19 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
         } else {
             self.piece = Piece(context: managedObjectContext)
             self.isExisting = false
-            self.rows = [.title(TextFieldCellConfiguration(title: "Title", required: true, text: nil, textAction: setTitle(_:), allowNewLines: false, textAutocapitalizationType: .words)),
-                         .artist(TextFieldCellConfiguration(title: "Artist/Composer", required: false, text: nil, textAction: setArtist(_:), allowNewLines: false, textAutocapitalizationType: .words)),
+            self.rows = [.title(TextFieldCellConfiguration(title: "Title",
+                                                           required: true,
+                                                           text: nil,
+                                                           textAction: setTitle(_:),
+                                                           allowNewLines: false,
+                                                           textAutocapitalizationType: .words)),
+                         .segment(SegmentConfiguration(editing: true, delegate: self)),
+                         .artist(TextFieldCellConfiguration(title: "Artist/Composer",
+                                                            required: false,
+                                                            text: nil,
+                                                            textAction: setArtist(_:),
+                                                            allowNewLines: false,
+                                                            textAutocapitalizationType: .words)),
                          .note(TextFieldCellConfiguration(title: "Notes",
                                                           required: false,
                                                           text: nil,
@@ -88,11 +105,17 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
                                                           returnKeyType: .default,
                                                           returnAction: { _ in },
                                                           textAutocapitalizationType: .sentences)),
-                         .instruments(SelectionCellConfiguration(title: "Instruments", buttonTitle: "Add Instrument", items: [], selectionAction: {
+                         .instruments(SelectionCellConfiguration(title: "Instruments",
+                                                                 buttonTitle: "Add Instrument",
+                                                                 items: [],
+                                                                 selectionAction: {
                             let instrumentPickerViewModel = InstrumentPickerViewModel(title: "Add Instrument",doneButtonTitle: "Add", selectedAction: self.addToInstrument(title:))
                             self.presentInstrumentPicker(with: instrumentPickerViewModel)
                          })),
-                         .groups(SelectionCellConfiguration(title: "Groups", buttonTitle: "Add Group", items: [], selectionAction: {
+                         .groups(SelectionCellConfiguration(title: "Groups",
+                                                            buttonTitle: "Add Group",
+                                                            items: [],
+                                                            selectionAction: {
                             let groupPickerViewModel = GroupPickerViewModel(title: "Add group", doneButtonTitle: "Add", selectedAction: self.addToGroup(title:))
                             self.presentGroupPicker(with: groupPickerViewModel)
                          }))
@@ -109,6 +132,7 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
                                                        allowNewLines: false,
                                                        editing: self.editing,
                                                        textAutocapitalizationType: .words)),
+                     .segment(SegmentConfiguration(editing: self.editing, delegate: self)),
                      .artist(TextFieldCellConfiguration(title: "Artist/Composer",
                                                         required: false,
                                                         text: piece.artist,
@@ -127,14 +151,14 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
                                                       textAutocapitalizationType: .sentences)),
                      .instruments(SelectionCellConfiguration(title: "Instruments",
                                                              buttonTitle: "Add Instrument",
-                                                             items: piece.instruments?.allObjects.compactMap({ ($0 as? Instrument)?.title }) ?? [],
+                                                             items: piece.instruments?.allObjects.compactMap({ ($0 as? Instrument)?.title }).sorted() ?? [],
                                                              selectionAction: {
                                                                 let instrumentPickerViewModel = InstrumentPickerViewModel(title: "Add Instrument",doneButtonTitle: "Add", selectedAction: self.addToInstrument(title:))
                                                                 self.presentInstrumentPicker(with: instrumentPickerViewModel)
                      }, editing: self.editing)),
                      .groups(SelectionCellConfiguration(title: "Groups",
                                                         buttonTitle: "Add Group",
-                                                        items: piece.groups?.allObjects.compactMap({ ($0 as? Group)?.title }) ?? [],
+                                                        items: piece.groups?.allObjects.compactMap({ ($0 as? Group)?.title }).sorted() ?? [],
                                                         selectionAction: {
                                                             let groupPickerViewModel = GroupPickerViewModel(title: "Add group", doneButtonTitle: "Add", selectedAction: self.addToGroup(title:))
                                                             self.presentGroupPicker(with: groupPickerViewModel)
@@ -255,6 +279,25 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
         piece.delete(writeToDisk: true) { (_) in
             NotificationCenter.default.post(name: CoreDataManager.saveNotification, object: nil)
             self.delegate?.dismiss()
+        }
+    }
+}
+
+// MARK: - SegmentCellDelegate
+extension EditPieceViewModel: SegmentCellDelegate {
+    
+    func detailSelected() {
+        delegate?.hideEntryView()
+    }
+    
+    func historySelected() {
+        delegate?.presentEntryView()
+        
+        let fetchRequest: NSFetchRequest<Practice> = Practice.fetchRequest()
+        CoreDataManager.main.fetch(request: fetchRequest) { (practices) in
+            let filtered = practices.filter({ $0.sections?.compactMap({ ($0 as! Section) }).contains(where: { $0.piece == self.piece }) ?? false })
+            self.practicesForPiece = filtered
+            self.delegate?.reloadEntryView(practices: filtered)
         }
     }
 }

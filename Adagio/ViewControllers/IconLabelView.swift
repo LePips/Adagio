@@ -36,6 +36,9 @@ class IconLabelView: BasicView {
             titleLabel.leftAnchor ⩵ iconView.rightAnchor + 5,
             titleLabel.centerYAnchor ⩵ centerYAnchor
         ])
+        NSLayoutConstraint.activate([
+            self.widthAnchor ⩵ "X Notes".width(withConstrainedHeight: 50, font: UIFont.systemFont(ofSize: 14, weight: .medium))
+        ])
     }
     
     private func makeIconView() -> UIImageView {

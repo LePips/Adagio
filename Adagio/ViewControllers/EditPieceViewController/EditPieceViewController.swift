@@ -9,23 +9,34 @@
 import UIKit
 import SharedPips
 
-class EditPieceRootViewController: UINavigationController {
+class EditPieceRootViewController: UINavigationController, UIAdaptivePresentationControllerDelegate {
+    
+    private let viewModel: EditPieceViewModel
     
     init(viewModel: EditPieceViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         
         viewControllers = [EditPieceViewController(viewModel: viewModel)]
         self.makeBarTransparent()
+        self.presentationController?.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
+        return !viewModel.editing
     }
 }
 
 private class EditPieceViewController: SubAdagioViewController, UIAdaptivePresentationControllerDelegate {
     
     private lazy var tableView = makeTableView()
+    private lazy var practiceCollectionView = makePracticeCollectionView()
+    private lazy var practiceTopAnchor = makePracticeTopAnchor()
+    private lazy var noHistoryLabel = makeNoHistoryLabel()
     private lazy var hideKeyboardButton = makeHideKeyboardButton()
     private lazy var keyboardTopAnchor = makeKeyboardTopAnchor()
     
@@ -35,7 +46,6 @@ private class EditPieceViewController: SubAdagioViewController, UIAdaptivePresen
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         viewModel.delegate = self
-        self.isModalInPresentation = true
     }
     
     required init?(coder: NSCoder) {
@@ -44,8 +54,12 @@ private class EditPieceViewController: SubAdagioViewController, UIAdaptivePresen
     
     override func setupSubviews() {
         view.addSubview(tableView)
+        view.addSubview(practiceCollectionView)
+        view.addSubview(noHistoryLabel)
         view.addSubview(hideKeyboardButton)
         hideKeyboardButton.alpha = 0
+        practiceCollectionView.alpha = 0
+        noHistoryLabel.alpha = 0
     }
     
     override func setupLayoutConstraints() {
@@ -54,6 +68,16 @@ private class EditPieceViewController: SubAdagioViewController, UIAdaptivePresen
             tableView.leftAnchor ⩵ view.leftAnchor,
             tableView.rightAnchor ⩵ view.rightAnchor,
             keyboardTopAnchor
+        ])
+        NSLayoutConstraint.activate([
+            practiceTopAnchor,
+            practiceCollectionView.leftAnchor ⩵ view.leftAnchor,
+            practiceCollectionView.rightAnchor ⩵ view.rightAnchor,
+            practiceCollectionView.bottomAnchor ⩵ view.bottomAnchor
+        ])
+        NSLayoutConstraint.activate([
+            noHistoryLabel.centerXAnchor ⩵ view.centerXAnchor,
+            noHistoryLabel.centerYAnchor ⩵ view.centerYAnchor
         ])
         NSLayoutConstraint.activate([
             hideKeyboardButton.heightAnchor ⩵ 40,
@@ -141,6 +165,31 @@ private class EditPieceViewController: SubAdagioViewController, UIAdaptivePresen
         return tableView
     }
     
+    private func makePracticeCollectionView() -> UICollectionView {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: BouncyLayout(style: .moreSubtle))
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = UIColor.Adagio.backgroundColor
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.alwaysBounceVertical = true
+        collectionView.register(PracticeEntryCell.self, forCellWithReuseIdentifier: PracticeEntryCell.identifier)
+        return collectionView
+    }
+    
+    private func makePracticeTopAnchor() -> NSLayoutConstraint {
+        return practiceCollectionView.topAnchor ⩵ view.safeAreaLayoutGuide.topAnchor
+    }
+    
+    private func makeNoHistoryLabel() -> UILabel {
+        let label = UILabel.forAutoLayout()
+        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.textColor = UIColor.secondaryLabel
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        label.text = "No history"
+        return label
+    }
+    
     private func makeHideKeyboardButton() -> HideKeyboardButton {
         let button = HideKeyboardButton()
         button.addTarget(self, action: #selector(hideKeyboardSelected), for: .touchUpInside)
@@ -155,10 +204,6 @@ private class EditPieceViewController: SubAdagioViewController, UIAdaptivePresen
         return tableView.bottomAnchor ⩵ view.bottomAnchor
     }
     
-    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
-        return true
-    }
-    
     func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
         if viewModel.editing {
             let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -171,6 +216,7 @@ private class EditPieceViewController: SubAdagioViewController, UIAdaptivePresen
     }
 }
 
+// MARK: - tableView
 extension EditPieceViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -191,6 +237,26 @@ extension EditPieceViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+// MARK: - collectionView
+extension EditPieceViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.practicesForPiece.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let practice = viewModel.practicesForPiece[indexPath.row]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PracticeEntryCell.identifier, for: indexPath) as! PracticeEntryCell
+        cell.configure(practice: practice)
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.width, height: 130)
+    }
+}
+
+// MARK: - EditPieceViewModelDelegate
 extension EditPieceViewController: EditPieceViewModelDelegate {
     
     func reloadRows() {
@@ -214,6 +280,8 @@ extension EditPieceViewController: EditPieceViewModelDelegate {
         self.navigationItem.setRightBarButton(editBarButton, animated: true)
         self.title = ""
         
+        viewModel.editing = false
+        
         tableView.visibleCells.forEach { (cell) in
             guard var editableCell = cell as? Editable else { return }
             editableCell.isEditing = false
@@ -222,6 +290,42 @@ extension EditPieceViewController: EditPieceViewModelDelegate {
     
     @objc private func closeSelected() {
         self.dismiss()
+    }
+    
+    func presentEntryView() {
+        DispatchQueue.main.async {
+            let cellInTableView = self.tableView.rectForRow(at: IndexPath(row: 1, section: 0))
+            let cellInView = self.tableView.convert(cellInTableView, to: self.view)
+            
+            self.practiceTopAnchor.constant = cellInView.minY
+            self.view.layoutIfNeeded()
+            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            self.tableView.isScrollEnabled = false
+            UIView.animate(withDuration: 0.2) {
+                self.practiceCollectionView.alpha = 1
+            }
+        }
+    }
+    
+    func hideEntryView() {
+        DispatchQueue.main.async {
+            self.tableView.isScrollEnabled = true
+            UIView.animate(withDuration: 0.2) {
+                self.practiceCollectionView.alpha = 0
+                self.noHistoryLabel.alpha = 0
+            }
+        }
+    }
+    
+    func reloadEntryView(practices: [Practice]) {
+        DispatchQueue.main.async {
+            if practices.isEmpty {
+                UIView.animate(withDuration: 0.2) {
+                    self.noHistoryLabel.alpha = 1
+                }
+            }
+            self.practiceCollectionView.reloadData()
+        }
     }
     
     @objc private func editSelected() {
@@ -283,22 +387,4 @@ extension Collection {
         return self.indices.contains(i) ? self[i] : nil
     }
 
-}
-
-extension UIViewController {
-    
-    var rootViewController: UIViewController? {
-        var holder: UIViewController? = self
-        var current: UIViewController? = self
-        
-        while holder != nil {
-            if holder?.parent != nil {
-                current = current?.parent
-            }
-            
-            holder = holder?.parent
-        }
-        
-        return current
-    }
 }
