@@ -98,7 +98,8 @@ private class HomeViewController: MainAdagioViewController {
         button.addTarget(self, action: #selector(startPracticeSelected), for: .touchUpInside)
         let plusConfiguration = UIImage.SymbolConfiguration(pointSize: 40, weight: .medium)
         button.setImage(UIImage(systemName: "plus", withConfiguration: plusConfiguration), for: .normal)
-        button.setBackgroundColor(UIColor.systemBlue.withAlphaComponent(0.15))
+        button.setBackgroundColor(UIColor.systemBlue, for: .normal)
+        button.tintColor = .white
         button.layer.cornerRadius = 35
         return button
     }
@@ -113,7 +114,8 @@ private class HomeViewController: MainAdagioViewController {
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if viewModel.rows.count == 0 {
+        if viewModel.rows.count == 1 {
+            startPracticeLabel.alpha = 1
             startPracticeLabel.text = "Let's start a\npractice today"
         }
         return viewModel.rows.count
@@ -124,6 +126,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard indexPath.row <= viewModel.rows.count else { return CGSize(width: UIScreen.main.bounds.width, height: 0)}
         return CGSize(width: UIScreen.main.bounds.width, height: viewModel.rows[indexPath.row].height())
     }
 }
@@ -148,13 +151,21 @@ extension HomeViewController: Subscriber {
             UIView.animate(withDuration: 0.2) {
                 self.startPracticeButton.alpha = 0
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.startPracticeLabel.text = "You are currently practicing"
+            if viewModel.rows.count == 1 {
+                UIView.animate(withDuration: 0.2, delay: 0.5, options: [], animations: {
+                    self.startPracticeLabel.alpha = 0
+                }) { (_) in
+                    self.startPracticeLabel.text = "You are currently practicing"
+                    UIView.animate(withDuration: 0.2) {
+                        self.startPracticeLabel.alpha = 1
+                    }
+                }
             }
         case .endPractice(_), .deleteCurrentPractice(_):
             UIView.animate(withDuration: 0.2) {
                 self.startPracticeButton.alpha = 1
             }
+            self.collectionView.reloadData()
         default: ()
         }
     }

@@ -11,11 +11,23 @@ import CoreData
 
 protocol FocusSectionViewModelDelegate {
     
+    func reloadRows()
+    func updateRows()
+    
+    func set(warmUp: Bool)
 }
 
 class FocusSectionViewModel {
     
-    var rows: [FocusSectionRow] = []
+    var rows: [FocusSectionRow] = []  {
+           didSet {
+               if !oldValue.difference(from: rows).isEmpty {
+                   delegate?.reloadRows()
+               } else {
+                   delegate?.updateRows()
+               }
+           }
+       }
     var delegate: FocusSectionViewModelDelegate?
     var section: Section
     var managedObjectContext: NSManagedObjectContext
@@ -23,6 +35,31 @@ class FocusSectionViewModel {
     init(section: Section, managedObjectContext: NSManagedObjectContext) {
         self.section = section
         self.managedObjectContext = managedObjectContext
+        reloadRows()
     }
     
+    func reloadRows() {
+        self.rows = [
+            .title(TextFieldCellConfiguration(title: "", required: false, text: section.title, textAction: { _ in }, allowNewLines: false)),
+            .radio(RadioCellConfiguration(title: "Warm Up", selected: false, selectedAction: set(warmUp:))),
+            .notes(TextFieldCellConfiguration(title: "Notes",
+                                              required: false,
+                                              text: section.note,
+                                              textAction: set(note:),
+                                              allowNewLines: true,
+                                              returnKeyType: .default,
+                                              returnAction: { _ in },
+                                              textAutocapitalizationType: .sentences))
+        ]
+    }
+    
+    func set(note: String) {
+        section.note = note
+        delegate?.updateRows()
+    }
+    
+    func set(warmUp: Bool) {
+        section.warmUp = warmUp
+        delegate?.set(warmUp: warmUp)
+    }
 }

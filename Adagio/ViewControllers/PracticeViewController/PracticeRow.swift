@@ -50,6 +50,7 @@ extension PracticeRow {
         tableView.register(LargerTextFieldCell.self, forCellReuseIdentifier: LargerTextFieldCell.identifier)
         tableView.register(TextFieldCell.self, forCellReuseIdentifier: TextFieldCell.identifier)
         tableView.register(HomeSubtitleCell.self, forCellReuseIdentifier: HomeSubtitleCell.identifier)
+        tableView.register(PracticeSectionCell.self, forCellReuseIdentifier: PracticeSectionCell.identifier)
         tableView.register(AddPieceCell.self, forCellReuseIdentifier: AddPieceCell.identifier)
         tableView.register(DeletePracticeCell.self, forCellReuseIdentifier: DeletePracticeCell.identifier)
     }
@@ -69,8 +70,10 @@ extension PracticeRow {
             let cell = tableView.dequeueReusableCell(withIdentifier: TextFieldCell.identifier, for: path) as! TextFieldCell
             cell.configure(with: configuration)
             return cell
-        case .section(_):
-            return UITableViewCell()
+        case .section(let section):
+            let cell = tableView.dequeueReusableCell(withIdentifier: PracticeSectionCell.identifier, for: path) as! PracticeSectionCell
+            cell.configure(section: section)
+            return cell
         case .addPiece(let configuration):
             let cell = tableView.dequeueReusableCell(withIdentifier: AddPieceCell.identifier, for: path) as! AddPieceCell
             cell.configure(configuration: configuration)
@@ -93,7 +96,7 @@ extension PracticeRow {
             return "height".height(withConstrainedWidth: 100, font: UIFont.systemFont(ofSize: 14, weight: .medium)) + 41 +
                 (configuration.text ?? "").height(withConstrainedWidth: UIScreen.main.bounds.width - 34, font: UIFont.systemFont(ofSize: 14, weight: .semibold))
         case .section(_):
-            return 0
+            return 70
         case .addPiece(_):
             return 100
         case .deletePractice(_):

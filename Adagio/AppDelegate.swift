@@ -15,6 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        let launchStoryBoard = UIStoryboard(name: "LaunchScreen", bundle: nil)
+        window?.rootViewController = launchStoryBoard.instantiateInitialViewController()
+        
         CoreDataManager.start(modelName: "AdagioModel", completion: setRootViewController)
         
         return true

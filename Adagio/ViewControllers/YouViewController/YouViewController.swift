@@ -26,6 +26,7 @@ class YouRootViewController: UINavigationController {
 private class YouViewController: MainAdagioViewController {
     
     private lazy var collectionView = makeCollectionView()
+    private lazy var noHistoryLabel = makeNoHistoryLabel()
     
     let viewModel: YouViewModel
     
@@ -45,10 +46,14 @@ private class YouViewController: MainAdagioViewController {
     
     override func setupSubviews() {
         view.embed(collectionView)
+        view.addSubview(noHistoryLabel)
     }
     
     override func setupLayoutConstraints() {
-        
+        NSLayoutConstraint.activate([
+            noHistoryLabel.centerXAnchor ⩵ view.centerXAnchor,
+            noHistoryLabel.centerYAnchor ⩵ view.centerYAnchor
+        ])
     }
     
     override func viewDidLoad() {
@@ -80,6 +85,15 @@ private class YouViewController: MainAdagioViewController {
         YouRow.register(collectionView: collectionView)
         return collectionView
     }
+    
+    private func makeNoHistoryLabel() -> UILabel {
+        let label = UILabel.forAutoLayout()
+        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.textColor = UIColor.secondaryLabel
+        label.textAlignment = .center
+        label.text = "No history"
+        return label
+    }
 }
 
 extension YouViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -101,6 +115,8 @@ extension YouViewController: YouViewModelDelegate {
     
     func reloadRows() {
         DispatchQueue.main.async {
+            self.noHistoryLabel.isHidden = !(self.viewModel.rows.count == 1)
+            self.collectionView.isScrollEnabled = !(self.viewModel.rows.count == 1)
             self.collectionView.reloadData()
         }
     }

@@ -16,6 +16,8 @@ protocol PracticeViewModelDelegate {
     
     func addPieceSelected()
     func deletePracticeSelected()
+    
+    func focus(section: Section, managedObjectContext: NSManagedObjectContext)
 }
 
 protocol PracticeViewModelProtocol: class {
@@ -29,7 +31,6 @@ protocol PracticeViewModelProtocol: class {
     func setNote(_ note: String?)
     func createRows()
     func deleteSection(_ section: Section)
-    func createPieceSection(with piece: Piece)
     func saveEntry(current: Bool, completion: @escaping () -> Void)
 }
 
@@ -75,10 +76,17 @@ class PracticeViewModel: PracticeViewModelProtocol {
                                                        allowNewLines: true,
                                                        returnKeyType: .default,
                                                        returnAction: { _ in },
-                                                       textAutocapitalizationType: .sentences)),
-                     .addPiece(AddPieceConfiguration(selectedAction: addPieceSelected)),
-                     .deletePractice(DeletePracticeConfiguration(selectedAction: deletePracticeSelected))
+                                                       textAutocapitalizationType: .sentences))
         ]
+        
+        for section in practice.sections ?? [] {
+            self.rows.append(.section(section as! Section))
+        }
+        
+        self.rows.append(contentsOf: [
+            .addPiece(AddPieceConfiguration(selectedAction: addPieceSelected)),
+            .deletePractice(DeletePracticeConfiguration(selectedAction: deletePracticeSelected))
+        ])
     }
     
     func deleteSection(_ section: Section) {
@@ -86,12 +94,13 @@ class PracticeViewModel: PracticeViewModelProtocol {
     }
     
     func createPieceSection(with piece: Piece) {
-        guard let currentContextPiece = managedObjectContext.object(with: piece.objectID) as? Piece else { return }
+        guard let currentContextPiece = managedObjectContext.object(with: piece.objectID) as? Piece else { fatalError() }
         let newSection = Section(context: managedObjectContext)
         newSection.title = piece.title
         newSection.piece = currentContextPiece
         practice.addToSections(newSection)
-        print(newSection.title)
+        delegate?.focus(section: newSection, managedObjectContext: managedObjectContext)
+        createRows()
     }
     
     func addPieceSelected() {

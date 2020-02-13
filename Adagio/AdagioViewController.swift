@@ -9,6 +9,39 @@
 import UIKit
 import SharedPips
 
+class TestViewController: BasicViewController {
+    
+    private var _parent: UIViewController?
+    
+    init(parent: UIViewController?) {
+        self._parent = parent
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(close))
+        tapRecognizer.numberOfTouchesRequired = 2
+        view.addGestureRecognizer(tapRecognizer)
+    }
+    
+    @objc private func close() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    override func willMove(toParent parent: UIViewController?) {
+        print(parent)
+    }
+    
+}
+
 class MainAdagioViewController: BasicViewController {
     
     override func viewDidLoad() {
@@ -33,17 +66,5 @@ class SubAdagioViewController: BasicViewController {
         self.navigationController?.changeLargeTitleFont(to: UIFont.systemFont(ofSize: 36, weight: .semibold), color: UIColor.Adagio.textColor)
         self.navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = UIColor.Adagio.backgroundColor
-    }
-}
-
-extension UIViewController {
-    
-    var prefersLargeTitles: Bool {
-        get {
-            return navigationController?.navigationBar.prefersLargeTitles ?? false
-        }
-        set {
-            navigationController?.navigationBar.prefersLargeTitles = newValue
-        }
     }
 }

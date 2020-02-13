@@ -17,8 +17,8 @@ protocol ChoosePieceViewModelDelegate {
 class ChoosePieceViewModel {
     
     var rows: [PiecesRow] = []
-    var delegate: ChoosePieceViewModelDelegate?
     var pieceSelectedAction: (Piece) -> Void
+    var delegate: ChoosePieceViewModelDelegate?
     
     init(pieceSelectedAction: @escaping (Piece) -> Void) {
         self.pieceSelectedAction = pieceSelectedAction
@@ -32,12 +32,6 @@ class ChoosePieceViewModel {
         CoreDataManager.main.fetch(request: fetchRequest) { (pieces) in
             self.rows = pieces.compactMap({ PiecesRow.piece($0) })
             self.delegate?.reloadRows()
-        }
-    }
-    
-    func selectPiece(at path: IndexPath) {
-        if case PiecesRow.piece(let piece) = rows[path.row] {
-            self.pieceSelectedAction(piece)
         }
     }
 }

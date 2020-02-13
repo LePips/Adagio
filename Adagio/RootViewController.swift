@@ -79,8 +79,8 @@ class RootViewController: UITabBarController {
     }
     
     @objc private func currentSessionSelected() {
-        guard let currentPractice = CurrentPracticeState.core.state.practice else { assertionFailure(); return }
-        guard let managedObjectContext = CurrentPracticeState.core.state.managedObjectContext else { assertionFailure(); return }
+        guard let currentPractice = CurrentPracticeState.core.state.practice else { return }
+        guard let managedObjectContext = CurrentPracticeState.core.state.managedObjectContext else { return }
         let currentPracticeViewModel = PracticeViewModel(practice: currentPractice, managedObjectContext: managedObjectContext)
         let currentPracticeViewController = PracticeRootViewController(viewModel: currentPracticeViewModel)
         self.present(currentPracticeViewController, animated: true, completion: nil)

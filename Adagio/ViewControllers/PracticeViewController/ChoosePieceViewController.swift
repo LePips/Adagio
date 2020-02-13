@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 import SharedPips
 
 class ChoosePieceRootViewController: UINavigationController {
@@ -126,8 +127,17 @@ extension ChoosePieceViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        viewModel.selectPiece(at: indexPath)
-        dismiss(animated: true, completion: nil)
+        if case PiecesRow.piece(let piece) = viewModel.rows[indexPath.row] {
+            let test = TestViewController(parent: self.parent)
+            test.modalPresentationStyle = .fullScreen
+            self.present(test, animated: true) {
+                self.removeFromParent()
+            }
+            
+//            dismiss(animated: true) {
+//                self.viewModel.pieceSelectedAction(piece)
+//            }
+        }
     }
 }
 

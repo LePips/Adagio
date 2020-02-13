@@ -18,7 +18,10 @@ class PracticeEntryCell: BasicCollectionViewCell {
     private lazy var pieceStackView = makePieceStackView()
     
     func configure(practice: Practice) {
-        guard let endDate = practice.endDate else { assertionFailure("Practice not ended"); return }
+        guard let endDate = practice.endDate else {
+            practice.delete(writeToDisk: true, completion: nil)
+            print("WARNING: Attempted to present practice that has not ended")
+            return }
         
         titleLabel.text = practice.title
         
@@ -142,7 +145,10 @@ class PracticeEntryTableCell: AdagioCell {
     private lazy var pieceStackView = makePieceStackView()
     
     func configure(practice: Practice) {
-        guard let endDate = practice.endDate else { assertionFailure("Practice not ended"); return }
+        guard let endDate = practice.endDate else {
+            practice.delete(writeToDisk: true, completion: nil)
+            print("WARNING: Attempted to present practice that has not ended")
+            return }
         
         titleLabel.text = practice.title
         

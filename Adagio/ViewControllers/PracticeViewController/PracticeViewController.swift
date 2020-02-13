@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 import SharedPips
 
 class PracticeRootViewController: UINavigationController {
@@ -35,7 +36,6 @@ private class PracticeViewController: SubAdagioViewController {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         viewModel.delegate = self
-        
     }
     
     required init?(coder: NSCoder) {
@@ -174,6 +174,12 @@ extension PracticeViewController: PracticeViewModelDelegate {
         alertViewController.addAction(cancelAction)
         alertViewController.addAction(confirmAction)
         self.present(alertViewController, animated: true, completion: nil)
+    }
+    
+    func focus(section: Section, managedObjectContext: NSManagedObjectContext) {
+        let focusSectionViewModel = FocusSectionViewModel(section: section, managedObjectContext: managedObjectContext)
+        let focusSectionViewController = FocusSectionRootViewController(viewModel: focusSectionViewModel)
+        self.present(focusSectionViewController, animated: true, completion: nil)
     }
 }
 

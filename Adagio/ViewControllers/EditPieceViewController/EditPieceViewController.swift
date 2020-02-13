@@ -89,7 +89,8 @@ private class EditPieceViewController: SubAdagioViewController, UIAdaptivePresen
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.prefersLargeTitles = false
+        
+        self.navigationController?.navigationBar.prefersLargeTitles = false
         
         if viewModel.editing {
             let cancelBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelSelected))
