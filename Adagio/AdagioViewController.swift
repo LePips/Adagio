@@ -11,17 +11,6 @@ import SharedPips
 
 class TestViewController: BasicViewController {
     
-    private var _parent: UIViewController?
-    
-    init(parent: UIViewController?) {
-        self._parent = parent
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,11 +24,6 @@ class TestViewController: BasicViewController {
     @objc private func close() {
         self.dismiss(animated: true, completion: nil)
     }
-    
-    override func willMove(toParent parent: UIViewController?) {
-        print(parent)
-    }
-    
 }
 
 class MainAdagioViewController: BasicViewController {

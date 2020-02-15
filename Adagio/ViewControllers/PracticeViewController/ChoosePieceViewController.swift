@@ -12,10 +12,10 @@ import SharedPips
 
 class ChoosePieceRootViewController: UINavigationController {
     
-    init(viewModel: ChoosePieceViewModel) {
+    init(viewModel: ChoosePieceViewModel, rootPractice: RootPracticeProtocol) {
         super.init(nibName: nil, bundle: nil)
         
-        viewControllers = [ChoosePieceViewController(viewModel: viewModel)]
+        viewControllers = [ChoosePieceViewController(viewModel: viewModel, rootPractice: rootPractice)]
         makeBarTransparent()
     }
     
@@ -30,9 +30,11 @@ private class ChoosePieceViewController: MainAdagioViewController {
     private lazy var noPiecesLabel = makeNoPiecesLabel()
     
     let viewModel: ChoosePieceViewModel
+    let rootPractice: RootPracticeProtocol
     
-    init(viewModel: ChoosePieceViewModel) {
+    init(viewModel: ChoosePieceViewModel, rootPractice: RootPracticeProtocol) {
         self.viewModel = viewModel
+        self.rootPractice = rootPractice
         super.init(nibName: nil, bundle: nil)
         viewModel.delegate = self
         
@@ -73,7 +75,7 @@ private class ChoosePieceViewController: MainAdagioViewController {
     }
     
     @objc private func closeSelected() {
-        self.dismiss(animated: true, completion: nil)
+        self.rootPractice.dismissChoosePieceViewController()
     }
     
     @objc private func createPieceSelected() {
@@ -128,15 +130,7 @@ extension ChoosePieceViewController: UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if case PiecesRow.piece(let piece) = viewModel.rows[indexPath.row] {
-            let test = TestViewController(parent: self.parent)
-            test.modalPresentationStyle = .fullScreen
-            self.present(test, animated: true) {
-                self.removeFromParent()
-            }
-            
-//            dismiss(animated: true) {
-//                self.viewModel.pieceSelectedAction(piece)
-//            }
+            rootPractice.focus(piece: piece)
         }
     }
 }

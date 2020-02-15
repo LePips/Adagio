@@ -93,7 +93,7 @@ class PracticeViewModel: PracticeViewModelProtocol {
         
     }
     
-    func createPieceSection(with piece: Piece) {
+    func createPieceSection(with piece: Piece) -> Section {
         guard let currentContextPiece = managedObjectContext.object(with: piece.objectID) as? Piece else { fatalError() }
         let newSection = Section(context: managedObjectContext)
         newSection.title = piece.title
@@ -101,6 +101,7 @@ class PracticeViewModel: PracticeViewModelProtocol {
         practice.addToSections(newSection)
         delegate?.focus(section: newSection, managedObjectContext: managedObjectContext)
         createRows()
+        return newSection
     }
     
     func addPieceSelected() {
