@@ -31,16 +31,19 @@ class FocusSectionViewModel {
     var delegate: FocusSectionViewModelDelegate?
     var section: Section
     var managedObjectContext: NSManagedObjectContext
+    var sectionFinishAction: () -> Void
     
-    init(section: Section, managedObjectContext: NSManagedObjectContext) {
+    init(section: Section, managedObjectContext: NSManagedObjectContext, sectionFinishAction: @escaping () -> Void) {
         self.section = section
         self.managedObjectContext = managedObjectContext
+        self.sectionFinishAction = sectionFinishAction
         reloadRows()
     }
     
     func reloadRows() {
         self.rows = [
-            .title(TextFieldCellConfiguration(title: "", required: false, text: section.title, textAction: { _ in }, allowNewLines: false)),
+            .subtitle(section.practice.title),
+            .title(TextFieldCellConfiguration(title: "", required: false, text: section.title, textAction: { _ in }, allowNewLines: false, editing: false)),
             .radio(RadioCellConfiguration(title: "Warm Up", selected: false, selectedAction: set(warmUp:))),
             .notes(TextFieldCellConfiguration(title: "Notes",
                                               required: false,

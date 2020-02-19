@@ -10,103 +10,7 @@ import UIKit
 import CoreData
 import SharedPips
 
-protocol RootPracticeProtocol {
-    
-    func presentChoosePieceViewController()
-    func dismissChoosePieceViewController()
-    func focus(piece: Piece)
-}
-
-class PracticeRootViewController: BasicViewController, RootPracticeProtocol {
-    
-    private lazy var practiceViewController = makePracticeViewController()
-    private lazy var choosePieceViewController = makeChoosePieceViewController()
-    private var choosePieceView: UIView!
-    private var choosePieceViewTopAnchor: NSLayoutConstraint!
-    
-    private let practiceViewModel: PracticeViewModel
-    
-    override func setupSubviews() {
-        self.addChild(practiceViewController)
-        practiceViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        view.embed(practiceViewController.view)
-        
-        self.addChild(choosePieceViewController)
-        choosePieceViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(choosePieceViewController.view)
-        self.choosePieceView = choosePieceViewController.view
-        self.choosePieceViewTopAnchor = choosePieceView.topAnchor ⩵ view.bottomAnchor
-    }
-    
-    override func setupLayoutConstraints() {
-        NSLayoutConstraint.activate([
-            choosePieceView.leftAnchor ⩵ view.leftAnchor,
-            choosePieceView.rightAnchor ⩵ view.rightAnchor,
-            choosePieceViewTopAnchor,
-            choosePieceView.heightAnchor ⩵ view.heightAnchor
-        ])
-    }
-    
-    init(viewModel: PracticeViewModel) {
-        self.practiceViewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        
-    }
-    
-    func presentChoosePieceViewController() {
-        choosePieceViewTopAnchor.constant = -view.bounds.height
-        
-        let timingFunction = CAMediaTimingFunction(controlPoints: 0, 0, 0.2, 1)
-
-        CATransaction.begin()
-        CATransaction.setAnimationTimingFunction(timingFunction)
-        
-        UIView.animate(withDuration: 0.35, delay: 0, options: [.curveEaseInOut], animations: {
-            self.view.layoutIfNeeded()
-        }, completion: nil)
-        
-        CATransaction.commit()
-    }
-    
-    func dismissChoosePieceViewController() {
-        choosePieceViewTopAnchor.constant = 0
-        
-        UIView.animate(withDuration: 0.35, delay: 0, options: [.curveEaseInOut], animations: {
-            self.view.layoutIfNeeded()
-        }, completion: nil)
-    }
-    
-    func focus(piece: Piece) {
-        dismissChoosePieceViewController()
-        
-        let section = practiceViewModel.createPieceSection(with: piece)
-        let focusPieceViewModel = FocusSectionViewModel(section: section, managedObjectContext: section.managedObjectContext!)
-        let focusPieceViewController = FocusSectionRootViewController(viewModel: focusPieceViewModel)
-        present(focusPieceViewController, animated: true, completion: nil)
-    }
-    
-    private func makePracticeViewController() -> UIViewController {
-        let navigationVC = UINavigationController(rootViewController: PracticeViewController(viewModel: practiceViewModel, rootPractice: self))
-        navigationVC.makeBarTransparent()
-        return navigationVC
-    }
-    
-    private func makeChoosePieceViewController() -> UIViewController {
-        let choosePieceViewModel = ChoosePieceViewModel(pieceSelectedAction: focus(piece:))
-        return ChoosePieceRootViewController(viewModel: choosePieceViewModel, rootPractice: self)
-    }
-}
-
-private class PracticeViewController: SubAdagioViewController {
+class PracticeViewController: SubAdagioViewController {
     
     private lazy var tableView = makeTableView()
     private lazy var hideKeyboardButton = makeHideKeyboardButton()
@@ -255,12 +159,6 @@ extension PracticeViewController: PracticeViewModelDelegate {
         alertViewController.addAction(cancelAction)
         alertViewController.addAction(confirmAction)
         self.present(alertViewController, animated: true, completion: nil)
-    }
-    
-    func focus(section: Section, managedObjectContext: NSManagedObjectContext) {
-        let focusSectionViewModel = FocusSectionViewModel(section: section, managedObjectContext: managedObjectContext)
-        let focusSectionViewController = FocusSectionRootViewController(viewModel: focusSectionViewModel)
-        self.present(focusSectionViewController, animated: true, completion: nil)
     }
 }
 

@@ -16,6 +16,8 @@ enum CurrentPracticeChange {
     case loadCurrentPractice
     case deleteCurrentPractice(((Result<Bool, Error>) -> Void)?)
     case endPractice(((Result<Bool, Error>) -> Void)?)
+    case focus(Section)
+    case endFocusSection
 }
 
 fileprivate var sharedCore: Core<CurrentPracticeState> = {
@@ -28,6 +30,7 @@ struct CurrentPracticeState: State {
     
     var practice: Practice?
     var managedObjectContext: NSManagedObjectContext?
+    var section: Section?
     
     mutating func respond(to event: CurrentPracticeChange) {
         switch event {
@@ -66,6 +69,10 @@ struct CurrentPracticeState: State {
             self.managedObjectContext = nil
             Haptics.main.success()
             CurrentTimerState.core.fire(.reset)
+        case .focus(let section):
+            self.section = section
+        case .endFocusSection:
+            self.section = nil
         }
     }
     

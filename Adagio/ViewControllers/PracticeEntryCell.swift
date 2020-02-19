@@ -78,7 +78,7 @@ class PracticeEntryCell: BasicCollectionViewCell {
             cardView.topAnchor ⩵ contentView.topAnchor + 5,
             cardView.leftAnchor ⩵ contentView.leftAnchor + 17,
             cardView.rightAnchor ⩵ contentView.rightAnchor - 17,
-            cardView.bottomAnchor ⩵ contentView.bottomAnchor - 5
+            cardView.bottomAnchor ⩵ bottomAnchor - 5
         ])
         NSLayoutConstraint.activate([
             dateLabel.topAnchor ⩵ cardView.topAnchor + 10,
@@ -131,7 +131,7 @@ class PracticeEntryCell: BasicCollectionViewCell {
     private func makePieceStackView() -> UIStackView {
         let stackView = UIStackView.forAutoLayout()
         stackView.axis = .vertical
-        stackView.spacing = 30
+        stackView.spacing = 10
         return stackView
     }
 }
@@ -160,7 +160,7 @@ class PracticeEntryTableCell: AdagioCell {
             dateLabel.text = dateFormatter.string(from: practice.startDate)
         }
         
-        for subview in iconStackView.subviews {
+        for subview in iconStackView.arrangedSubviews {
             subview.removeFromSuperview()
         }
         

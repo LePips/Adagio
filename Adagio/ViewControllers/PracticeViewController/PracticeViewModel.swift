@@ -16,8 +16,6 @@ protocol PracticeViewModelDelegate {
     
     func addPieceSelected()
     func deletePracticeSelected()
-    
-    func focus(section: Section, managedObjectContext: NSManagedObjectContext)
 }
 
 protocol PracticeViewModelProtocol: class {
@@ -48,6 +46,7 @@ class PracticeViewModel: PracticeViewModelProtocol {
     var delegate: PracticeViewModelDelegate?
     var practice: Practice
     var managedObjectContext: NSManagedObjectContext
+    var focusedSection: Section?
     
     init(practice: Practice, managedObjectContext: NSManagedObjectContext) {
         self.practice = practice
@@ -66,7 +65,7 @@ class PracticeViewModel: PracticeViewModelProtocol {
         delegate?.updateRows()
     }
     
-    func createRows() {
+func createRows() {
         self.rows = [.title(TextFieldCellConfiguration(title: "", required: false, text: practice.title, textAction: setTitle(_:), allowNewLines: false, textAutocapitalizationType: .words)),
                      .subtitle,
                      .notes(TextFieldCellConfiguration(title: "Notes",
@@ -76,7 +75,8 @@ class PracticeViewModel: PracticeViewModelProtocol {
                                                        allowNewLines: true,
                                                        returnKeyType: .default,
                                                        returnAction: { _ in },
-                                                       textAutocapitalizationType: .sentences))
+                                                       textAutocapitalizationType: .sentences)),
+                     .spacer(20)
         ]
         
         for section in practice.sections ?? [] {
@@ -98,10 +98,21 @@ class PracticeViewModel: PracticeViewModelProtocol {
         let newSection = Section(context: managedObjectContext)
         newSection.title = piece.title
         newSection.piece = currentContextPiece
+        newSection.startDate = Date()
         practice.addToSections(newSection)
-        delegate?.focus(section: newSection, managedObjectContext: managedObjectContext)
         createRows()
         return newSection
+    }
+    
+    func focus(section: Section) {
+        self.focusedSection = section
+        CurrentPracticeState.core.fire(.focus(section))
+    }
+    
+    func endFocusSection() {
+        focusedSection?.endDate = Date()
+        self.focusedSection = nil
+        CurrentPracticeState.core.fire(.endFocusSection)
     }
     
     func addPieceSelected() {

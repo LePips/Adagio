@@ -22,5 +22,7 @@ extension Section {
     @NSManaged public var warmUp: Bool
     @NSManaged public var piece: Piece?
     @NSManaged public var practice: Practice
+    @NSManaged public var startDate: Date?
+    @NSManaged public var endDate: Date?
 
 }

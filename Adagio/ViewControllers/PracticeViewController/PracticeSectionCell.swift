@@ -13,9 +13,32 @@ class PracticeSectionCell: AdagioCell {
     
     private lazy var titleLabel = makeTitleLabel()
     private lazy var iconStackView = makeIconStackView()
+    private lazy var separatorView = makeSeparatorView()
     
     func configure(section: Section) {
         titleLabel.text = section.title
+        
+        for subview in iconStackView.arrangedSubviews {
+            subview.removeFromSuperview()
+        }
+        
+        // Warm up
+        if section.warmUp {
+            let warmUpView = IconLabelView.forAutoLayout()
+            warmUpView.configure(iconName: "w.square.fill", title: "Warm Up", imageTintColor: UIColor.systemOrange)
+            iconStackView.addArrangedSubview(warmUpView)
+        }
+        
+        // Duration
+        if let startDate = section.startDate, let endDate = section.endDate {
+            let formatter = DateComponentsFormatter()
+            formatter.allowedUnits = [.minute, .hour]
+            formatter.unitsStyle = .short
+            guard let duration = formatter.string(from: startDate, to: endDate) else { assertionFailure(); return }
+            let durationView = IconLabelView.forAutoLayout()
+            durationView.configure(iconName: "clock.fill", title: duration)
+            iconStackView.addArrangedSubview(durationView)
+        }
         
         // Note
         if let _ = section.note {
@@ -28,6 +51,7 @@ class PracticeSectionCell: AdagioCell {
     override func setupSubviews() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(iconStackView)
+        contentView.addSubview(separatorView)
     }
     
     override func setupLayoutConstraints() {
@@ -39,6 +63,12 @@ class PracticeSectionCell: AdagioCell {
             iconStackView.topAnchor ⩵ titleLabel.bottomAnchor + 10,
             iconStackView.leftAnchor ⩵ contentView.leftAnchor + 17,
             iconStackView.heightAnchor ⩵ 20
+        ])
+        NSLayoutConstraint.activate([
+            separatorView.heightAnchor ⩵ 1,
+            separatorView.leftAnchor ⩵ contentView.leftAnchor + 17,
+            separatorView.rightAnchor ⩵ contentView.rightAnchor - 17,
+            separatorView.topAnchor ⩵ iconStackView.bottomAnchor + 15
         ])
     }
     
@@ -54,5 +84,11 @@ class PracticeSectionCell: AdagioCell {
         stackView.axis = .horizontal
         stackView.spacing = 30
         return stackView
+    }
+    
+    private func makeSeparatorView() -> UIView {
+        let view = UIView.forAutoLayout()
+        view.backgroundColor = UIColor.secondaryLabel
+        return view
     }
 }

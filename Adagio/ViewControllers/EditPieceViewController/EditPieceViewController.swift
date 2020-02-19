@@ -39,6 +39,7 @@ private class EditPieceViewController: SubAdagioViewController, UIAdaptivePresen
     private lazy var noHistoryLabel = makeNoHistoryLabel()
     private lazy var hideKeyboardButton = makeHideKeyboardButton()
     private lazy var keyboardTopAnchor = makeKeyboardTopAnchor()
+    private let imagePicker = UIImagePickerController()
     
     private let viewModel: EditPieceViewModel
     
@@ -253,7 +254,9 @@ extension EditPieceViewController: UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width, height: 130)
+        var height: CGFloat = 105
+        height += CGFloat((viewModel.practicesForPiece[indexPath.row].sections ?? []).count) * 30
+        return CGSize(width: UIScreen.main.bounds.width, height: height)
     }
 }
 
@@ -369,6 +372,32 @@ extension EditPieceViewController: EditPieceViewModelDelegate {
     
     func presentGroupPicker(with viewModel: GroupPickerViewModel) {
         present(PickerViewController(viewModel: viewModel), animated: true, completion: nil)
+    }
+    
+    func presentImage(with viewModel: ImageViewModel) {
+        let navigationViewController = UINavigationController(rootViewController: ImageViewController(viewModel: viewModel))
+        navigationViewController.makeBarTransparent()
+        present(navigationViewController, animated: true, completion: nil)
+    }
+    
+    func presentImagePicker() {
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.allowsEditing = false
+            
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+}
+
+extension EditPieceViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        self.dismiss(animated: true, completion: nil)
+        if let image = info[.originalImage] as? UIImage {
+            viewModel.add(image: image)
+        }
     }
 }
 

@@ -1,51 +1,34 @@
 //
-//  FocusSectionViewController.swift
+//  ImageViewController.swift
 //  Adagio
 //
-//  Created by Ethan Pippin on 1/27/20.
+//  Created by Ethan Pippin on 2/17/20.
 //  Copyright © 2020 Ethan Pippin. All rights reserved.
 //
 
 import UIKit
 import SharedPips
 
-class FocusSectionRootViewController: UINavigationController {
-    
-    private let focusSectionViewController: FocusSectionViewController
-
-    init(focusSectionViewController: FocusSectionViewController) {
-        self.focusSectionViewController = focusSectionViewController
-        super.init(nibName: nil, bundle: nil)
-
-        viewControllers = [focusSectionViewController]
-        self.makeBarTransparent()
-        
-        self.view.translatesAutoresizingMaskIntoConstraints = false
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func configure(viewModel: FocusSectionViewModel) {
-        focusSectionViewController.configure(viewModel: viewModel)
-    }
-}
-
-class FocusSectionViewController: SubAdagioViewController {
+class ImageViewController: SubAdagioViewController, UIAdaptivePresentationControllerDelegate {
     
     private lazy var tableView = makeTableView()
     private lazy var hideKeyboardButton = makeHideKeyboardButton()
     private lazy var keyboardTopAnchor = makeKeyboardTopAnchor()
-    private var presented = false
     
-    private var viewModel: FocusSectionViewModel?
+    private let viewModel: ImageViewModel
     
-    func configure(viewModel: FocusSectionViewModel) {
+    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
+        return !viewModel.editing
+    }
+    
+    init(viewModel: ImageViewModel) {
         self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
         viewModel.delegate = self
-        
-        self.reloadRows()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func setupSubviews() {
@@ -56,10 +39,10 @@ class FocusSectionViewController: SubAdagioViewController {
     
     override func setupLayoutConstraints() {
         NSLayoutConstraint.activate([
+            keyboardTopAnchor,
             tableView.topAnchor ⩵ view.safeAreaLayoutGuide.topAnchor,
             tableView.leftAnchor ⩵ view.leftAnchor,
-            tableView.rightAnchor ⩵ view.rightAnchor,
-            keyboardTopAnchor
+            tableView.rightAnchor ⩵ view.rightAnchor
         ])
         NSLayoutConstraint.activate([
             hideKeyboardButton.heightAnchor ⩵ 40,
@@ -72,36 +55,66 @@ class FocusSectionViewController: SubAdagioViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        CurrentTimerState.core.addSubscriber(subscriber: self, update: FocusSectionViewController.update)
+        reloadRows()
         
         self.navigationController?.navigationBar.prefersLargeTitles = false
         
-        let closeConfiguration = UIImage.SymbolConfiguration(pointSize: 17, weight: .regular)
-        let closeBarButton = UIBarButtonItem(image: UIImage(systemName: "chevron.down.circle.fill", withConfiguration: closeConfiguration), style: .plain, target: self, action: #selector(closeSelected))
-        let finishBarButton = UIBarButtonItem(title: "Finish", style: .done, target: self, action: #selector(finishSelected))
-        self.navigationItem.leftBarButtonItem = closeBarButton
-        self.navigationItem.rightBarButtonItem = finishBarButton
+        let closeBarButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeSelected))
+        let editBarButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editSelected))
+        self.navigationItem.setLeftBarButton(closeBarButton, animated: true)
+        self.navigationItem.setRightBarButton(editBarButton, animated: true)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    override func willMove(toParent parent: UIViewController?) {
-        super.willMove(toParent: parent)
-        presented = true
+    @objc private func editSelected() {
+        let saveBarButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveSelected))
+//        let deleteBarButton = UIBarButtonItem(title: "Delete", style: .plain, target: self, action: #selector(deleteSelected))
+//        deleteBarButton.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemPink], for: .normal)
+        self.navigationItem.setLeftBarButton(nil, animated: true)
+        self.navigationItem.setRightBarButton(saveBarButton, animated: true)
+//        self.navigationItem.setLeftBarButton(deleteBarButton, animated: true)
+        
+        viewModel.editing = true
+        
+        tableView.visibleCells.forEach { (cell) in
+            guard var editableCell = cell as? Editable else { return }
+            editableCell.isEditing = true
+        }
     }
     
-    override func willRemove(fromParent: UIViewController) {
-        presented = false
+    @objc private func saveSelected() {
+        doneSelected()
     }
     
     @objc private func closeSelected() {
-        dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
-    @objc private func finishSelected() {
-        hideKeyboardSelected()
-        viewModel?.sectionFinishAction()
+    @objc private func doneSelected() {
+        
+        let verifiableCells = tableView.visibleCells.compactMap({ $0 as? Verifiable })
+        guard verifiableCells.allSatisfy({ $0.isValid }) else {
+            let invalidCells = verifiableCells.filter({ !$0.isValid })
+            invalidCells.forEach { (cell) in
+                cell.setInvalid()
+            }
+            Haptics.main.error()
+            return
+        }
+        
+        let closeBarButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeSelected))
+        let editBarButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editSelected))
+        self.navigationItem.setLeftBarButton(closeBarButton, animated: true)
+        self.navigationItem.setRightBarButton(editBarButton, animated: true)
+        
+        viewModel.editing = false
+        
+        tableView.visibleCells.forEach { (cell) in
+            guard var editableCell = cell as? Editable else { return }
+            editableCell.isEditing = false
+        }
     }
     
     @objc private func keyboardWillShow(notification: Notification) {
@@ -129,8 +142,8 @@ class FocusSectionViewController: SubAdagioViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
-        tableView.backgroundColor = UIColor.clear
-        FocusSectionRow.register(tableView: tableView)
+        tableView.backgroundColor = .clear
+        ImageRow.register(tableView: tableView)
         return tableView
     }
     
@@ -149,18 +162,18 @@ class FocusSectionViewController: SubAdagioViewController {
     }
 }
 
-extension FocusSectionViewController: UITableViewDelegate, UITableViewDataSource {
+extension ImageViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.rows.count ?? 0
+        return viewModel.rows.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return viewModel?.rows[indexPath.row].cell(for: indexPath, in: tableView) ?? UITableViewCell()
+        return viewModel.rows[indexPath.row].cell(for: indexPath, in: tableView)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return viewModel?.rows[indexPath.row].height() ?? 0
+        return viewModel.rows[indexPath.row].height()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -169,42 +182,13 @@ extension FocusSectionViewController: UITableViewDelegate, UITableViewDataSource
     }
 }
 
-extension FocusSectionViewController: FocusSectionViewModelDelegate {
-    
-    func reloadRows() {
-        tableView.reloadData()
-    }
+extension ImageViewController: ImageViewModelDelegate {
     
     func updateRows() {
         tableView.updateRows()
     }
     
-    func set(warmUp: Bool) {
-        
-    }
-}
-
-extension FocusSectionViewController: Subscriber {
-    func update(state: CurrentTimerState) {
-        guard let startDate = viewModel?.section.startDate else { return }
-        
-        let currentInterval = floor(-startDate.timeIntervalSince(Date()))
-        var currentTitle: String?
-
-        if currentInterval < 60 {
-            if currentInterval > 9 {
-                currentTitle = "0:\(Int(currentInterval))"
-            } else {
-                currentTitle = "0:0\(Int(currentInterval))"
-            }
-        } else {
-            let formatter = DateComponentsFormatter()
-            formatter.unitsStyle = .positional
-            formatter.zeroFormattingBehavior = .dropLeading
-            formatter.allowedUnits = [.second, .minute, .hour]
-            currentTitle = formatter.string(from: currentInterval)
-        }
-        
-        self.title = currentTitle
+    func reloadRows() {
+        tableView.reloadData()
     }
 }

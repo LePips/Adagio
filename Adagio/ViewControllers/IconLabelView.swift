@@ -14,12 +14,18 @@ class IconLabelView: BasicView {
     private lazy var iconView = makeIconView()
     private lazy var titleLabel = makeTitleLabel()
     
-    func configure(iconName: String, title: String) {
+    func configure(iconName: String, title: String, imageTintColor: UIColor = UIColor.Adagio.textColor) {
         let config = UIImage.SymbolConfiguration(pointSize: 14, weight: .medium)
         let icon = UIImage(systemName: iconName, withConfiguration: config)
         iconView.image = icon
         
+        iconView.tintColor = imageTintColor
+        
         titleLabel.text = title
+        
+        NSLayoutConstraint.activate([
+            self.widthAnchor ⩵ "X \(title)".width(withConstrainedHeight: 50, font: UIFont.systemFont(ofSize: 14, weight: .medium))
+        ])
     }
     
     override func setupSubviews() {
@@ -36,15 +42,10 @@ class IconLabelView: BasicView {
             titleLabel.leftAnchor ⩵ iconView.rightAnchor + 5,
             titleLabel.centerYAnchor ⩵ centerYAnchor
         ])
-        NSLayoutConstraint.activate([
-            self.widthAnchor ⩵ "X Notes".width(withConstrainedHeight: 50, font: UIFont.systemFont(ofSize: 14, weight: .medium))
-        ])
     }
     
     private func makeIconView() -> UIImageView {
-        let imageView = UIImageView.forAutoLayout()
-        imageView.tintColor = UIColor.Adagio.textColor
-        return imageView
+        return UIImageView.forAutoLayout()
     }
     
     private func makeTitleLabel() -> UILabel {

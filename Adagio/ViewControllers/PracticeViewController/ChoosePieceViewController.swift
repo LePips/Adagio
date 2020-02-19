@@ -17,6 +17,8 @@ class ChoosePieceRootViewController: UINavigationController {
         
         viewControllers = [ChoosePieceViewController(viewModel: viewModel, rootPractice: rootPractice)]
         makeBarTransparent()
+        
+        self.view.translatesAutoresizingMaskIntoConstraints = false
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -24,7 +26,7 @@ class ChoosePieceRootViewController: UINavigationController {
     }
 }
 
-private class ChoosePieceViewController: MainAdagioViewController {
+class ChoosePieceViewController: MainAdagioViewController {
     
     private lazy var collectionView = makeCollectionView()
     private lazy var noPiecesLabel = makeNoPiecesLabel()

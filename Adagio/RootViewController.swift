@@ -105,6 +105,9 @@ extension RootViewController: Subscriber {
             currentSessionBar.configure(practice: nil)
             currentSessionBar.alpha = 0
             self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -15, right: 0)
+        case .focus(_): ()
+            
+        case .endFocusSection: ()
         }
     }
     

@@ -72,6 +72,12 @@ private class HomeViewController: MainAdagioViewController {
         viewModel.reloadRows()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        reloadRows()
+    }
+    
     private func makeCollectionView() -> UICollectionView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: BouncyLayout(style: .moreSubtle))
         collectionView.translatesAutoresizingMaskIntoConstraints = false

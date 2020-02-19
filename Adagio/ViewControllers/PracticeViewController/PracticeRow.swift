@@ -15,6 +15,7 @@ enum PracticeRow {
     case section(Section)
     case addPiece(AddPieceConfiguration)
     case deletePractice(DeletePracticeConfiguration)
+    case spacer(CGFloat)
     
     var key: String {
         switch self {
@@ -30,6 +31,8 @@ enum PracticeRow {
             return "add piece"
         case .deletePractice(_):
             return "delete practice"
+        case .spacer(let space):
+            return "\(space)"
         }
     }
 }
@@ -53,6 +56,7 @@ extension PracticeRow {
         tableView.register(PracticeSectionCell.self, forCellReuseIdentifier: PracticeSectionCell.identifier)
         tableView.register(AddPieceCell.self, forCellReuseIdentifier: AddPieceCell.identifier)
         tableView.register(DeletePracticeCell.self, forCellReuseIdentifier: DeletePracticeCell.identifier)
+        tableView.register(SpacerCell.self, forCellReuseIdentifier: SpacerCell.identifier)
     }
     
     func cell(for path: IndexPath, in tableView: UITableView) -> UITableViewCell {
@@ -82,6 +86,8 @@ extension PracticeRow {
             let cell = tableView.dequeueReusableCell(withIdentifier: DeletePracticeCell.identifier, for: path) as! DeletePracticeCell
             cell.configure(configuration: configuration)
             return cell
+        case .spacer(_):
+            return tableView.dequeueReusableCell(withIdentifier: SpacerCell.identifier, for: path) as! SpacerCell
         }
     }
     
@@ -96,11 +102,13 @@ extension PracticeRow {
             return "height".height(withConstrainedWidth: 100, font: UIFont.systemFont(ofSize: 14, weight: .medium)) + 41 +
                 (configuration.text ?? "").height(withConstrainedWidth: UIScreen.main.bounds.width - 34, font: UIFont.systemFont(ofSize: 14, weight: .semibold))
         case .section(_):
-            return 70
+            return 85
         case .addPiece(_):
             return 100
         case .deletePractice(_):
             return 50
+        case .spacer(let space):
+            return space
         }
     }
 }

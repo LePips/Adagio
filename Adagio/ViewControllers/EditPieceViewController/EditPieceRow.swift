@@ -15,6 +15,7 @@ enum EditPieceRow {
     case instruments(SelectionCellConfiguration)
     case groups(SelectionCellConfiguration)
     case segment(SegmentConfiguration)
+    case images(ImageSelectionCellConfiguration)
     
     var key: String {
         switch self {
@@ -30,6 +31,8 @@ enum EditPieceRow {
             return "groups"
         case .segment:
             return "segment"
+        case .images(_):
+            return "images"
         }
     }
 }
@@ -51,6 +54,7 @@ extension EditPieceRow {
         tableView.register(LargeTextFieldCell.self, forCellReuseIdentifier: LargeTextFieldCell.identifier)
         tableView.register(SelectionCell.self, forCellReuseIdentifier: SelectionCell.identifier)
         tableView.register(SegmentCell.self, forCellReuseIdentifier: SegmentCell.identifier)
+        tableView.register(ImageSelectionCell.self, forCellReuseIdentifier: ImageSelectionCell.identifier)
     }
     
     func cell(for path: IndexPath, in tableView: UITableView) -> UITableViewCell {
@@ -75,6 +79,10 @@ extension EditPieceRow {
             let cell = tableView.dequeueReusableCell(withIdentifier: SegmentCell.identifier, for: path) as! SegmentCell
             cell.configure(configuration: configuration)
             return cell
+        case .images(let configuration):
+            let cell = tableView.dequeueReusableCell(withIdentifier: ImageSelectionCell.identifier, for: path) as! ImageSelectionCell
+            cell.configure(configuration: configuration)
+            return cell
         }
     }
     
@@ -86,10 +94,18 @@ extension EditPieceRow {
         case .artist(let configuration), .note(let configuration):
             return "height".height(withConstrainedWidth: 100, font: UIFont.systemFont(ofSize: 14, weight: .medium)) + 41 +
                 (configuration.text ?? "").height(withConstrainedWidth: UIScreen.main.bounds.width - 34, font: UIFont.systemFont(ofSize: 14, weight: .semibold))
-        case .instruments(_), .groups(_):
-            return 100
+        case .instruments(let config):
+            var height: CGFloat = 62
+            height += max(16, CGFloat(config.items.count) * 16)
+            return height
+        case .groups(let config):
+            var height: CGFloat = 62
+            height += max(16, CGFloat(config.items.count) * 16)
+            return height
         case .segment(_):
             return 50
+        case .images(_):
+            return 170
         }
     }
 }

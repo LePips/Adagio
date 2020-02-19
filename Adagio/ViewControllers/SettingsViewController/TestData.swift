@@ -31,11 +31,13 @@ struct TestData {
         p1.addToInstruments(violin)
         p1.addToInstruments(piano)
         p1.addToGroups(symphony)
+        p1.images = []
         
         let p2 = Piece(context: objectContext)
         p2.title = "C Major Scales"
         p2.addToInstruments(violin)
         p2.addToGroups(scales)
+        p2.images = []
         
         return [p1, p2]
     }

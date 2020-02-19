@@ -23,6 +23,9 @@ protocol EditPieceViewModelDelegate {
     
     func presentInstrumentPicker(with viewModel: InstrumentPickerViewModel)
     func presentGroupPicker(with viewModel: GroupPickerViewModel)
+    
+    func presentImage(with viewModel: ImageViewModel)
+    func presentImagePicker()
 }
 
 protocol EditPieceViewModelProtocol: class {
@@ -84,6 +87,7 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
         } else {
             self.piece = Piece(context: managedObjectContext)
             self.isExisting = false
+            self.piece.images = []
             self.rows = [.title(TextFieldCellConfiguration(title: "Title",
                                                            required: true,
                                                            text: nil,
@@ -118,7 +122,14 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
                                                             selectionAction: {
                             let groupPickerViewModel = GroupPickerViewModel(title: "Add group", doneButtonTitle: "Add", selectedAction: self.addToGroup(title:))
                             self.presentGroupPicker(with: groupPickerViewModel)
-                         }))
+                         })),
+                         .images(ImageSelectionCellConfiguration(images: piece?.images ?? [], addAction: {
+                            self.delegate?.presentImagePicker()
+                         },
+                            selectedAction: { image in
+                                self.delegate?.presentImage(with: ImageViewModel(image: image))
+                         },
+                            editing: true))
             ]
         }
     }
@@ -162,7 +173,14 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
                                                         selectionAction: {
                                                             let groupPickerViewModel = GroupPickerViewModel(title: "Add group", doneButtonTitle: "Add", selectedAction: self.addToGroup(title:))
                                                             self.presentGroupPicker(with: groupPickerViewModel)
-                     }, editing: self.editing))
+                     }, editing: self.editing)),
+                     .images(ImageSelectionCellConfiguration(images: piece.images, addAction: {
+                        self.delegate?.presentImagePicker()
+                     },
+                        selectedAction: { image in
+                            self.delegate?.presentImage(with: ImageViewModel(image: image))
+                     },
+                        editing: self.editing))
         ]
     }
     
@@ -280,6 +298,18 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
             NotificationCenter.default.post(name: CoreDataManager.saveNotification, object: nil)
             self.delegate?.dismiss()
         }
+    }
+    
+    func add(image: UIImage) {
+        piece.images.append(Image(image, title: "Image", note: nil))
+        rows[rows.count - 1] = .images(ImageSelectionCellConfiguration(images: piece.images, addAction: {
+                                   self.delegate?.presentImagePicker()
+                                },
+                                   selectedAction: { image in
+                                       self.delegate?.presentImage(with: ImageViewModel(image: image))
+                                },
+                                   editing: self.editing))
+        delegate?.reloadRows()
     }
 }
 

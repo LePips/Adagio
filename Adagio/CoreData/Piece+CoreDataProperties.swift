@@ -18,7 +18,7 @@ extension Piece {
     }
 
     @NSManaged public var artist: String?
-    @NSManaged public var images: [UIImage]?
+    @NSManaged public var images: [Image]
     @NSManaged public var title: String
     @NSManaged public var notes: String?
     @NSManaged public var sections: NSSet?

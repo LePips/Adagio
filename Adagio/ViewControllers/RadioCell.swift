@@ -40,6 +40,7 @@ class RadioCell: AdagioCell, Selectable {
     
     func select() {
         radioSelectedAction()
+        Haptics.main.light()
     }
     
     func deselect() {

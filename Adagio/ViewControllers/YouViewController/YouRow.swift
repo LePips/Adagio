@@ -45,8 +45,10 @@ extension YouRow {
         switch self {
         case .subtitle:
             return "height".height(withConstrainedWidth: 200, font: UIFont.systemFont(ofSize: 18, weight: .medium))
-        case .practice(_):
-            return 130
+        case .practice(let practice):
+            var height: CGFloat = 105
+            height += CGFloat((practice.sections ?? []).count) * 36
+            return height
         }
     }
 }
