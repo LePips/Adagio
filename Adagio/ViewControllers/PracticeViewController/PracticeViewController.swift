@@ -16,10 +16,10 @@ class PracticeViewController: SubAdagioViewController {
     private lazy var hideKeyboardButton = makeHideKeyboardButton()
     private lazy var keyboardTopAnchor = makeKeyboardTopAnchor()
     
-    let viewModel: PracticeViewModel
+    let viewModel: PracticeViewModelProtocol
     let rootPractice: RootPracticeProtocol
     
-    init(viewModel: PracticeViewModel, rootPractice: RootPracticeProtocol) {
+    init(viewModel: PracticeViewModelProtocol, rootPractice: RootPracticeProtocol) {
         self.viewModel = viewModel
         self.rootPractice = rootPractice
         super.init(nibName: nil, bundle: nil)
@@ -120,7 +120,7 @@ class PracticeViewController: SubAdagioViewController {
     }
     
     private func makeKeyboardTopAnchor() -> NSLayoutConstraint {
-        return tableView.bottomAnchor ⩵ view.bottomAnchor
+        return tableView.bottomAnchor ⩵ view.safeAreaLayoutGuide.bottomAnchor
     }
 }
 

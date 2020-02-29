@@ -1,5 +1,5 @@
 //
-//  Section+CoreDataClass.swift
+//  Recording+CoreDataClass.swift
 //  Adagio
 //
 //  Created by Ethan Pippin on 2/20/20.
@@ -10,7 +10,7 @@
 import Foundation
 import CoreData
 
-@objc(Section)
-public class Section: NSManagedObject {
+@objc(Recording)
+public class Recording: NSManagedObject {
 
 }

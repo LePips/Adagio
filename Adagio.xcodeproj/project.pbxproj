@@ -41,8 +41,6 @@
 		E12FFC8923D4416500705CFC /* EditItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFC8823D4416500705CFC /* EditItemCell.swift */; };
 		E12FFC8B23D4D19C00705CFC /* RequestFeatureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFC8A23D4D19C00705CFC /* RequestFeatureViewController.swift */; };
 		E12FFC8D23D4D1CA00705CFC /* RequestFeatureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFC8C23D4D1CA00705CFC /* RequestFeatureViewModel.swift */; };
-		E12FFC9B23D5063A00705CFC /* Section+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFC9123D5063A00705CFC /* Section+CoreDataClass.swift */; };
-		E12FFC9C23D5063A00705CFC /* Section+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFC9223D5063A00705CFC /* Section+CoreDataProperties.swift */; };
 		E12FFC9D23D5063A00705CFC /* Instrument+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFC9323D5063A00705CFC /* Instrument+CoreDataClass.swift */; };
 		E12FFC9E23D5063A00705CFC /* Instrument+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFC9423D5063A00705CFC /* Instrument+CoreDataProperties.swift */; };
 		E12FFC9F23D5063A00705CFC /* Piece+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFC9523D5063A00705CFC /* Piece+CoreDataClass.swift */; };
@@ -63,6 +61,10 @@
 		E12FFCB923D54F4300705CFC /* PickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFCB823D54F4300705CFC /* PickerViewModel.swift */; };
 		E12FFCBE23D568D600705CFC /* Selectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFCBD23D568D600705CFC /* Selectable.swift */; };
 		E12FFCC123D57C7E00705CFC /* Verifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFCC023D57C7E00705CFC /* Verifiable.swift */; };
+		E13109FD240393290092579C /* PlaybackRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13109FC240393290092579C /* PlaybackRow.swift */; };
+		E13C133323FF6A4F0080EA79 /* RecordingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13C133223FF6A4F0080EA79 /* RecordingCell.swift */; };
+		E13C133723FF74590080EA79 /* Section+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13C133523FF74590080EA79 /* Section+CoreDataClass.swift */; };
+		E13C133823FF74590080EA79 /* Section+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13C133623FF74590080EA79 /* Section+CoreDataProperties.swift */; };
 		E146BAE823D251420036052B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E146BAE723D251420036052B /* HomeViewModel.swift */; };
 		E146BAEB23D251510036052B /* PiecesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E146BAEA23D251510036052B /* PiecesViewModel.swift */; };
 		E146BAEE23D2515F0036052B /* YouViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E146BAED23D2515F0036052B /* YouViewModel.swift */; };
@@ -82,6 +84,8 @@
 		E17736E223EB3ED60059411F /* SectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17736E123EB3ED60059411F /* SectionView.swift */; };
 		E17736E523EB842C0059411F /* SegmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17736E423EB842C0059411F /* SegmentCell.swift */; };
 		E17C8ADE23D2488200C74BBD /* AdagioModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E17C8ADC23D2488200C74BBD /* AdagioModel.xcdatamodeld */; };
+		E17F4F0D23FF5DD200EB7C2C /* Recording+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17F4F0B23FF5DD200EB7C2C /* Recording+CoreDataClass.swift */; };
+		E17F4F0E23FF5DD200EB7C2C /* Recording+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17F4F0C23FF5DD200EB7C2C /* Recording+CoreDataProperties.swift */; };
 		E181303E23D810B300A45C8B /* Editable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181303D23D810B300A45C8B /* Editable.swift */; };
 		E194A08C23E6820B00EBD857 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E194A08B23E6820B00EBD857 /* Haptics.swift */; };
 		E1A2CC8323D24E2E0054522B /* SharedPips.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17C8AE423D24E0D00C74BBD /* SharedPips.framework */; };
@@ -93,9 +97,13 @@
 		E1A53AED23E8A3C50059BBD5 /* FocusSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A53AEC23E8A3C50059BBD5 /* FocusSectionViewModel.swift */; };
 		E1A53AEF23E8A3CB0059BBD5 /* FocusSectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A53AEE23E8A3CB0059BBD5 /* FocusSectionRow.swift */; };
 		E1AA21D523E2B12F00D299CC /* CurrentSessionBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AA21D423E2B12F00D299CC /* CurrentSessionBar.swift */; };
+		E1AC840823FE629E00DB4DD8 /* RecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AC840723FE629E00DB4DD8 /* RecordingViewController.swift */; };
+		E1AC840C23FE66B900DB4DD8 /* RecordingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AC840B23FE66B900DB4DD8 /* RecordingViewModel.swift */; };
 		E1CA892323D1098600E4FD3C /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CA892223D1098600E4FD3C /* CoreDataManager.swift */; };
 		E1CF208223EA14B200E05E12 /* PracticeEntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CF208123EA14B200E05E12 /* PracticeEntryCell.swift */; };
 		E1CF208523EA29FA00E05E12 /* IconLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CF208423EA29FA00E05E12 /* IconLabelView.swift */; };
+		E1D34FC52403900F0097C3C2 /* PlaybackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D34FC42403900F0097C3C2 /* PlaybackViewController.swift */; };
+		E1D34FC8240390190097C3C2 /* PlaybackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D34FC7240390190097C3C2 /* PlaybackViewModel.swift */; };
 		E1DBC94823F1E960003F8012 /* RadioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DBC94723F1E960003F8012 /* RadioCell.swift */; };
 		E1E869CD23E5431C00569475 /* ChoosePieceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E869CC23E5431C00569475 /* ChoosePieceViewModel.swift */; };
 		E1E869D023E5627B00569475 /* HideKeyboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E869CF23E5627B00569475 /* HideKeyboardButton.swift */; };
@@ -164,8 +172,6 @@
 		E12FFC8823D4416500705CFC /* EditItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemCell.swift; sourceTree = "<group>"; };
 		E12FFC8A23D4D19C00705CFC /* RequestFeatureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestFeatureViewController.swift; sourceTree = "<group>"; };
 		E12FFC8C23D4D1CA00705CFC /* RequestFeatureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestFeatureViewModel.swift; sourceTree = "<group>"; };
-		E12FFC9123D5063A00705CFC /* Section+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Section+CoreDataClass.swift"; sourceTree = "<group>"; };
-		E12FFC9223D5063A00705CFC /* Section+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Section+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E12FFC9323D5063A00705CFC /* Instrument+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Instrument+CoreDataClass.swift"; sourceTree = "<group>"; };
 		E12FFC9423D5063A00705CFC /* Instrument+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Instrument+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E12FFC9523D5063A00705CFC /* Piece+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Piece+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -186,6 +192,10 @@
 		E12FFCB823D54F4300705CFC /* PickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewModel.swift; sourceTree = "<group>"; };
 		E12FFCBD23D568D600705CFC /* Selectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selectable.swift; sourceTree = "<group>"; };
 		E12FFCC023D57C7E00705CFC /* Verifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Verifiable.swift; sourceTree = "<group>"; };
+		E13109FC240393290092579C /* PlaybackRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackRow.swift; sourceTree = "<group>"; };
+		E13C133223FF6A4F0080EA79 /* RecordingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingCell.swift; sourceTree = "<group>"; };
+		E13C133523FF74590080EA79 /* Section+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Section+CoreDataClass.swift"; sourceTree = "<group>"; };
+		E13C133623FF74590080EA79 /* Section+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Section+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E146BAE723D251420036052B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		E146BAEA23D251510036052B /* PiecesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiecesViewModel.swift; sourceTree = "<group>"; };
 		E146BAED23D2515F0036052B /* YouViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouViewModel.swift; sourceTree = "<group>"; };
@@ -206,6 +216,8 @@
 		E17736E423EB842C0059411F /* SegmentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentCell.swift; sourceTree = "<group>"; };
 		E17C8ADD23D2488200C74BBD /* AdagioModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AdagioModel.xcdatamodel; sourceTree = "<group>"; };
 		E17C8ADF23D24E0D00C74BBD /* SharedPips.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SharedPips.xcodeproj; path = ../SharedPips/SharedPips.xcodeproj; sourceTree = "<group>"; };
+		E17F4F0B23FF5DD200EB7C2C /* Recording+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Recording+CoreDataClass.swift"; sourceTree = "<group>"; };
+		E17F4F0C23FF5DD200EB7C2C /* Recording+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Recording+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E181303D23D810B300A45C8B /* Editable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Editable.swift; sourceTree = "<group>"; };
 		E194A08B23E6820B00EBD857 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 		E1A2CC8723D24E810054522B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -215,9 +227,13 @@
 		E1A53AEC23E8A3C50059BBD5 /* FocusSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusSectionViewModel.swift; sourceTree = "<group>"; };
 		E1A53AEE23E8A3CB0059BBD5 /* FocusSectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusSectionRow.swift; sourceTree = "<group>"; };
 		E1AA21D423E2B12F00D299CC /* CurrentSessionBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentSessionBar.swift; sourceTree = "<group>"; };
+		E1AC840723FE629E00DB4DD8 /* RecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingViewController.swift; sourceTree = "<group>"; };
+		E1AC840B23FE66B900DB4DD8 /* RecordingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingViewModel.swift; sourceTree = "<group>"; };
 		E1CA892223D1098600E4FD3C /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		E1CF208123EA14B200E05E12 /* PracticeEntryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeEntryCell.swift; sourceTree = "<group>"; };
 		E1CF208423EA29FA00E05E12 /* IconLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconLabelView.swift; sourceTree = "<group>"; };
+		E1D34FC42403900F0097C3C2 /* PlaybackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackViewController.swift; sourceTree = "<group>"; };
+		E1D34FC7240390190097C3C2 /* PlaybackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackViewModel.swift; sourceTree = "<group>"; };
 		E1DBC94723F1E960003F8012 /* RadioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioCell.swift; sourceTree = "<group>"; };
 		E1E869CC23E5431C00569475 /* ChoosePieceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePieceViewModel.swift; sourceTree = "<group>"; };
 		E1E869CF23E5627B00569475 /* HideKeyboardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboardButton.swift; sourceTree = "<group>"; };
@@ -416,6 +432,7 @@
 				E1522AF023E0126900221A79 /* FocusSectionViewController.swift */,
 				E1A53AEC23E8A3C50059BBD5 /* FocusSectionViewModel.swift */,
 				E1A53AEE23E8A3CB0059BBD5 /* FocusSectionRow.swift */,
+				E13C133223FF6A4F0080EA79 /* RecordingCell.swift */,
 			);
 			path = FocusSectionViewController;
 			sourceTree = "<group>";
@@ -439,8 +456,6 @@
 			isa = PBXGroup;
 			children = (
 				E1CA892223D1098600E4FD3C /* CoreDataManager.swift */,
-				E12FFC9123D5063A00705CFC /* Section+CoreDataClass.swift */,
-				E12FFC9223D5063A00705CFC /* Section+CoreDataProperties.swift */,
 				E12FFC9323D5063A00705CFC /* Instrument+CoreDataClass.swift */,
 				E12FFC9423D5063A00705CFC /* Instrument+CoreDataProperties.swift */,
 				E12FFC9523D5063A00705CFC /* Piece+CoreDataClass.swift */,
@@ -449,6 +464,10 @@
 				E12FFC9823D5063A00705CFC /* Practice+CoreDataProperties.swift */,
 				E12FFC9923D5063A00705CFC /* Group+CoreDataClass.swift */,
 				E12FFC9A23D5063A00705CFC /* Group+CoreDataProperties.swift */,
+				E13C133523FF74590080EA79 /* Section+CoreDataClass.swift */,
+				E13C133623FF74590080EA79 /* Section+CoreDataProperties.swift */,
+				E17F4F0B23FF5DD200EB7C2C /* Recording+CoreDataClass.swift */,
+				E17F4F0C23FF5DD200EB7C2C /* Recording+CoreDataProperties.swift */,
 				E10C483323FA65F300F47E23 /* Image.swift */,
 			);
 			path = CoreData;
@@ -466,20 +485,41 @@
 				E1CF208123EA14B200E05E12 /* PracticeEntryCell.swift */,
 				E17736E123EB3ED60059411F /* SectionView.swift */,
 				E1CF208423EA29FA00E05E12 /* IconLabelView.swift */,
-				E10C483923FB1B2C00F47E23 /* ImageViewController */,
 				E146BAE323D251230036052B /* HomeViewController */,
 				E146BAE523D251290036052B /* PiecesViewController */,
 				E12FFCA923D5093200705CFC /* EditPieceViewController */,
+				E10C483923FB1B2C00F47E23 /* ImageViewController */,
 				E146BAE623D2512F0036052B /* YouViewController */,
-				E146BAF523D257EA0036052B /* PracticeViewController */,
 				E12FFC6923D390F900705CFC /* SettingsViewController */,
 				E12FFC7C23D4312500705CFC /* EditItemsViewController */,
-				E12FFC8523D43ABA00705CFC /* CreateItemViewController */,
 				E12FFC8E23D4D1FC00705CFC /* RequestFeatureViewController */,
-				E12FFCBA23D54FE600705CFC /* PickerViewController */,
+				E146BAF523D257EA0036052B /* PracticeViewController */,
 				E1522AF223E0126C00221A79 /* FocusSectionViewController */,
+				E1AC840A23FE66AE00DB4DD8 /* RecordingViewController */,
+				E1D34FC92403901C0097C3C2 /* PlaybackViewController */,
+				E12FFCBA23D54FE600705CFC /* PickerViewController */,
+				E12FFC8523D43ABA00705CFC /* CreateItemViewController */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		E1AC840A23FE66AE00DB4DD8 /* RecordingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E1AC840723FE629E00DB4DD8 /* RecordingViewController.swift */,
+				E1AC840B23FE66B900DB4DD8 /* RecordingViewModel.swift */,
+			);
+			path = RecordingViewController;
+			sourceTree = "<group>";
+		};
+		E1D34FC92403901C0097C3C2 /* PlaybackViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E1D34FC42403900F0097C3C2 /* PlaybackViewController.swift */,
+				E1D34FC7240390190097C3C2 /* PlaybackViewModel.swift */,
+				E13109FC240393290092579C /* PlaybackRow.swift */,
+			);
+			path = PlaybackViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -575,6 +615,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E12FFC7123D3D94300705CFC /* SettingsType.swift in Sources */,
+				E1D34FC52403900F0097C3C2 /* PlaybackViewController.swift in Sources */,
 				E12FFCA423D5063A00705CFC /* Group+CoreDataProperties.swift in Sources */,
 				E1A2CC8823D24E810054522B /* HomeViewController.swift in Sources */,
 				E1A53AEF23E8A3CB0059BBD5 /* FocusSectionRow.swift in Sources */,
@@ -582,9 +623,9 @@
 				E12FFC8023D432F300705CFC /* EditItemRow.swift in Sources */,
 				E1A2CC8C23D24EAD0054522B /* YouViewController.swift in Sources */,
 				E103FEBB23CE6B6F00BDE96A /* RootViewController.swift in Sources */,
-				E12FFC9C23D5063A00705CFC /* Section+CoreDataProperties.swift in Sources */,
 				E1522AF423E012BF00221A79 /* AddPieceCell.swift in Sources */,
 				E12FFC8923D4416500705CFC /* EditItemCell.swift in Sources */,
+				E13C133823FF74590080EA79 /* Section+CoreDataProperties.swift in Sources */,
 				E12FFC7E23D4312F00705CFC /* EditItemsViewModel.swift in Sources */,
 				E16EB6D623EA9BD600BE6800 /* TestData.swift in Sources */,
 				E10C483D23FB1B3900F47E23 /* ImageRow.swift in Sources */,
@@ -595,6 +636,7 @@
 				E12FFCC123D57C7E00705CFC /* Verifiable.swift in Sources */,
 				E10CE1FD23E53F7500BE8537 /* ChoosePieceViewController.swift in Sources */,
 				E12FFC7723D4245400705CFC /* SettingsItemCell.swift in Sources */,
+				E17F4F0D23FF5DD200EB7C2C /* Recording+CoreDataClass.swift in Sources */,
 				E146BAF423D2579C0036052B /* PracticeViewModel.swift in Sources */,
 				E146BAEB23D251510036052B /* PiecesViewModel.swift in Sources */,
 				E16B880B23D2F6AB00A8CF07 /* HomeSubtitleCell.swift in Sources */,
@@ -609,9 +651,11 @@
 				E12FFC6F23D393C900705CFC /* SettingsSectionCell.swift in Sources */,
 				E12FFCBE23D568D600705CFC /* Selectable.swift in Sources */,
 				E12FFC8D23D4D1CA00705CFC /* RequestFeatureViewModel.swift in Sources */,
+				E1D34FC8240390190097C3C2 /* PlaybackViewModel.swift in Sources */,
 				E103FEB723CE6B6F00BDE96A /* AppDelegate.swift in Sources */,
 				E12FFCA123D5063A00705CFC /* Practice+CoreDataClass.swift in Sources */,
 				E12FFCAF23D5142500705CFC /* Array+Diff.swift in Sources */,
+				E17F4F0E23FF5DD200EB7C2C /* Recording+CoreDataProperties.swift in Sources */,
 				E12FFCB723D54D4F00705CFC /* PickerViewController.swift in Sources */,
 				E16B880D23D2FBF800A8CF07 /* AdagioCell.swift in Sources */,
 				E1522AF123E0126900221A79 /* FocusSectionViewController.swift in Sources */,
@@ -620,21 +664,24 @@
 				E181303E23D810B300A45C8B /* Editable.swift in Sources */,
 				E17736E523EB842C0059411F /* SegmentCell.swift in Sources */,
 				E146BAF723D258A20036052B /* AdagioViewController.swift in Sources */,
+				E1AC840823FE629E00DB4DD8 /* RecordingViewController.swift in Sources */,
 				E12FFC8423D43AB400705CFC /* CreateItemViewModel.swift in Sources */,
 				E12FFC6523D38C5200705CFC /* YouRow.swift in Sources */,
 				E12FFCA623D5087000705CFC /* EditPieceViewController.swift in Sources */,
 				E12FFCAD23D50D5800705CFC /* EditPieceRow.swift in Sources */,
 				E12FFCAB23D50A6400705CFC /* TextFieldCell.swift in Sources */,
 				E12FFC8B23D4D19C00705CFC /* RequestFeatureViewController.swift in Sources */,
+				E13C133323FF6A4F0080EA79 /* RecordingCell.swift in Sources */,
 				E1DBC94823F1E960003F8012 /* RadioCell.swift in Sources */,
 				E1A53AC823E6B2190059BBD5 /* CurrentPracticeTimer.swift in Sources */,
 				E12FFC7B23D4310600705CFC /* EditItemsViewController.swift in Sources */,
 				E12FFCA823D508D500705CFC /* EditPieceViewModel.swift in Sources */,
 				E10C482C23FA409E00F47E23 /* UIViewController+RemoveFromParent.swift in Sources */,
+				E1AC840C23FE66B900DB4DD8 /* RecordingViewModel.swift in Sources */,
+				E13C133723FF74590080EA79 /* Section+CoreDataClass.swift in Sources */,
 				E12FFC7323D3EDD400705CFC /* SpacerCell.swift in Sources */,
 				E17C8ADE23D2488200C74BBD /* AdagioModel.xcdatamodeld in Sources */,
 				E16B880823D2F3C400A8CF07 /* HomeRow.swift in Sources */,
-				E12FFC9B23D5063A00705CFC /* Section+CoreDataClass.swift in Sources */,
 				E146BAF923D258EA0036052B /* UIColor+Adagio.swift in Sources */,
 				E146BAF023D2535A0036052B /* CurrentPracticeState.swift in Sources */,
 				E12FFC7923D42FDF00705CFC /* SettingsSelectionCell.swift in Sources */,
@@ -659,6 +706,7 @@
 				E10C483423FA65F300F47E23 /* Image.swift in Sources */,
 				E12FFCB323D53F8900705CFC /* PieceCell.swift in Sources */,
 				E1CF208523EA29FA00E05E12 /* IconLabelView.swift in Sources */,
+				E13109FD240393290092579C /* PlaybackRow.swift in Sources */,
 				E12FFC6B23D3915200705CFC /* SettingsViewModel.swift in Sources */,
 				E10C482923F9E5BB00F47E23 /* RootPracticeViewController.swift in Sources */,
 				E10C483B23FB1B3500F47E23 /* ImageViewModel.swift in Sources */,

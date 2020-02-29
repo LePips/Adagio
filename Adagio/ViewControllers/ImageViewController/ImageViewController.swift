@@ -9,17 +9,44 @@
 import UIKit
 import SharedPips
 
-class ImageViewController: SubAdagioViewController, UIAdaptivePresentationControllerDelegate {
+class ImageRootViewController: UINavigationController, UIAdaptivePresentationControllerDelegate {
+    
+    private let viewModel: ImageViewModel
+    
+    init(viewModel: ImageViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        
+        self.makeBarTransparent()
+        
+        self.presentationController?.delegate = self
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.viewControllers = [ImageViewController(viewModel: viewModel)]
+    }
+    
+    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
+        return !viewModel.editing
+    }
+    
+    func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
+        viewModel.saveAction()
+    }
+}
+
+private class ImageViewController: SubAdagioViewController, UIAdaptivePresentationControllerDelegate {
     
     private lazy var tableView = makeTableView()
     private lazy var hideKeyboardButton = makeHideKeyboardButton()
     private lazy var keyboardTopAnchor = makeKeyboardTopAnchor()
     
     private let viewModel: ImageViewModel
-    
-    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
-        return !viewModel.editing
-    }
     
     init(viewModel: ImageViewModel) {
         self.viewModel = viewModel
@@ -70,11 +97,11 @@ class ImageViewController: SubAdagioViewController, UIAdaptivePresentationContro
     
     @objc private func editSelected() {
         let saveBarButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveSelected))
-//        let deleteBarButton = UIBarButtonItem(title: "Delete", style: .plain, target: self, action: #selector(deleteSelected))
-//        deleteBarButton.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemPink], for: .normal)
+        let deleteBarButton = UIBarButtonItem(title: "Delete", style: .plain, target: self, action: #selector(deleteSelected))
+        deleteBarButton.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemPink], for: .normal)
         self.navigationItem.setLeftBarButton(nil, animated: true)
         self.navigationItem.setRightBarButton(saveBarButton, animated: true)
-//        self.navigationItem.setLeftBarButton(deleteBarButton, animated: true)
+        self.navigationItem.setLeftBarButton(deleteBarButton, animated: true)
         
         viewModel.editing = true
         
@@ -89,7 +116,13 @@ class ImageViewController: SubAdagioViewController, UIAdaptivePresentationContro
     }
     
     @objc private func closeSelected() {
+        viewModel.saveAction()
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func deleteSelected() {
+        viewModel.delete()
+        dismiss(animated: true, completion: nil)
     }
     
     @objc private func doneSelected() {

@@ -43,7 +43,7 @@ class ChoosePieceViewController: MainAdagioViewController {
         let pieceConfiguration = UIImage.SymbolConfiguration(pointSize: 30, weight: .semibold)
         self.setTabBarItem(UIImage(named: "doc.music.empty")?.applyingSymbolConfiguration(pieceConfiguration),
                            selectedImage: UIImage(named: "doc.music.filled")?.applyingSymbolConfiguration(pieceConfiguration))
-        self.title = "Pieces"
+        self.title = "Add Piece"
     }
     
     required init?(coder: NSCoder) {

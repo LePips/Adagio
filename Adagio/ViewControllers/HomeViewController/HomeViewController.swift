@@ -11,11 +11,19 @@ import SharedPips
 
 class HomeRootViewController: UINavigationController {
     
+    private let viewModel: HomeViewModel
+    
     init(viewModel: HomeViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         
-        viewControllers = [HomeViewController(viewModel: viewModel)]
         self.makeBarTransparent()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        viewControllers = [HomeViewController(viewModel: viewModel)]
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -110,6 +118,7 @@ private class HomeViewController: MainAdagioViewController {
         return button
     }
     
+    // MARK: - startPracticeSelected
     @objc private func startPracticeSelected() {
         let privateContext = CoreDataManager.main.privateChildManagedObjectContext()
         let newPractice = Practice(context: privateContext)
@@ -134,6 +143,13 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard indexPath.row <= viewModel.rows.count else { return CGSize(width: UIScreen.main.bounds.width, height: 0)}
         return CGSize(width: UIScreen.main.bounds.width, height: viewModel.rows[indexPath.row].height())
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if case HomeRow.practice(let practice) = viewModel.rows[indexPath.row] {
+            let practiceViewModel = ViewPracticeViewModel(practice: practice)
+            present(PracticeRootViewController(viewModel: practiceViewModel), animated: true, completion: nil)
+        }
     }
 }
 

@@ -13,6 +13,7 @@ enum FocusSectionRow {
     case subtitle(String)
     case notes(TextFieldCellConfiguration)
     case radio(RadioCellConfiguration)
+    case recording(RecordingCellConfiguration)
     
     var key: String {
         switch self {
@@ -24,6 +25,8 @@ enum FocusSectionRow {
             return "notes"
         case .radio(_):
             return "radio"
+        case .recording(_):
+            return "recording"
         }
     }
 }
@@ -45,6 +48,7 @@ extension FocusSectionRow {
         tableView.register(HomeSubtitleCell.self, forCellReuseIdentifier: HomeSubtitleCell.identifier)
         tableView.register(LargerTextFieldCell.self, forCellReuseIdentifier: LargerTextFieldCell.identifier)
         tableView.register(RadioCell.self, forCellReuseIdentifier: RadioCell.identifier)
+        tableView.register(RecordingCell.self, forCellReuseIdentifier: RecordingCell.identifier)
     }
     
     func cell(for path: IndexPath, in tableView: UITableView) -> UITableViewCell {
@@ -65,6 +69,10 @@ extension FocusSectionRow {
             let cell = tableView.dequeueReusableCell(withIdentifier: RadioCell.identifier, for: path) as! RadioCell
             cell.configure(with: configuration)
             return cell
+        case .recording(let configuration):
+            let cell = tableView.dequeueReusableCell(withIdentifier: RecordingCell.identifier, for: path) as! RecordingCell
+            cell.configure(with: configuration)
+            return cell
         }
     }
     
@@ -80,6 +88,10 @@ extension FocusSectionRow {
                 (configuration.text ?? "").height(withConstrainedWidth: UIScreen.main.bounds.width - 34, font: UIFont.systemFont(ofSize: 14, weight: .semibold))
         case .radio(_):
             return 50
+        case .recording(let configuration):
+            var height: CGFloat = 62
+            height += max(16, CGFloat(configuration.recordings.filter({ $0.title != "" }).count) * 30)
+            return height
         }
     }
 }

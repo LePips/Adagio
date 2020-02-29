@@ -127,7 +127,7 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
                             self.delegate?.presentImagePicker()
                          },
                             selectedAction: { image in
-                                self.delegate?.presentImage(with: ImageViewModel(image: image))
+                                self.delegate?.presentImage(with: ImageViewModel(image: image, deleteAction: self.delete(image:), replaceAction: self.replace(old:new:)))
                          },
                             editing: true))
             ]
@@ -153,7 +153,7 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
                                                         textAutocapitalizationType: .words)),
                      .note(TextFieldCellConfiguration(title: "Notes",
                                                       required: false,
-                                                      text: nil,
+                                                      text: piece.notes,
                                                       textAction: setNote(_:),
                                                       allowNewLines: true,
                                                       editing: self.editing,
@@ -178,7 +178,7 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
                         self.delegate?.presentImagePicker()
                      },
                         selectedAction: { image in
-                            self.delegate?.presentImage(with: ImageViewModel(image: image))
+                            self.delegate?.presentImage(with: ImageViewModel(image: image, deleteAction: self.delete(image:), replaceAction: self.replace(old:new:)))
                      },
                         editing: self.editing))
         ]
@@ -306,10 +306,26 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
                                    self.delegate?.presentImagePicker()
                                 },
                                    selectedAction: { image in
-                                       self.delegate?.presentImage(with: ImageViewModel(image: image))
+                                    self.delegate?.presentImage(with: ImageViewModel(image: image, deleteAction: self.delete(image:), replaceAction: self.replace(old:new:)))
                                 },
                                    editing: self.editing))
         delegate?.reloadRows()
+    }
+    
+    func delete(image: Image) {
+        if let index = piece.images.firstIndex(of: image) {
+            piece.images.remove(at: index)
+            self.reloadRows()
+            delegate?.reloadRows()
+        }
+    }
+    
+    func replace(old: Image, new: Image) {
+        if let index = piece.images.firstIndex(of: old) {
+            piece.images[index] = new
+            self.reloadRows()
+            delegate?.reloadRows()
+        }
     }
 }
 
@@ -324,6 +340,7 @@ extension EditPieceViewModel: SegmentCellDelegate {
         delegate?.presentEntryView()
         
         let fetchRequest: NSFetchRequest<Practice> = Practice.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "startDate", ascending: false)]
         CoreDataManager.main.fetch(request: fetchRequest) { (practices) in
             let filtered = practices.filter({ $0.sections?.compactMap({ ($0 as! Section) }).contains(where: { $0.piece == self.piece }) ?? false })
             self.practicesForPiece = filtered

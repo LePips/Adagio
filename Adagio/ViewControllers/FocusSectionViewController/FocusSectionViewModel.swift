@@ -15,6 +15,8 @@ protocol FocusSectionViewModelDelegate {
     func updateRows()
     
     func set(warmUp: Bool)
+    func presentRecording(with section: Section)
+    func presentPlayback(with recording: Recording)
 }
 
 class FocusSectionViewModel {
@@ -44,7 +46,7 @@ class FocusSectionViewModel {
         self.rows = [
             .subtitle(section.practice.title),
             .title(TextFieldCellConfiguration(title: "", required: false, text: section.title, textAction: { _ in }, allowNewLines: false, editing: false)),
-            .radio(RadioCellConfiguration(title: "Warm Up", selected: false, selectedAction: set(warmUp:))),
+            .radio(RadioCellConfiguration(title: "Warm Up", selected: section.warmUp, selectedAction: set(warmUp:))),
             .notes(TextFieldCellConfiguration(title: "Notes",
                                               required: false,
                                               text: section.note,
@@ -52,7 +54,10 @@ class FocusSectionViewModel {
                                               allowNewLines: true,
                                               returnKeyType: .default,
                                               returnAction: { _ in },
-                                              textAutocapitalizationType: .sentences))
+                                              textAutocapitalizationType: .sentences)),
+            .recording(RecordingCellConfiguration(createAction: createRecording,
+                                                  recordings: section.recordings.array as? [Recording] ?? [],
+                                                  selectAction: present(recording:)))
         ]
     }
     
@@ -64,5 +69,13 @@ class FocusSectionViewModel {
     func set(warmUp: Bool) {
         section.warmUp = warmUp
         delegate?.set(warmUp: warmUp)
+    }
+    
+    func createRecording() {
+        delegate?.presentRecording(with: section)
+    }
+    
+    func present(recording: Recording) {
+        delegate?.presentPlayback(with: recording)
     }
 }

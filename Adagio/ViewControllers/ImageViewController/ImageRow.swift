@@ -43,7 +43,7 @@ extension ImageRow {
     
     static func register(tableView: UITableView) {
         tableView.register(ImageCell.self, forCellReuseIdentifier: ImageCell.identifier)
-        tableView.register(LargerTextFieldCell.self, forCellReuseIdentifier: LargerTextFieldCell.identifier)
+        tableView.register(LargeTextFieldCell.self, forCellReuseIdentifier: LargeTextFieldCell.identifier)
         tableView.register(TextFieldCell.self, forCellReuseIdentifier: TextFieldCell.identifier)
         tableView.register(SpacerCell.self, forCellReuseIdentifier: SpacerCell.identifier)
     }
@@ -55,7 +55,7 @@ extension ImageRow {
             cell.configure(image: image)
             return cell
         case .title(let configuration):
-            let cell = tableView.dequeueReusableCell(withIdentifier: LargerTextFieldCell.identifier, for: path) as! LargerTextFieldCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: LargeTextFieldCell.identifier, for: path) as! LargeTextFieldCell
             cell.configure(with: configuration)
             return cell
         case .note(let configuration):
@@ -74,7 +74,7 @@ extension ImageRow {
             return image.size.height * scale
         case .title(let configuration):
             return "height".height(withConstrainedWidth: 100, font: UIFont.systemFont(ofSize: 14, weight: .medium)) + 41 +
-                (configuration.text ?? "").height(withConstrainedWidth: UIScreen.main.bounds.width - 34, font: UIFont.systemFont(ofSize: 30, weight: .semibold))
+                (configuration.text ?? "").height(withConstrainedWidth: UIScreen.main.bounds.width - 34, font: UIFont.systemFont(ofSize: 24, weight: .semibold))
         case .note(let configuration):
             return "height".height(withConstrainedWidth: 100, font: UIFont.systemFont(ofSize: 14, weight: .medium)) + 41 +
                 (configuration.text ?? "").height(withConstrainedWidth: UIScreen.main.bounds.width - 34, font: UIFont.systemFont(ofSize: 14, weight: .semibold))

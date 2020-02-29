@@ -53,6 +53,8 @@ class RootViewController: UITabBarController {
         
         CurrentPracticeState.core.addSubscriber(subscriber: self, update: RootViewController.update)
         CurrentTimerState.core.addSubscriber(subscriber: self, update: RootViewController.update)
+        
+        self.selectedIndex = 0
     }
     
     override func viewDidLayoutSubviews() {

@@ -17,7 +17,6 @@ class EditPieceRootViewController: UINavigationController, UIAdaptivePresentatio
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         
-        viewControllers = [EditPieceViewController(viewModel: viewModel)]
         self.makeBarTransparent()
         self.presentationController?.delegate = self
     }
@@ -28,6 +27,11 @@ class EditPieceRootViewController: UINavigationController, UIAdaptivePresentatio
     
     func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
         return !viewModel.editing
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        viewControllers = [EditPieceViewController(viewModel: viewModel)]
     }
 }
 
@@ -375,9 +379,7 @@ extension EditPieceViewController: EditPieceViewModelDelegate {
     }
     
     func presentImage(with viewModel: ImageViewModel) {
-        let navigationViewController = UINavigationController(rootViewController: ImageViewController(viewModel: viewModel))
-        navigationViewController.makeBarTransparent()
-        present(navigationViewController, animated: true, completion: nil)
+        present(ImageRootViewController(viewModel: viewModel), animated: true, completion: nil)
     }
     
     func presentImagePicker() {

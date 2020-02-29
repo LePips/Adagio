@@ -84,6 +84,8 @@ class FocusSectionViewController: SubAdagioViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        self.title = "0:00"
     }
     
     override func willMove(toParent parent: UIViewController?) {
@@ -149,6 +151,7 @@ class FocusSectionViewController: SubAdagioViewController {
     }
 }
 
+// MARK: - tableView
 extension FocusSectionViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -169,10 +172,13 @@ extension FocusSectionViewController: UITableViewDelegate, UITableViewDataSource
     }
 }
 
+// MARK: - FocusSectionViewModelDelegate
 extension FocusSectionViewController: FocusSectionViewModelDelegate {
     
     func reloadRows() {
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     func updateRows() {
@@ -182,8 +188,24 @@ extension FocusSectionViewController: FocusSectionViewModelDelegate {
     func set(warmUp: Bool) {
         
     }
+    
+    func presentRecording(with section: Section) {
+        let recordingViewModel = RecordingViewModel(section: section, doneAction: {
+            self.viewModel?.reloadRows()
+            self.reloadRows()
+        })
+        let recordingViewController = RecordingViewController(viewModel: recordingViewModel)
+        present(recordingViewController, animated: true, completion: nil)
+    }
+    
+    func presentPlayback(with recording: Recording) {
+        let playbackViewModel = PlaybackViewModel(section: viewModel!.section, recording: recording, reloadAction: reloadRows)
+        let playbackViewController = PlaybackRootViewController(viewModel: playbackViewModel)
+        present(playbackViewController, animated: true, completion: nil)
+    }
 }
 
+// MARK: - Subscriber
 extension FocusSectionViewController: Subscriber {
     func update(state: CurrentTimerState) {
         guard let startDate = viewModel?.section.startDate else { return }

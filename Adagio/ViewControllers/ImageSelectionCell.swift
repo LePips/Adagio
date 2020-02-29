@@ -21,6 +21,7 @@ class ImageSelectionCell: AdagioCell, Editable {
     
     private lazy var titleLabel = makeTitleLabel()
     private lazy var addButton = makeAddButton()
+    private lazy var imageScrollView = makeImageScrollView()
     private lazy var imageStackView = makeImageStackView()
     private lazy var separatorView = makeSeparatorView()
     private lazy var noneLabel = makeNoneLabel()
@@ -40,6 +41,8 @@ class ImageSelectionCell: AdagioCell, Editable {
             imageView.configure(image: image, delegate: self)
             imageStackView.addArrangedSubview(imageView)
         }
+        
+        imageScrollView.contentSize = CGSize(width: 90 * configuration.images.count, height: 140)
         
         self.noneLabel.alpha = !configuration.editing && imageStackView.arrangedSubviews.isEmpty ? 1 : 0
         self.separatorView.alpha = configuration.editing ? 1 : 0
@@ -69,7 +72,9 @@ class ImageSelectionCell: AdagioCell, Editable {
     override func setupSubviews() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(addButton)
-        contentView.addSubview(imageStackView)
+        contentView.addSubview(imageScrollView)
+//        contentView.addSubview(imageStackView)
+        imageScrollView.embed(imageStackView)
         contentView.addSubview(separatorView)
         contentView.addSubview(noneLabel)
     }
@@ -84,10 +89,16 @@ class ImageSelectionCell: AdagioCell, Editable {
             addButton.rightAnchor ⩵ contentView.rightAnchor - 17
         ])
         NSLayoutConstraint.activate([
-            imageStackView.topAnchor ⩵ titleLabel.bottomAnchor + 10,
-            imageStackView.leftAnchor ⩵ contentView.leftAnchor + 17,
-            imageStackView.heightAnchor ⩵ 140
+            imageScrollView.topAnchor ⩵ titleLabel.bottomAnchor + 10,
+            imageScrollView.heightAnchor ⩵ 140,
+            imageScrollView.leftAnchor ⩵ contentView.leftAnchor + 17,
+            imageScrollView.rightAnchor ⩵ contentView.rightAnchor - 17
         ])
+//        NSLayoutConstraint.activate([
+//            imageStackView.topAnchor ⩵ titleLabel.bottomAnchor + 10,
+//            imageStackView.leftAnchor ⩵ contentView.leftAnchor + 17,
+//            imageStackView.heightAnchor ⩵ 140
+//        ])
         NSLayoutConstraint.activate([
             separatorView.bottomAnchor ⩵ contentView.bottomAnchor - 10,
             separatorView.leftAnchor ⩵ contentView.leftAnchor + 17,
@@ -119,6 +130,13 @@ class ImageSelectionCell: AdagioCell, Editable {
     
     @objc private func addSelected() {
         configuration?.addAction()
+    }
+    
+    private func makeImageScrollView() -> UIScrollView {
+        let scrollView = UIScrollView.forAutoLayout()
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.clipsToBounds = false
+        return scrollView
     }
     
     private func makeSeparatorView() -> UIView {

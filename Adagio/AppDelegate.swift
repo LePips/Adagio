@@ -24,12 +24,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func setRootViewController() {
-        window?.rootViewController = RootViewController()
+        let root = RootViewController()
+        root.modalPresentationStyle = .fullScreen
+        root.modalTransitionStyle = .crossDissolve
+        window?.rootViewController?.present(root, animated: true, completion: nil)
         CurrentPracticeState.core.fire(.loadCurrentPractice)
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
-        CurrentPracticeState.core.fire(.saveCurrentPractice)
+//        CurrentPracticeState.core.fire(.saveCurrentPractice)
     }
     
 //    func applicationWillEnterForeground(_ application: UIApplication) {
@@ -37,6 +40,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        CurrentPracticeState.core.fire(.saveCurrentPractice)
+//        CurrentPracticeState.core.fire(.saveCurrentPractice)
     }
 }

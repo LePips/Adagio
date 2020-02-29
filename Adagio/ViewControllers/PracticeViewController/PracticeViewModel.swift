@@ -29,6 +29,12 @@ protocol PracticeViewModelProtocol: class {
     func setNote(_ note: String?)
     func createRows()
     func deleteSection(_ section: Section)
+    func createPieceSection(with piece: Piece) -> Section
+    func focus(section: Section)
+    func endFocusSection()
+    func addPieceSelected()
+    func deletePracticeSelected()
+    func deletePracticeConfirmed()
     func saveEntry(current: Bool, completion: @escaping () -> Void)
 }
 
@@ -65,7 +71,7 @@ class PracticeViewModel: PracticeViewModelProtocol {
         delegate?.updateRows()
     }
     
-func createRows() {
+    func createRows() {
         self.rows = [.title(TextFieldCellConfiguration(title: "", required: false, text: practice.title, textAction: setTitle(_:), allowNewLines: false, textAutocapitalizationType: .words)),
                      .subtitle,
                      .notes(TextFieldCellConfiguration(title: "Notes",
@@ -129,5 +135,81 @@ func createRows() {
     
     func saveEntry(current: Bool, completion: @escaping () -> Void) {
         CurrentPracticeState.core.fire(.saveCurrentPractice)
+    }
+}
+
+
+class ViewPracticeViewModel: PracticeViewModelProtocol {
+    
+    var rows: [PracticeRow] = []
+    var delegate: PracticeViewModelDelegate?
+    var practice: Practice
+    var managedObjectContext: NSManagedObjectContext
+    
+    init(practice: Practice) {
+        self.practice = practice
+        self.managedObjectContext = practice.managedObjectContext!
+        
+        createRows()
+        delegate?.reloadRows()
+    }
+    
+    func setTitle(_ title: String) {
+        
+    }
+    
+    func setNote(_ note: String?) {
+        
+    }
+    
+    func createRows() {
+        self.rows = [.title(TextFieldCellConfiguration(title: "", required: false, text: practice.title, textAction: setTitle(_:), allowNewLines: false, textAutocapitalizationType: .words)),
+                     .subtitle,
+                     .notes(TextFieldCellConfiguration(title: "Notes",
+                                                       required: false,
+                                                       text: practice.note,
+                                                       textAction: setNote(_:),
+                                                       allowNewLines: true,
+                                                       returnKeyType: .default,
+                                                       returnAction: { _ in },
+                                                       textAutocapitalizationType: .sentences)),
+                     .spacer(20)
+        ]
+        
+        for section in practice.sections ?? [] {
+            self.rows.append(.section(section as! Section))
+        }
+    }
+    
+    func deleteSection(_ section: Section) {
+        
+    }
+    
+    func createPieceSection(with piece: Piece) -> Section {
+        return Section()
+    }
+    
+    func focus(section: Section) {
+        
+    }
+    
+    func endFocusSection() {
+        
+    }
+    
+    func addPieceSelected() {
+        
+    }
+    
+    func deletePracticeSelected() {
+        
+    }
+    
+    func deletePracticeConfirmed() {
+        
+    }
+    
+    func saveEntry(current: Bool, completion: @escaping () -> Void) {
+        
     }
 }

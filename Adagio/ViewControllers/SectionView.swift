@@ -17,11 +17,11 @@ class SectionView: BasicView {
     func configure(section: Section) {
         titleLabel.text = section.title
         
-        if let startDate = section.startDate, let endDate = section.endDate {
+        if let endDate = section.endDate {
             let formatter = DateComponentsFormatter()
             formatter.allowedUnits = [.minute, .hour]
             formatter.unitsStyle = .short
-            guard let duration = formatter.string(from: startDate, to: endDate) else { assertionFailure(); return }
+            guard let duration = formatter.string(from: section.startDate, to: endDate) else { assertionFailure(); return }
             durationLabel.text = duration
         }
     }

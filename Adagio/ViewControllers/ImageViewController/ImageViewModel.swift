@@ -26,13 +26,19 @@ class ImageViewModel {
         }
     }
     var image: Image
+    var newImage: Image
     var editing: Bool
     var delegate: ImageViewModelDelegate?
+    var deleteAction: (Image) -> Void
+    var replaceAction: (Image, Image) -> Void
     
-    init(image: Image) {
+    init(image: Image, deleteAction: @escaping (Image) -> Void, replaceAction: @escaping (Image, Image) -> Void) {
         self.rows = []
         self.image = image
+        self.newImage = image
         self.editing = false
+        self.deleteAction = deleteAction
+        self.replaceAction = replaceAction
         
         reloadRows()
     }
@@ -61,16 +67,20 @@ class ImageViewModel {
     }
     
     func setTitle(_ title: String) {
-        self.image = Image(image.image, title: title, note: image.note)
+        self.newImage = Image(image.image, title: title, note: image.note)
         reloadRows()
     }
     
     func setNote(_ note: String) {
-        self.image = Image(image.image, title: image.title, note: note)
+        self.newImage = Image(image.image, title: image.title, note: note)
         reloadRows()
     }
     
     func saveAction() {
-        
+        replaceAction(image, newImage)
+    }
+    
+    func delete() {
+        deleteAction(image)
     }
 }

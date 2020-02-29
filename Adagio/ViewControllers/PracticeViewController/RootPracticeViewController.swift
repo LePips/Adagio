@@ -26,7 +26,7 @@ class PracticeRootViewController: BasicViewController, RootPracticeProtocol {
     private lazy var focusSectionViewController = makeFocusSectionViewController()
     private lazy var focusSectionViewTopAnchor = makeFocusSectionViewTopAnchor()
     
-    private let practiceViewModel: PracticeViewModel
+    private let practiceViewModel: PracticeViewModelProtocol
     
     override func setupSubviews() {
         self.addChild(practiceViewController)
@@ -54,7 +54,7 @@ class PracticeRootViewController: BasicViewController, RootPracticeProtocol {
         ])
     }
     
-    init(viewModel: PracticeViewModel) {
+    init(viewModel: PracticeViewModelProtocol) {
         self.practiceViewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -107,7 +107,7 @@ class PracticeRootViewController: BasicViewController, RootPracticeProtocol {
     }
     
     func load(with section: Section) {
-        let focusSectionViewModel = FocusSectionViewModel(section: section, managedObjectContext: section.managedObjectContext!, sectionFinishAction: practiceViewModel.endFocusSection)
+        let focusSectionViewModel = FocusSectionViewModel(section: section, managedObjectContext: section.managedObjectContext!, sectionFinishAction: self.endFocusSection)
         focusSectionViewController.configure(viewModel: focusSectionViewModel)
         
         focusSectionViewTopAnchor.constant = 0
