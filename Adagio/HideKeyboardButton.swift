@@ -17,7 +17,7 @@ class HideKeyboardButton: UIButton {
         
         self.setImage(UIImage(systemName: "keyboard.chevron.compact.down", withConfiguration: nil), for: .normal)
         self.tintColor = UIColor.Adagio.textColor
-        self.backgroundColor = UIColor.tertiarySystemBackground
+        self.backgroundColor = UIColor.secondarySystemBackground
         self.layer.cornerRadius = 5
     }
     

@@ -26,7 +26,26 @@ protocol PiecesViewModelProtocol {
 
 class PiecesViewModel: PiecesViewModelProtocol {
     
-    var rows: [PiecesRow] = []
+    var _rows: [PiecesRow] = []
+    var rows: [PiecesRow] {
+        get {
+            if !searchQuery.isEmpty {
+                return _rows.compactMap { (row) -> PiecesRow? in
+                    if case let PiecesRow.piece(piece) = row {
+                        return currentSearchScope.scopeContains(query: searchQuery, for: piece) ? row : nil
+                    }
+                    return nil
+                }
+            } else {
+                return _rows
+            }
+        }
+        set {
+            _rows = newValue
+        }
+    }
+    var searchQuery = ""
+    var currentSearchScope: PieceSearchScope = .title
     var delegate: PiecesViewModelDelegate?
     
     init() {
@@ -49,5 +68,30 @@ class PiecesViewModel: PiecesViewModelProtocol {
                 self.fetchPieces()
             }
         }
+    }
+}
+
+enum PieceSearchScope: String {
+    case title = "Title"
+    case composer = "Composer"
+    case instrument = "Instrument"
+    
+    func scopeContains(query: String, for piece: Piece) -> Bool {
+        let lquery = query.lowercased()
+        switch self {
+        case .title:
+            return piece.title.lowercased().contains(lquery)
+        case .composer:
+            return piece.artist?.lowercased().contains(lquery) ?? false
+        case .instrument:
+            let instruments = piece.instruments as! Set<Instrument>
+            return instruments.reduce("") { (result, instrument) -> String in
+                return result + instrument.title
+            }.contains(lquery)
+        }
+    }
+    
+    static var titles: [String] {
+        return [PieceSearchScope.title.rawValue, PieceSearchScope.composer.rawValue]
     }
 }

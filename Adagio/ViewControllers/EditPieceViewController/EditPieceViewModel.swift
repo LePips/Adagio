@@ -69,6 +69,7 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
     }
     var piece: Piece
     var editing: Bool
+    var viewOnly: Bool
     var isExisting: Bool
     var managedObjectContext: NSManagedObjectContext
     var delegate: EditPieceViewModelDelegate?
@@ -76,10 +77,11 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
     var practicesForPiece: [Practice] = []
     
     // MARK: - initialization
-    init(piece: Piece?, managedObjectContext: NSManagedObjectContext, editing: Bool) {
+    init(piece: Piece?, managedObjectContext: NSManagedObjectContext, editing: Bool, viewOnly: Bool = false) {
         self.rows = []
         self.managedObjectContext = managedObjectContext
         self.editing = editing
+        self.viewOnly = viewOnly
         if let piece = piece {
             self.piece = piece
             self.isExisting = true
@@ -182,6 +184,10 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
                      },
                         editing: self.editing))
         ]
+        
+        if viewOnly {
+            self.rows.remove(at: 1)
+        }
     }
     
     func setTitle(_ title: String) {

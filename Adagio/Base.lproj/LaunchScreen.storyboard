@@ -16,8 +16,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="doc.music.filled" translatesAutoresizingMaskIntoConstraints="NO" id="zZF-QC-gb0">
-                                <rect key="frame" x="146" y="379.5" width="122" height="137"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="music.note" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="zZF-QC-gb0">
+                                <rect key="frame" x="146" y="380" width="122" height="136"/>
                                 <color key="tintColor" name="adagio.textColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="137" id="Apv-mi-vrb"/>
@@ -39,7 +39,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="doc.music.filled" width="14" height="18"/>
+        <image name="music.note" catalog="system" width="48" height="64"/>
         <namedColor name="adagio.backgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

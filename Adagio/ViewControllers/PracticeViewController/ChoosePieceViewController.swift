@@ -30,6 +30,7 @@ class ChoosePieceViewController: MainAdagioViewController {
     
     private lazy var collectionView = makeCollectionView()
     private lazy var noPiecesLabel = makeNoPiecesLabel()
+    private lazy var searchController = makeSearchController()
     
     let viewModel: ChoosePieceViewModel
     let rootPractice: RootPracticeProtocol
@@ -55,6 +56,8 @@ class ChoosePieceViewController: MainAdagioViewController {
         view.addSubview(noPiecesLabel)
         
         collectionView.alwaysBounceVertical = !viewModel.rows.isEmpty
+        
+        _ = searchController
     }
     
     override func setupLayoutConstraints() {
@@ -106,8 +109,20 @@ class ChoosePieceViewController: MainAdagioViewController {
         label.textColor = UIColor.secondaryLabel
         label.numberOfLines = 2
         label.textAlignment = .center
-        label.text = "No pieces yet"
+        label.text = "No pieces"
         return label
+    }
+    
+    private func makeSearchController() -> UISearchController {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Pieces"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        searchController.searchBar.scopeButtonTitles = PieceSearchScope.titles
+        searchController.searchBar.delegate = self
+        return searchController
     }
 }
 
@@ -120,7 +135,7 @@ extension ChoosePieceViewController: UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if case PiecesRow.piece(let piece) = viewModel.rows[indexPath.row] {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PieceCell.identifier, for: indexPath) as! PieceCell
-            cell.configure(piece: piece)
+            cell.configure(piece: piece, searchScope: viewModel.currentSearchScope)
             return cell
         }
         return UICollectionViewCell()
@@ -143,6 +158,28 @@ extension ChoosePieceViewController: ChoosePieceViewModelDelegate {
         DispatchQueue.main.async {
             self.collectionView.reloadData()
             self.noPiecesLabel.isHidden = !self.viewModel.rows.isEmpty
+        }
+    }
+}
+
+extension ChoosePieceViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        viewModel.searchQuery = searchController.searchBar.text ?? ""
+        collectionView.reloadData()
+    }
+}
+
+extension ChoosePieceViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        switch selectedScope {
+        case 0:
+            viewModel.currentSearchScope = .title
+        case 1:
+            viewModel.currentSearchScope = .composer
+        case 2:
+            viewModel.currentSearchScope = .instrument
+        default:
+            viewModel.currentSearchScope = .title
         }
     }
 }

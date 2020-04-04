@@ -35,7 +35,7 @@ class EditPieceRootViewController: UINavigationController, UIAdaptivePresentatio
     }
 }
 
-private class EditPieceViewController: SubAdagioViewController, UIAdaptivePresentationControllerDelegate {
+class EditPieceViewController: SubAdagioViewController, UIAdaptivePresentationControllerDelegate {
     
     private lazy var tableView = makeTableView()
     private lazy var practiceCollectionView = makePracticeCollectionView()
@@ -114,6 +114,10 @@ private class EditPieceViewController: SubAdagioViewController, UIAdaptivePresen
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        if viewModel.viewOnly {
+            self.navigationItem.setRightBarButton(nil, animated: false)
+        }
     }
     
     @objc private func cancelSelected() {

@@ -75,7 +75,7 @@ class PracticeViewController: SubAdagioViewController {
     }
     
     @objc private func finishSelected() {
-        CurrentPracticeState.core.fire(.endPractice(nil))
+        CurrentPracticeState.core.fire(.endPractice(viewModel.practice))
         dismiss(animated: true, completion: nil)
     }
     

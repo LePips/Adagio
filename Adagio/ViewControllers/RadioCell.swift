@@ -28,7 +28,7 @@ class RadioCell: AdagioCell, Selectable {
         titleLabel.text = config.title
         
         radioSelected = config.selected
-        let radioConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
+        let radioConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular)
         if config.selected {
             radioButton.setImage(UIImage(systemName: "checkmark.square.fill", withConfiguration: radioConfig), for: .normal)
         } else {
@@ -73,7 +73,7 @@ class RadioCell: AdagioCell, Selectable {
     
     @objc private func radioSelectedAction() {
         radioSelected = !radioSelected
-        let radioConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
+        let radioConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular)
         if radioSelected {
             radioButton.setImage(UIImage(systemName: "checkmark.square.fill", withConfiguration: radioConfig), for: .normal)
         } else {
@@ -85,7 +85,7 @@ class RadioCell: AdagioCell, Selectable {
     
     private func makeTitleLabel() -> UILabel {
         let label = UILabel.forAutoLayout()
-        label.font = UIFont.systemFont(ofSize: 19, weight: .medium)
+        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.textColor = UIColor.Adagio.textColor
         return label
     }

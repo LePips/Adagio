@@ -56,7 +56,7 @@ class SectionView: BasicView {
     private func makeDurationLabel() -> UILabel {
         let label = UILabel.forAutoLayout()
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        label.textColor = UIColor.Adagio.textColor
+        label.textColor = UIColor.secondaryLabel
         return label
     }
 }

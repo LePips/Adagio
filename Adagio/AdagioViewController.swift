@@ -9,23 +9,6 @@
 import UIKit
 import SharedPips
 
-class TestViewController: BasicViewController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(close))
-        tapRecognizer.numberOfTouchesRequired = 2
-        view.addGestureRecognizer(tapRecognizer)
-    }
-    
-    @objc private func close() {
-        self.dismiss(animated: true, completion: nil)
-    }
-}
-
 class MainAdagioViewController: BasicViewController {
     
     override func viewDidLoad() {

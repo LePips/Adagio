@@ -15,7 +15,7 @@ enum CurrentPracticeChange {
     case saveCurrentPractice
     case loadCurrentPractice
     case deleteCurrentPractice(((Result<Bool, Error>) -> Void)?)
-    case endPractice(((Result<Bool, Error>) -> Void)?)
+    case endPractice(Practice)
     case focus(Section)
     case endFocusSection
 }
@@ -29,8 +29,8 @@ struct CurrentPracticeState: State {
     typealias EventType = CurrentPracticeChange
     
     var practice: Practice?
-    var managedObjectContext: NSManagedObjectContext?
     var section: Section?
+    var managedObjectContext: NSManagedObjectContext?
     
     mutating func respond(to event: CurrentPracticeChange) {
         switch event {
@@ -61,9 +61,9 @@ struct CurrentPracticeState: State {
             self.practice = nil
             self.managedObjectContext = nil
             CurrentTimerState.core.fire(.reset)
-        case .endPractice(let completion):
+        case .endPractice(_):
             practice?.endDate = Date()
-            practice?.save(writeToDisk: true, completion: completion)
+            practice?.save(writeToDisk: true, completion: nil)
             UserDefaults.standard.currentSessionDate = nil
             self.practice = nil
             self.managedObjectContext = nil

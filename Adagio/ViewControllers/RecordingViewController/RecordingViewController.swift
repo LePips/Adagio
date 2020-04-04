@@ -67,7 +67,8 @@ class RecordingViewController: BasicViewController, UIAdaptivePresentationContro
         ])
         NSLayoutConstraint.activate([
             titleTextField.bottomAnchor ⩵ timerLabel.topAnchor - 15,
-            titleTextField.centerXAnchor ⩵ view.centerXAnchor
+            titleTextField.leftAnchor ⩵ cardView.leftAnchor + 20,
+            titleTextField.rightAnchor ⩵ cardView.rightAnchor - 20
         ])
         NSLayoutConstraint.activate([
             textFieldTarget.leftAnchor ⩵ cardView.leftAnchor,
@@ -187,6 +188,7 @@ class RecordingViewController: BasicViewController, UIAdaptivePresentationContro
     }
     
     @objc private func recordSelected() {
+        Haptics.main.light()
         viewModel.recordSelected()
     }
     

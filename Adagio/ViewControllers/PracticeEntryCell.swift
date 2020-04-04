@@ -102,7 +102,7 @@ class PracticeEntryCell: BasicCollectionViewCell {
     
     private func makeCardView() -> UIView {
         let view = UIView.forAutoLayout()
-        view.backgroundColor = UIColor.tertiarySystemFill
+        view.backgroundColor = UIColor.secondarySystemBackground
         view.layer.cornerRadius = 8.91
         return view
     }
@@ -225,7 +225,7 @@ class PracticeEntryTableCell: AdagioCell {
     
     private func makeCardView() -> UIView {
         let view = UIView.forAutoLayout()
-        view.backgroundColor = UIColor.tertiarySystemFill
+        view.backgroundColor = UIColor.secondarySystemBackground
         view.layer.cornerRadius = 8.91
         return view
     }

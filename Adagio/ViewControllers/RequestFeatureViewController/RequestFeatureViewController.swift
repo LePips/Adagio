@@ -104,7 +104,7 @@ private class RequestFeatureViewController: SubAdagioViewController {
     
     private func makeTextView() -> UITextView {
         let textView = UITextView.forAutoLayout()
-        textView.backgroundColor = UIColor.tertiarySystemBackground
+        textView.backgroundColor = UIColor.secondarySystemBackground
         textView.layer.cornerRadius = 8.91
         textView.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         return textView

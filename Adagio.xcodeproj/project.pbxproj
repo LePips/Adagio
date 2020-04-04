@@ -12,6 +12,7 @@
 		E103FEBE23CE6B6F00BDE96A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E103FEBC23CE6B6F00BDE96A /* Main.storyboard */; };
 		E103FEC023CE6B7100BDE96A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E103FEBF23CE6B7100BDE96A /* Assets.xcassets */; };
 		E103FEC323CE6B7100BDE96A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E103FEC123CE6B7100BDE96A /* LaunchScreen.storyboard */; };
+		E108808E240B7AA200631DE2 /* ViewPieceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E108808D240B7AA200631DE2 /* ViewPieceCell.swift */; };
 		E10C482923F9E5BB00F47E23 /* RootPracticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10C482823F9E5BB00F47E23 /* RootPracticeViewController.swift */; };
 		E10C482C23FA409E00F47E23 /* UIViewController+RemoveFromParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10C482B23FA409E00F47E23 /* UIViewController+RemoveFromParent.swift */; };
 		E10C482E23FA63D900F47E23 /* ImageSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10C482D23FA63D900F47E23 /* ImageSelectionCell.swift */; };
@@ -100,6 +101,8 @@
 		E1AC840823FE629E00DB4DD8 /* RecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AC840723FE629E00DB4DD8 /* RecordingViewController.swift */; };
 		E1AC840C23FE66B900DB4DD8 /* RecordingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AC840B23FE66B900DB4DD8 /* RecordingViewModel.swift */; };
 		E1CA892323D1098600E4FD3C /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CA892223D1098600E4FD3C /* CoreDataManager.swift */; };
+		E1CBB3C6240A3A6200BF20A3 /* EndPracticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CBB3C5240A3A6200BF20A3 /* EndPracticeViewController.swift */; };
+		E1CBB3C9240A3A6900BF20A3 /* EndPracticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CBB3C8240A3A6900BF20A3 /* EndPracticeViewModel.swift */; };
 		E1CF208223EA14B200E05E12 /* PracticeEntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CF208123EA14B200E05E12 /* PracticeEntryCell.swift */; };
 		E1CF208523EA29FA00E05E12 /* IconLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CF208423EA29FA00E05E12 /* IconLabelView.swift */; };
 		E1D34FC52403900F0097C3C2 /* PlaybackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D34FC42403900F0097C3C2 /* PlaybackViewController.swift */; };
@@ -143,6 +146,7 @@
 		E103FEBF23CE6B7100BDE96A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E103FEC223CE6B7100BDE96A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E103FEC423CE6B7100BDE96A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E108808D240B7AA200631DE2 /* ViewPieceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPieceCell.swift; sourceTree = "<group>"; };
 		E10C482823F9E5BB00F47E23 /* RootPracticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootPracticeViewController.swift; sourceTree = "<group>"; };
 		E10C482B23FA409E00F47E23 /* UIViewController+RemoveFromParent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+RemoveFromParent.swift"; sourceTree = "<group>"; };
 		E10C482D23FA63D900F47E23 /* ImageSelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectionCell.swift; sourceTree = "<group>"; };
@@ -230,6 +234,8 @@
 		E1AC840723FE629E00DB4DD8 /* RecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingViewController.swift; sourceTree = "<group>"; };
 		E1AC840B23FE66B900DB4DD8 /* RecordingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingViewModel.swift; sourceTree = "<group>"; };
 		E1CA892223D1098600E4FD3C /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		E1CBB3C5240A3A6200BF20A3 /* EndPracticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPracticeViewController.swift; sourceTree = "<group>"; };
+		E1CBB3C8240A3A6900BF20A3 /* EndPracticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPracticeViewModel.swift; sourceTree = "<group>"; };
 		E1CF208123EA14B200E05E12 /* PracticeEntryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeEntryCell.swift; sourceTree = "<group>"; };
 		E1CF208423EA29FA00E05E12 /* IconLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconLabelView.swift; sourceTree = "<group>"; };
 		E1D34FC42403900F0097C3C2 /* PlaybackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackViewController.swift; sourceTree = "<group>"; };
@@ -433,6 +439,7 @@
 				E1A53AEC23E8A3C50059BBD5 /* FocusSectionViewModel.swift */,
 				E1A53AEE23E8A3CB0059BBD5 /* FocusSectionRow.swift */,
 				E13C133223FF6A4F0080EA79 /* RecordingCell.swift */,
+				E108808D240B7AA200631DE2 /* ViewPieceCell.swift */,
 			);
 			path = FocusSectionViewController;
 			sourceTree = "<group>";
@@ -499,6 +506,7 @@
 				E1D34FC92403901C0097C3C2 /* PlaybackViewController */,
 				E12FFCBA23D54FE600705CFC /* PickerViewController */,
 				E12FFC8523D43ABA00705CFC /* CreateItemViewController */,
+				E1CBB3CA240A3A6E00BF20A3 /* EndPracticeViewController */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -510,6 +518,15 @@
 				E1AC840B23FE66B900DB4DD8 /* RecordingViewModel.swift */,
 			);
 			path = RecordingViewController;
+			sourceTree = "<group>";
+		};
+		E1CBB3CA240A3A6E00BF20A3 /* EndPracticeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E1CBB3C5240A3A6200BF20A3 /* EndPracticeViewController.swift */,
+				E1CBB3C8240A3A6900BF20A3 /* EndPracticeViewModel.swift */,
+			);
+			path = EndPracticeViewController;
 			sourceTree = "<group>";
 		};
 		E1D34FC92403901C0097C3C2 /* PlaybackViewController */ = {
@@ -657,11 +674,14 @@
 				E12FFCAF23D5142500705CFC /* Array+Diff.swift in Sources */,
 				E17F4F0E23FF5DD200EB7C2C /* Recording+CoreDataProperties.swift in Sources */,
 				E12FFCB723D54D4F00705CFC /* PickerViewController.swift in Sources */,
+				E108808E240B7AA200631DE2 /* ViewPieceCell.swift in Sources */,
 				E16B880D23D2FBF800A8CF07 /* AdagioCell.swift in Sources */,
 				E1522AF123E0126900221A79 /* FocusSectionViewController.swift in Sources */,
 				E194A08C23E6820B00EBD857 /* Haptics.swift in Sources */,
 				E1AA21D523E2B12F00D299CC /* CurrentSessionBar.swift in Sources */,
+				E1CBB3C6240A3A6200BF20A3 /* EndPracticeViewController.swift in Sources */,
 				E181303E23D810B300A45C8B /* Editable.swift in Sources */,
+				E1CBB3C9240A3A6900BF20A3 /* EndPracticeViewModel.swift in Sources */,
 				E17736E523EB842C0059411F /* SegmentCell.swift in Sources */,
 				E146BAF723D258A20036052B /* AdagioViewController.swift in Sources */,
 				E1AC840823FE629E00DB4DD8 /* RecordingViewController.swift in Sources */,

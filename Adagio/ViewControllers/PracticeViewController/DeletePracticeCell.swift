@@ -41,7 +41,7 @@ class DeletePracticeCell: BasicTableViewCell {
         let button = UIButton.forAutoLayout()
         button.addTarget(self, action: #selector(addPieceSelected), for: .touchUpInside)
         button.setTitle("Delete Practice", for: .normal)
-        button.setBackgroundColor(UIColor.systemPink.withAlphaComponent(0.15), for: .normal)
+//        button.setBackgroundColor(UIColor.systemPink.withAlphaComponent(0.15), for: .normal)
         button.layer.cornerRadius = 8.91
         button.setTitleColor(UIColor.systemPink, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)

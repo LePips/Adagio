@@ -18,11 +18,11 @@ extension PiecesRow {
         collectionView.register(PieceCell.self, forCellWithReuseIdentifier: PieceCell.identifier)
     }
     
-    func cell(for path: IndexPath, in collectionView: UICollectionView) -> UICollectionViewCell {
+    func cell(for path: IndexPath, in collectionView: UICollectionView, searchScope: PieceSearchScope) -> UICollectionViewCell {
         switch self {
         case .piece(let piece):
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PieceCell.identifier, for: path) as! PieceCell
-            cell.configure(piece: piece)
+            cell.configure(piece: piece, searchScope: searchScope)
             return cell
         }
     }

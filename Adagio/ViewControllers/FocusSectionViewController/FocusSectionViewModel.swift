@@ -17,6 +17,7 @@ protocol FocusSectionViewModelDelegate {
     func set(warmUp: Bool)
     func presentRecording(with section: Section)
     func presentPlayback(with recording: Recording)
+    func present(piece: Piece)
 }
 
 class FocusSectionViewModel {
@@ -46,6 +47,7 @@ class FocusSectionViewModel {
         self.rows = [
             .subtitle(section.practice.title),
             .title(TextFieldCellConfiguration(title: "", required: false, text: section.title, textAction: { _ in }, allowNewLines: false, editing: false)),
+            .viewPiece(ViewPieceCellConfiguration(selectedAction: viewPieceSelected)),
             .radio(RadioCellConfiguration(title: "Warm Up", selected: section.warmUp, selectedAction: set(warmUp:))),
             .notes(TextFieldCellConfiguration(title: "Notes",
                                               required: false,
@@ -77,5 +79,11 @@ class FocusSectionViewModel {
     
     func present(recording: Recording) {
         delegate?.presentPlayback(with: recording)
+    }
+    
+    func viewPieceSelected() {
+        guard let piece = section.piece else { return }
+        Haptics.main.light()
+        delegate?.present(piece: piece)
     }
 }

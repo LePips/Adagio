@@ -14,12 +14,13 @@ class IconLabelView: BasicView {
     private lazy var iconView = makeIconView()
     private lazy var titleLabel = makeTitleLabel()
     
-    func configure(iconName: String, title: String, imageTintColor: UIColor = UIColor.Adagio.textColor) {
+    func configure(iconName: String, title: String, imageTintColor: UIColor = UIColor.Adagio.textColor, titleTintColor: UIColor = UIColor.Adagio.textColor) {
         let config = UIImage.SymbolConfiguration(pointSize: 14, weight: .medium)
         let icon = UIImage(systemName: iconName, withConfiguration: config)
         iconView.image = icon
         
         iconView.tintColor = imageTintColor
+        titleLabel.textColor = titleTintColor
         
         titleLabel.text = title
         

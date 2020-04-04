@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         root.modalTransitionStyle = .crossDissolve
         window?.rootViewController?.present(root, animated: true, completion: nil)
         CurrentPracticeState.core.fire(.loadCurrentPractice)
-    }
+}
     
     func applicationWillResignActive(_ application: UIApplication) {
 //        CurrentPracticeState.core.fire(.saveCurrentPractice)

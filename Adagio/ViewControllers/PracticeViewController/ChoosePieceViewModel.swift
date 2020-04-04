@@ -16,7 +16,26 @@ protocol ChoosePieceViewModelDelegate {
 
 class ChoosePieceViewModel {
     
-    var rows: [PiecesRow] = []
+    var _rows: [PiecesRow] = []
+    var rows: [PiecesRow] {
+        get {
+            if !searchQuery.isEmpty {
+                return _rows.compactMap { (row) -> PiecesRow? in
+                    if case let PiecesRow.piece(piece) = row {
+                        return currentSearchScope.scopeContains(query: searchQuery, for: piece) ? row : nil
+                    }
+                    return nil
+                }
+            } else {
+                return _rows
+            }
+        }
+        set {
+            _rows = newValue
+        }
+    }
+    var searchQuery = ""
+    var currentSearchScope: PieceSearchScope = .title
     var pieceSelectedAction: (Piece) -> Void
     var delegate: ChoosePieceViewModelDelegate?
     

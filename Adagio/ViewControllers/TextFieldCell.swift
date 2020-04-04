@@ -179,7 +179,7 @@ class TextFieldCell: AdagioCell, Selectable, Verifiable, Editable {
     
     private func makeRequiredView() -> UIImageView {
         let imageView = UIImageView.forAutoLayout()
-        let configuration = UIImage.SymbolConfiguration(pointSize: 12, weight: .medium)
+        let configuration = UIImage.SymbolConfiguration(pointSize: 12, weight: .semibold)
         let starImage = UIImage(systemName: "staroflife.fill", withConfiguration: configuration)
         imageView.tintColor = UIColor.systemPink
         imageView.image = starImage

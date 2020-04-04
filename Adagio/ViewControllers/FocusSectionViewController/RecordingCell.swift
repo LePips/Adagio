@@ -70,18 +70,10 @@ class RecordingButton: BasicView {
     }
     
     func stringFromTimeInterval(interval: TimeInterval) -> String {
-
-        let time = NSInteger(interval)
-
-        let ms = Int((interval.truncatingRemainder(dividingBy: 1)) * 100)
-        let seconds = time % 60
-        let minutes = (time / 60) % 60
-        
-        if minutes == 0 {
-            return String(format: "%d:%0.2d", seconds, ms)
-        } else {
-            return String(format: "%d:%d:%0:2d", minutes, seconds, ms)
-        }
+        let min = Int(interval / 60)
+        let sec = Int(interval.truncatingRemainder(dividingBy: 60))
+        let milli = Int((interval.truncatingRemainder(dividingBy: 1)) * 100)
+        return String(format: "%02d:%02d:%02d", min, sec, milli)
     }
 }
 
@@ -167,6 +159,7 @@ class RecordingCell: AdagioCell {
     }
     
     @objc private func addSelected() {
+        Haptics.main.light()
         configuration?.createAction()
     }
     

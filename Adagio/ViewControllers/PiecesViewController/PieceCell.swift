@@ -16,9 +16,16 @@ class PieceCell: BasicCollectionViewCell {
     private lazy var separatorView = makeSeparatorView()
     private lazy var indicatorView = makeIndicatorView()
     
-    func configure(piece: Piece) {
+    func configure(piece: Piece, searchScope: PieceSearchScope) {
         titleLabel.text = piece.title
         let instruments: [Instrument] = piece.instruments?.allObjects.compactMap({ $0 as? Instrument }).sorted(by: { $0.title < $1.title }) ?? []
+        
+        switch searchScope {
+        case .title, .instrument: ()
+        case .composer:
+            instrumentsLabel.text = piece.artist ?? " "
+            return
+        }
         
         if !instruments.isEmpty {
             instrumentsLabel.text = instruments.compactMap({ $0.title }).reduce("", { (result, instrument) -> String in

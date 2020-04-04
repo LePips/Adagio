@@ -73,12 +73,14 @@ class PracticeRootViewController: BasicViewController, RootPracticeProtocol {
         if let currentSection = CurrentPracticeState.core.state.section {
             load(with: currentSection)
         }
+        
+        view.backgroundColor = UIColor.Adagio.backgroundColor
     }
     
     func presentChoosePieceViewController() {
         choosePieceViewTopAnchor.constant = 0
         
-        UIView.animate(withDuration: 0.35, delay: 0, options: [.curveEaseInOut], animations: {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 80, initialSpringVelocity: 10, options: [.curveEaseOut], animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
     }
@@ -92,6 +94,8 @@ class PracticeRootViewController: BasicViewController, RootPracticeProtocol {
     }
     
     func focus(piece: Piece) {
+        Haptics.main.success()
+        
         dismissChoosePieceViewController()
         
         let section = practiceViewModel.createPieceSection(with: piece)
@@ -101,7 +105,7 @@ class PracticeRootViewController: BasicViewController, RootPracticeProtocol {
         
         focusSectionViewTopAnchor.constant = 0
         
-        UIView.animate(withDuration: 0.35, delay: 0, options: [], animations: {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 80, initialSpringVelocity: 10, options: [.curveEaseOut], animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
     }

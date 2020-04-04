@@ -27,6 +27,7 @@ private class PiecesViewController: MainAdagioViewController {
     
     private lazy var collectionView = makeCollectionView()
     private lazy var noPiecesLabel = makeNoPiecesLabel()
+    private lazy var searchController = makeSearchController()
     
     let viewModel: PiecesViewModel
     
@@ -48,6 +49,7 @@ private class PiecesViewController: MainAdagioViewController {
     override func setupSubviews() {
         view.embed(collectionView)
         view.addSubview(noPiecesLabel)
+        _ = searchController
     }
     
     override func setupLayoutConstraints() {
@@ -92,8 +94,20 @@ private class PiecesViewController: MainAdagioViewController {
         label.textColor = UIColor.secondaryLabel
         label.numberOfLines = 2
         label.textAlignment = .center
-        label.text = "No pieces yet"
+        label.text = "No pieces"
         return label
+    }
+    
+    private func makeSearchController() -> UISearchController {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Pieces"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        searchController.searchBar.scopeButtonTitles = PieceSearchScope.titles
+        searchController.searchBar.delegate = self
+        return searchController
     }
 }
 
@@ -104,7 +118,7 @@ extension PiecesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return viewModel.rows[indexPath.row].cell(for: indexPath, in: collectionView)
+        return viewModel.rows[indexPath.row].cell(for: indexPath, in: collectionView, searchScope: viewModel.currentSearchScope)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -129,6 +143,28 @@ extension PiecesViewController: PiecesViewModelDelegate {
             self.collectionView.reloadData()
             self.noPiecesLabel.isHidden = !self.viewModel.rows.isEmpty
             self.collectionView.alwaysBounceVertical = !self.viewModel.rows.isEmpty
+        }
+    }
+}
+
+extension PiecesViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        viewModel.searchQuery = searchController.searchBar.text ?? ""
+        collectionView.reloadData()
+    }
+}
+
+extension PiecesViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        switch selectedScope {
+        case 0:
+            viewModel.currentSearchScope = .title
+        case 1:
+            viewModel.currentSearchScope = .composer
+        case 2:
+            viewModel.currentSearchScope = .instrument
+        default:
+            viewModel.currentSearchScope = .title
         }
     }
 }

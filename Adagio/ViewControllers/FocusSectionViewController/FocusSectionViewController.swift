@@ -203,6 +203,14 @@ extension FocusSectionViewController: FocusSectionViewModelDelegate {
         let playbackViewController = PlaybackRootViewController(viewModel: playbackViewModel)
         present(playbackViewController, animated: true, completion: nil)
     }
+    
+    func present(piece: Piece) {
+        let pieceViewModel = EditPieceViewModel(piece: piece, managedObjectContext: piece.managedObjectContext!, editing: false, viewOnly: true)
+        let pieceViewController = EditPieceViewController(viewModel: pieceViewModel)
+        let navigationController = UINavigationController(rootViewController: pieceViewController)
+        navigationController.makeBarTransparent()
+        present(navigationController, animated: true, completion: nil)
+    }
 }
 
 // MARK: - Subscriber
