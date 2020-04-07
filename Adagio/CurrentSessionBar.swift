@@ -19,11 +19,14 @@ class CurrentSessionBar: BasicView {
     private lazy var smallTitleLabel = makeSmallTitleLabel()
     private lazy var sectionTitleLabel = makeSectionTitleLabel()
     
+    private var practice: Practice?
+    
     func configure(practice: Practice?) {
         titleLabel.text = practice?.title
         smallTitleLabel.text = ""
         sectionTitleLabel.text = ""
         smallDurationLabel.isHidden = true
+        self.practice = practice
     }
     
     func configure(practice: Practice?, section: Section?) {
@@ -31,30 +34,46 @@ class CurrentSessionBar: BasicView {
         smallTitleLabel.text = practice?.title
         sectionTitleLabel.text = section?.title
         smallDurationLabel.isHidden = false
+        self.practice = practice
     }
     
     func set(duration: TimeInterval) {
+        if let section = CurrentPracticeState.core.state.section {
+            setSectionedDurations(duration: duration, section: section)
+        } else {
+            setUnsectionedDurations(duration: duration)
+        }
+    }
+    
+    private func setUnsectionedDurations(duration: TimeInterval) {
+        smallDurationLabel.text = nil
+        durationLabel.text = intervalFormat(duration)
+    }
+    
+    private func setSectionedDurations(duration: TimeInterval, section: Section) {
+        smallDurationLabel.text = intervalFormat(duration)
+        guard let practice = practice else { return }
+        let diff = DateInterval(start: practice.startDate, end: section.startDate)
+        durationLabel.text = intervalFormat(duration - diff.duration)
+    }
+    
+    private func intervalFormat(_ interval: TimeInterval) -> String? {
         var timeString: String?
 
-        if duration < 60 {
-            if duration > 9 {
-                timeString = "0:\(Int(duration))"
+        if interval < 60 {
+            if Int(interval) > 9 {
+                timeString = "0:\(Int(interval))"
             } else {
-                timeString = "0:0\(Int(duration))"
+                timeString = "0:0\(Int(interval))"
             }
         } else {
             let formatter = DateComponentsFormatter()
             formatter.unitsStyle = .positional
             formatter.zeroFormattingBehavior = .dropLeading
             formatter.allowedUnits = [.second, .minute, .hour]
-            timeString = formatter.string(from: duration)
+            timeString = formatter.string(from: interval)
         }
-        
-        durationLabel.text = timeString
-    }
-    
-    private func setUnsectionedDurations(duration: TimeInterval) {
-        
+        return timeString
     }
     
     override func setupSubviews() {
@@ -86,13 +105,12 @@ class CurrentSessionBar: BasicView {
             titleLabel.rightAnchor ⩵ durationLabel.leftAnchor - 20
         ])
         NSLayoutConstraint.activate([
-            durationLabel.centerYAnchor ⩵ bottomAnchor - 15,
+            durationLabel.bottomAnchor ⩵ bottomAnchor - 15,
             durationLabel.rightAnchor ⩵ rightAnchor - 17
         ])
         NSLayoutConstraint.activate([
             smallDurationLabel.centerYAnchor ⩵ smallTitleLabel.centerYAnchor,
-            smallDurationLabel.rightAnchor ⩵ rightAnchor - 17,
-            smallDurationLabel.widthAnchor ⩵ "00:00".width(withConstrainedHeight: 50, font: UIFont.systemFont(ofSize: 15, weight: .regular))
+            smallDurationLabel.rightAnchor ⩵ rightAnchor - 17
         ])
         NSLayoutConstraint.activate([
             sectionTitleLabel.bottomAnchor ⩵ bottomAnchor - 15,
