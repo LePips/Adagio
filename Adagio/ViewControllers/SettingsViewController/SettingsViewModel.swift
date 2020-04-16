@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import StoreKit
 
 protocol SettingsViewModelDelegate {
     
@@ -49,15 +50,23 @@ class SettingsViewModel: SettingsViewModelProtocol {
         case .spacer(_): ()
         case .feedback(let feedbackType):
             switch feedbackType {
-            case .appStoreReview: ()
+            case .about: ()
+            case .appStoreReview:
+                SKStoreReviewController.requestReview()
             case .requestFeature:
                 guard let feedbackViewController = feedbackType.viewController else { assertionFailure(); return }
                 delegate?.presentViewController(feedbackViewController)
+            case .appIcon:
+                guard let appIconViewController = feedbackType.viewController else { assertionFailure(); return }
+                delegate?.pushViewController(appIconViewController)
             }
+        case .title(_): ()
         case .purge:
             CoreDataManager.main.purge()
         case .setTestData:
             TestData.setTestData()
+        case .appIcon(let iconType):
+            iconType.selectedAction()
         }
     }
 }

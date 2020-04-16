@@ -26,9 +26,9 @@ class SettingsBoolCell: AdagioCell {
     
     override func setupSubviews() {
         contentView.addSubview(titleLabel)
-        contentView.addSubview(descriptionLabel)
         contentView.addSubview(separatorView)
         contentView.addSubview(switchView)
+        separatorView.alpha = 0
     }
     
     override func setupLayoutConstraints() {
@@ -37,19 +37,14 @@ class SettingsBoolCell: AdagioCell {
             titleLabel.leftAnchor ⩵ contentView.leftAnchor + 17
         ])
         NSLayoutConstraint.activate([
-            descriptionLabel.topAnchor ⩵ titleLabel.bottomAnchor + 5,
-            descriptionLabel.leftAnchor ⩵ contentView.leftAnchor + 17,
-            descriptionLabel.rightAnchor ⩵ contentView.centerXAnchor
-        ])
-        NSLayoutConstraint.activate([
-            separatorView.topAnchor ⩵ descriptionLabel.bottomAnchor + 10,
+            separatorView.topAnchor ⩵ titleLabel.bottomAnchor + 10,
             separatorView.heightAnchor ⩵ 1,
             separatorView.leftAnchor ⩵ contentView.leftAnchor + 17,
             separatorView.rightAnchor ⩵ contentView.rightAnchor - 17
         ])
         NSLayoutConstraint.activate([
             switchView.rightAnchor ⩵ contentView.rightAnchor - 17,
-            switchView.topAnchor ⩵ contentView.topAnchor + 15
+            switchView.centerYAnchor ⩵ titleLabel.centerYAnchor
         ])
     }
     

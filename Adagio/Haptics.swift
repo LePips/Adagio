@@ -27,31 +27,37 @@ struct Haptics {
     }
     
     func success() {
+        guard UserDefaults.standard.vibrationsEnabled else { return }
         notificationGenerator.notificationOccurred(.success)
         prepare()
     }
     
     func error() {
+        guard UserDefaults.standard.vibrationsEnabled else { return }
         notificationGenerator.notificationOccurred(.error)
         prepare()
     }
     
     func select() {
+        guard UserDefaults.standard.vibrationsEnabled else { return }
         selectionGenerator.selectionChanged()
         prepare()
     }
     
     func light() {
+        guard UserDefaults.standard.vibrationsEnabled else { return }
         lightImpactGenerator.impactOccurred()
         prepare()
     }
     
     func medium() {
+        guard UserDefaults.standard.vibrationsEnabled else { return }
         mediumImpactGenerator.impactOccurred()
         prepare()
     }
     
     func heavy() {
+        guard UserDefaults.standard.vibrationsEnabled else { return }
         heavyImpactGenerator.impactOccurred()
         prepare()
     }

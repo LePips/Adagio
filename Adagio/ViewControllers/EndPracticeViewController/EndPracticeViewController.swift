@@ -103,7 +103,9 @@ class EndPracticeViewController: BasicViewController {
         // Sections
         var sections = viewModel.practice.sections?.compactMap({ $0 as? Section }) ?? []
 //        sections.sort(by: { $0.warmUp && !$1.warmUp })
-        sections = Array(sections.prefix(upTo: 8))
+        if sections.count > 8 {
+            sections = Array(sections.prefix(upTo: 8))
+        }
         
         doneButtonCenterYAnchor.constant += CGFloat(sections.count) * 10
         view.layoutIfNeeded()

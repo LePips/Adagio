@@ -8,6 +8,31 @@
 
 import UIKit
 
+enum SecondSettingSectionType: CaseIterable {
+    
+    static func buildRows() -> [SettingsRow] {
+        var rows: [SettingsRow] = []
+        rows.append(.spacer(10))
+        rows.append(.title("Items"))
+        rows.append(.spacer(3))
+        rows.append(.item(.instruments))
+        rows.append(.item(.groups))
+        
+        rows.append(.spacer(10))
+        rows.append(.title("Vibrations"))
+        rows.append(.spacer(3))
+        rows.append(.switchSetting(.vibrationsEnabled))
+        
+        rows.append(.spacer(10))
+        rows.append(.feedback(.about))
+        rows.append(.feedback(.appIcon))
+        rows.append(.feedback(.requestFeature))
+        rows.append(.feedback(.appStoreReview))
+        
+        return rows
+    }
+}
+
 // MARK: - SettingsSectionType
 enum SettingsSectionType: CaseIterable {
     case defaults
@@ -66,6 +91,8 @@ enum SettingsBooleanType: CaseIterable {
     case warmUpToTop
     case showPlaceholders
     
+    case vibrationsEnabled
+    
     var title: String {
         switch self {
         case .focusPiece:
@@ -74,6 +101,8 @@ enum SettingsBooleanType: CaseIterable {
             return "Move Warm Up To Top"
         case .showPlaceholders:
             return "Show Placeholders"
+        case .vibrationsEnabled:
+            return "Enabled"
         }
     }
     
@@ -85,6 +114,8 @@ enum SettingsBooleanType: CaseIterable {
             return "Moves a piece to the top of the list of pieces in a practice"
         case .showPlaceholders:
             return "Shows placeholders for all empty textfields"
+        case .vibrationsEnabled:
+            return " "
         }
     }
     
@@ -96,6 +127,8 @@ enum SettingsBooleanType: CaseIterable {
             return UserDefaults.standard.warmUpToTop
         case .showPlaceholders:
             return UserDefaults.standard.showPlaceholders
+        case .vibrationsEnabled:
+            return UserDefaults.standard.vibrationsEnabled
         }
     }
     
@@ -107,6 +140,8 @@ enum SettingsBooleanType: CaseIterable {
             UserDefaults.standard.warmUpToTop = !UserDefaults.standard.warmUpToTop
         case .showPlaceholders:
             UserDefaults.standard.showPlaceholders = !UserDefaults.standard.showPlaceholders
+        case .vibrationsEnabled:
+            UserDefaults.standard.vibrationsEnabled = !UserDefaults.standard.vibrationsEnabled
         }
     }
 }
@@ -139,25 +174,69 @@ enum SettingsItemType {
 
 // MARK: - SettingsFeedbackType
 enum SettingsFeedbackType {
+    case about
     case appStoreReview
     case requestFeature
+    case appIcon
     
     var title: String {
         switch self {
+        case .about:
+            return "About"
         case .appStoreReview:
             return "Leave App Store Review"
         case .requestFeature:
-            return "Request Feature"
+            return "Request a Feature"
+        case .appIcon:
+            return "Change App Icon"
         }
     }
     
     var viewController: UIViewController? {
         switch self {
+        case .about:
+            return nil
         case .appStoreReview:
             return nil
         case .requestFeature:
             let requestFeature = RequestFeatureViewModel()
             return RequestFeatureRootViewController(viewModel: requestFeature)
+        case .appIcon:
+            let appIconViewModel = SettingsViewModel(title: "App Icon", rows: [.appIcon(.light), .appIcon(.dark)])
+            return SettingsViewController(viewModel: appIconViewModel)
+        }
+    }
+}
+
+// MARK: - SettingsAppIconType
+enum SettingsAppIconType {
+    case light
+    case dark
+    
+    var title: String {
+        switch self {
+        case .light:
+            return "Light"
+        case .dark:
+            return "Dark"
+        }
+    }
+    
+    var icon: UIImage {
+        switch self {
+        case .light:
+            return UIImage.AppIcon.light
+        case .dark:
+            return UIImage.AppIcon.dark
+        }
+    }
+    
+    func selectedAction() {
+        switch self {
+        case .light:
+            UIApplication.shared.setAlternateIconName(nil, completionHandler: nil)
+        case .dark:
+            UIApplication.shared.setAlternateIconName("darkAppIcon", completionHandler: nil)
         }
     }
 }
@@ -189,6 +268,24 @@ extension UserDefaults {
         }
         set {
             return UserDefaults.standard.set(newValue, forKey: "showPlaceholders")
+        }
+    }
+    
+    var vibrationsEnabled: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "vibrationsEnabled")
+        }
+        set {
+            return UserDefaults.standard.set(newValue, forKey: "vibrationsEnabled")
+        }
+    }
+    
+    var firstLaunch: Bool {
+        if !UserDefaults.standard.bool(forKey: "firstLaunch") {
+            UserDefaults.standard.set(true, forKey: "firstLaunch")
+            return false
+        } else {
+            return true
         }
     }
 }

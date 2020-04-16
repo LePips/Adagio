@@ -10,10 +10,12 @@ import UIKit
 
 enum SettingsRow {
     case spacer(CGFloat)
+    case title(String)
     case item(SettingsItemType)
     case switchSetting(SettingsBooleanType)
     case section(SettingsSectionType)
     case feedback(SettingsFeedbackType)
+    case appIcon(SettingsAppIconType)
     
     case purge
     case setTestData
@@ -23,9 +25,11 @@ extension SettingsRow {
     
     static func register(tableView: UITableView) {
         tableView.register(SpacerCell.self, forCellReuseIdentifier: SpacerCell.identifier)
+        tableView.register(SettingsTitleCell.self, forCellReuseIdentifier: SettingsTitleCell.identifier)
         tableView.register(SettingsSectionCell.self, forCellReuseIdentifier: SettingsSectionCell.identifier)
         tableView.register(SettingsBoolCell.self, forCellReuseIdentifier: SettingsBoolCell.identifier)
         tableView.register(SettingsItemCell.self, forCellReuseIdentifier: SettingsItemCell.identifier)
+        tableView.register(SettingsAppIconCell.self, forCellReuseIdentifier: SettingsAppIconCell.identifier)
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
@@ -34,6 +38,10 @@ extension SettingsRow {
         switch self {
         case .spacer(_):
             return tableView.dequeueReusableCell(withIdentifier: SpacerCell.identifier, for: path) as! SpacerCell
+        case .title(let title):
+            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTitleCell.identifier, for: path) as! SettingsTitleCell
+            cell.configure(title: title)
+            return cell
         case .item(let itemType):
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsItemCell.identifier, for: path) as! SettingsItemCell
             cell.configure(itemType: itemType)
@@ -62,6 +70,10 @@ extension SettingsRow {
             cell.textLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
             cell.textLabel?.text = "Set test data"
             return cell
+        case .appIcon(let iconType):
+            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsAppIconCell.identifier, for: path) as! SettingsAppIconCell
+            cell.configure(title: iconType.title, icon: iconType.icon)
+            return cell
         }
     }
     
@@ -73,9 +85,13 @@ extension SettingsRow {
             return 50
         case .section(_), .switchSetting(_):
             return "tHeight".height(withConstrainedWidth: 100, font: UIFont.systemFont(ofSize: 18, weight: .medium)) +
-            "d\nHeight".height(withConstrainedWidth: 100, font: UIFont.systemFont(ofSize: 12, weight: .regular)) + 32
+            "dHeight".height(withConstrainedWidth: 100, font: UIFont.systemFont(ofSize: 12, weight: .regular)) + 32
         case .purge, .setTestData:
             return 50
+        case .title(_):
+            return 40
+        case .appIcon(_):
+            return 100
         }
     }
 }

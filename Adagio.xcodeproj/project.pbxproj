@@ -100,6 +100,12 @@
 		E1AA21D523E2B12F00D299CC /* CurrentSessionBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AA21D423E2B12F00D299CC /* CurrentSessionBar.swift */; };
 		E1AC840823FE629E00DB4DD8 /* RecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AC840723FE629E00DB4DD8 /* RecordingViewController.swift */; };
 		E1AC840C23FE66B900DB4DD8 /* RecordingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AC840B23FE66B900DB4DD8 /* RecordingViewModel.swift */; };
+		E1C5FE5724482EE6008130AE /* SettingsTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C5FE5624482EE6008130AE /* SettingsTitleCell.swift */; };
+		E1C5FE5C24483653008130AE /* darkAppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E1C5FE5924483653008130AE /* darkAppIcon.png */; };
+		E1C5FE5D24483653008130AE /* darkAppIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E1C5FE5A24483653008130AE /* darkAppIcon@3x.png */; };
+		E1C5FE5E24483653008130AE /* darkAppIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E1C5FE5B24483653008130AE /* darkAppIcon@2x.png */; };
+		E1C5FE612448BBEF008130AE /* SettingsAppIconCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C5FE602448BBEF008130AE /* SettingsAppIconCell.swift */; };
+		E1C5FE632448C692008130AE /* AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C5FE622448C692008130AE /* AppIcon.swift */; };
 		E1CA892323D1098600E4FD3C /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CA892223D1098600E4FD3C /* CoreDataManager.swift */; };
 		E1CBB3C6240A3A6200BF20A3 /* EndPracticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CBB3C5240A3A6200BF20A3 /* EndPracticeViewController.swift */; };
 		E1CBB3C9240A3A6900BF20A3 /* EndPracticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CBB3C8240A3A6900BF20A3 /* EndPracticeViewModel.swift */; };
@@ -233,6 +239,12 @@
 		E1AA21D423E2B12F00D299CC /* CurrentSessionBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentSessionBar.swift; sourceTree = "<group>"; };
 		E1AC840723FE629E00DB4DD8 /* RecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingViewController.swift; sourceTree = "<group>"; };
 		E1AC840B23FE66B900DB4DD8 /* RecordingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingViewModel.swift; sourceTree = "<group>"; };
+		E1C5FE5624482EE6008130AE /* SettingsTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTitleCell.swift; sourceTree = "<group>"; };
+		E1C5FE5924483653008130AE /* darkAppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = darkAppIcon.png; sourceTree = "<group>"; };
+		E1C5FE5A24483653008130AE /* darkAppIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "darkAppIcon@3x.png"; sourceTree = "<group>"; };
+		E1C5FE5B24483653008130AE /* darkAppIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "darkAppIcon@2x.png"; sourceTree = "<group>"; };
+		E1C5FE602448BBEF008130AE /* SettingsAppIconCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAppIconCell.swift; sourceTree = "<group>"; };
+		E1C5FE622448C692008130AE /* AppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIcon.swift; sourceTree = "<group>"; };
 		E1CA892223D1098600E4FD3C /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		E1CBB3C5240A3A6200BF20A3 /* EndPracticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPracticeViewController.swift; sourceTree = "<group>"; };
 		E1CBB3C8240A3A6900BF20A3 /* EndPracticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPracticeViewModel.swift; sourceTree = "<group>"; };
@@ -300,6 +312,8 @@
 				E146BAF823D258EA0036052B /* UIColor+Adagio.swift */,
 				E1522AEB23DF9E9F00221A79 /* BouncyLayout.swift */,
 				E10C482B23FA409E00F47E23 /* UIViewController+RemoveFromParent.swift */,
+				E1C5FE622448C692008130AE /* AppIcon.swift */,
+				E1C5FE5F24483657008130AE /* darkAppIcon */,
 				E17C8ADC23D2488200C74BBD /* AdagioModel.xcdatamodeld */,
 				E103FEBC23CE6B6F00BDE96A /* Main.storyboard */,
 				E103FEBF23CE6B7100BDE96A /* Assets.xcassets */,
@@ -328,6 +342,8 @@
 				E16EB6D523EA9BD600BE6800 /* TestData.swift */,
 				E12FFC6C23D3917600705CFC /* SettingsRow.swift */,
 				E12FFC7023D3D94300705CFC /* SettingsType.swift */,
+				E1C5FE602448BBEF008130AE /* SettingsAppIconCell.swift */,
+				E1C5FE5624482EE6008130AE /* SettingsTitleCell.swift */,
 				E12FFC6E23D393C900705CFC /* SettingsSectionCell.swift */,
 				E12FFC7423D40A7F00705CFC /* SettingsBoolCell.swift */,
 				E12FFC7623D4245400705CFC /* SettingsItemCell.swift */,
@@ -520,6 +536,16 @@
 			path = RecordingViewController;
 			sourceTree = "<group>";
 		};
+		E1C5FE5F24483657008130AE /* darkAppIcon */ = {
+			isa = PBXGroup;
+			children = (
+				E1C5FE5924483653008130AE /* darkAppIcon.png */,
+				E1C5FE5B24483653008130AE /* darkAppIcon@2x.png */,
+				E1C5FE5A24483653008130AE /* darkAppIcon@3x.png */,
+			);
+			path = darkAppIcon;
+			sourceTree = "<group>";
+		};
 		E1CBB3CA240A3A6E00BF20A3 /* EndPracticeViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -619,7 +645,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E103FEC323CE6B7100BDE96A /* LaunchScreen.storyboard in Resources */,
+				E1C5FE5D24483653008130AE /* darkAppIcon@3x.png in Resources */,
 				E103FEC023CE6B7100BDE96A /* Assets.xcassets in Resources */,
+				E1C5FE5E24483653008130AE /* darkAppIcon@2x.png in Resources */,
+				E1C5FE5C24483653008130AE /* darkAppIcon.png in Resources */,
 				E103FEBE23CE6B6F00BDE96A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -664,7 +693,9 @@
 				E1CF208223EA14B200E05E12 /* PracticeEntryCell.swift in Sources */,
 				E10C483F23FB1CA800F47E23 /* ImageCell.swift in Sources */,
 				E10C483823FB1B2600F47E23 /* ImageViewController.swift in Sources */,
+				E1C5FE612448BBEF008130AE /* SettingsAppIconCell.swift in Sources */,
 				E12FFC8723D43C0D00705CFC /* PracticeRow.swift in Sources */,
+				E1C5FE5724482EE6008130AE /* SettingsTitleCell.swift in Sources */,
 				E12FFC6F23D393C900705CFC /* SettingsSectionCell.swift in Sources */,
 				E12FFCBE23D568D600705CFC /* Selectable.swift in Sources */,
 				E12FFC8D23D4D1CA00705CFC /* RequestFeatureViewModel.swift in Sources */,
@@ -705,6 +736,7 @@
 				E146BAF923D258EA0036052B /* UIColor+Adagio.swift in Sources */,
 				E146BAF023D2535A0036052B /* CurrentPracticeState.swift in Sources */,
 				E12FFC7923D42FDF00705CFC /* SettingsSelectionCell.swift in Sources */,
+				E1C5FE632448C692008130AE /* AppIcon.swift in Sources */,
 				E1CA892323D1098600E4FD3C /* CoreDataManager.swift in Sources */,
 				E1E869D023E5627B00569475 /* HideKeyboardButton.swift in Sources */,
 				E146BAF223D257820036052B /* PracticeViewController.swift in Sources */,

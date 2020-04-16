@@ -20,6 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         CoreDataManager.start(modelName: "AdagioModel", completion: setRootViewController)
         
+        if !UserDefaults.standard.firstLaunch {
+            setDefaults()
+        }
+        
         return true
     }
     
@@ -29,7 +33,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         root.modalTransitionStyle = .crossDissolve
         window?.rootViewController?.present(root, animated: true, completion: nil)
         CurrentPracticeState.core.fire(.loadCurrentPractice)
-}
+    }
+    
+    private func setDefaults() {
+        UserDefaults.standard.vibrationsEnabled = true
+    }
     
     func applicationWillResignActive(_ application: UIApplication) {
 //        CurrentPracticeState.core.fire(.saveCurrentPractice)

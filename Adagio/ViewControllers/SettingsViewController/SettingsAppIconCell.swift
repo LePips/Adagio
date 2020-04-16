@@ -1,49 +1,47 @@
 //
-//  SettingsItemCell.swift
+//  SettingsAppIconCell.swift
 //  Adagio
 //
-//  Created by Ethan Pippin on 1/18/20.
+//  Created by Ethan Pippin on 4/16/20.
 //  Copyright © 2020 Ethan Pippin. All rights reserved.
 //
 
 import UIKit
 import SharedPips
 
-class SettingsItemCell: AdagioCell {
+class SettingsAppIconCell: AdagioCell {
     
     private lazy var titleLabel = makeTitleLabel()
     private lazy var separatorView = makeSeparatorView()
-    private lazy var indicatorView = makeIndicatorView()
+    private lazy var iconImageView = makeIconImageView()
     
-    func configure(itemType: SettingsItemType) {
-        titleLabel.text = itemType.title
-    }
-    
-    func configure(feedbackType: SettingsFeedbackType) {
-        titleLabel.text = feedbackType.title
+    func configure(title: String, icon: UIImage) {
+        titleLabel.text = title
+        iconImageView.image = icon
     }
     
     override func setupSubviews() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(separatorView)
-        contentView.addSubview(indicatorView)
-        separatorView.alpha = 0
+        contentView.addSubview(iconImageView)
     }
     
     override func setupLayoutConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.leftAnchor ⩵ contentView.leftAnchor + 17,
-            titleLabel.topAnchor ⩵ contentView.topAnchor
+            titleLabel.centerYAnchor ⩵ iconImageView.centerYAnchor
+        ])
+        NSLayoutConstraint.activate([
+            iconImageView.topAnchor ⩵ contentView.topAnchor + 10,
+            iconImageView.rightAnchor ⩵ contentView.rightAnchor - 17,
+            iconImageView.heightAnchor ⩵ 80,
+            iconImageView.widthAnchor ⩵ 80
         ])
         NSLayoutConstraint.activate([
             separatorView.leftAnchor ⩵ contentView.leftAnchor + 17,
             separatorView.rightAnchor ⩵ contentView.rightAnchor - 17,
-            separatorView.bottomAnchor ⩵ titleLabel.bottomAnchor + 10,
+            separatorView.bottomAnchor ⩵ iconImageView.bottomAnchor + 10,
             separatorView.heightAnchor ⩵ 1
-        ])
-        NSLayoutConstraint.activate([
-            indicatorView.rightAnchor ⩵ contentView.rightAnchor - 17,
-            indicatorView.centerYAnchor ⩵ titleLabel.centerYAnchor
         ])
     }
     
@@ -60,11 +58,11 @@ class SettingsItemCell: AdagioCell {
         return view
     }
     
-    private func makeIndicatorView() -> UIImageView {
+    private func makeIconImageView() -> UIImageView {
         let imageView = UIImageView.forAutoLayout()
-        let configuration = UIImage.SymbolConfiguration(pointSize: 18, weight: .light)
-        imageView.image = UIImage(systemName: "chevron.right", withConfiguration: configuration)
-        imageView.tintColor = UIColor.secondaryLabel
+        imageView.layer.cornerRadius = 5
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
         return imageView
     }
 }
