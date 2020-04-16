@@ -18,8 +18,14 @@ extension UIColor {
             
         }
         
+        struct Card {
+            
+            static let background = UIColor(named: "adagio.card.background")!
+            
+        }
+        
         static let textColor = UIColor(named: "adagio.textColor")!
         static let backgroundColor = UIColor(named: "adagio.backgroundColor")!
-        
+           
     }
 }

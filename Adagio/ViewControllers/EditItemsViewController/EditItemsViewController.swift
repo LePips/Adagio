@@ -12,6 +12,7 @@ import SharedPips
 class EditItemsViewController: SubAdagioViewController {
     
     private lazy var tableView = makeTableView()
+    private lazy var searchController = makeSearchController()
     
     let viewModel: EditItemsViewModelProtocol
     
@@ -54,6 +55,16 @@ class EditItemsViewController: SubAdagioViewController {
         tableView.backgroundColor = .clear
         EditItemRow.register(tableView: tableView)
         return tableView
+    }
+    
+    private func makeSearchController() -> UISearchController {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Item"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        return searchController
     }
 }
 
@@ -120,6 +131,14 @@ extension EditItemsViewController: EditItemsViewModelDelegate {
         alertViewController.addAction(createAction)
         
         self.present(alertViewController, animated: true, completion: nil)
+    }
+}
+
+extension EditItemsViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        viewModel.searchQuery = searchController.searchBar.text ?? ""
+        tableView.reloadData()
     }
 }
 

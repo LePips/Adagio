@@ -22,6 +22,7 @@ protocol EditItemsViewModelProtocol: class {
     var title: String { get set }
     var rows: [EditItemRow] { get set }
     var delgate: EditItemsViewModelDelegate? { get set }
+    var searchQuery: String { get set }
     
     func reloadRows()
     
@@ -31,7 +32,25 @@ protocol EditItemsViewModelProtocol: class {
 class EditInstrumentsViewModel: EditItemsViewModelProtocol {
     
     var title: String = "Instruments"
-    var rows: [EditItemRow] = [.subtitle("0 instruments")]
+    var _rows: [EditItemRow] = []
+    var searchQuery = ""
+    var rows: [EditItemRow] {
+        get {
+            if !searchQuery.isEmpty {
+                return _rows.compactMap { (row) -> EditItemRow? in
+                    if case let EditItemRow.instrument(instrument) = row {
+                        return instrument.title.contains(searchQuery) ? row : nil
+                    }
+                    return nil
+                }
+            } else {
+                return _rows
+            }
+        }
+        set {
+            _rows = newValue
+        }
+    }
     var delgate: EditItemsViewModelDelegate?
     
     init() {
@@ -66,7 +85,25 @@ class EditInstrumentsViewModel: EditItemsViewModelProtocol {
 class EditGroupsViewModel: EditItemsViewModelProtocol {
     
     var title: String = "Groups"
-    var rows: [EditItemRow] = []
+        var _rows: [EditItemRow] = []
+    var searchQuery = ""
+    var rows: [EditItemRow] {
+        get {
+            if !searchQuery.isEmpty {
+                return _rows.compactMap { (row) -> EditItemRow? in
+                    if case let EditItemRow.group(group) = row {
+                        return group.title.contains(searchQuery) ? row : nil
+                    }
+                    return nil
+                }
+            } else {
+                return _rows
+            }
+        }
+        set {
+            _rows = newValue
+        }
+    }
     var delgate: EditItemsViewModelDelegate?
     
     init() {
