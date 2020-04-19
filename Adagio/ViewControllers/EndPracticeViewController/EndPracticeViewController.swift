@@ -142,7 +142,7 @@ class EndPracticeViewController: BasicViewController {
     
     private func makeCardView() -> UIView {
         let view = UIView.forAutoLayout()
-        view.backgroundColor = UIColor.secondarySystemBackground
+        view.backgroundColor = UIColor.Adagio.Card.background
         view.layer.cornerRadius = 14
         return view
     }

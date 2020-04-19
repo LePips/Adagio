@@ -37,6 +37,7 @@ class FocusSectionViewController: SubAdagioViewController {
     private lazy var tableView = makeTableView()
     private lazy var hideKeyboardButton = makeHideKeyboardButton()
     private lazy var keyboardTopAnchor = makeKeyboardTopAnchor()
+    private let imagePicker = UIImagePickerController()
     private var presented = false
     
     private var viewModel: FocusSectionViewModel?
@@ -211,6 +212,20 @@ extension FocusSectionViewController: FocusSectionViewModelDelegate {
         navigationController.makeBarTransparent()
         present(navigationController, animated: true, completion: nil)
     }
+    
+    func presentImage(with viewModel: ImageViewModel) {
+        present(ImageRootViewController(viewModel: viewModel), animated: true, completion: nil)
+    }
+    
+    func presentImagePicker() {
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.allowsEditing = false
+            
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
 }
 
 // MARK: - Subscriber
@@ -236,5 +251,14 @@ extension FocusSectionViewController: Subscriber {
         }
         
         self.title = currentTitle
+    }
+}
+
+extension FocusSectionViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        self.dismiss(animated: true, completion: nil)
+        if let image = info[.originalImage] as? UIImage {
+            self.viewModel?.add(image: image)
+        }
     }
 }

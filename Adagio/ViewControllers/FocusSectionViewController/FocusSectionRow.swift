@@ -15,6 +15,7 @@ enum FocusSectionRow {
     case radio(RadioCellConfiguration)
     case recording(RecordingCellConfiguration)
     case viewPiece(ViewPieceCellConfiguration)
+    case image(ImageSelectionCellConfiguration)
     
     var key: String {
         switch self {
@@ -30,6 +31,8 @@ enum FocusSectionRow {
             return "recording"
         case .viewPiece:
             return "viewPiece"
+        case .image(_):
+            return "image"
         }
     }
 }
@@ -53,6 +56,7 @@ extension FocusSectionRow {
         tableView.register(RadioCell.self, forCellReuseIdentifier: RadioCell.identifier)
         tableView.register(RecordingCell.self, forCellReuseIdentifier: RecordingCell.identifier)
         tableView.register(ViewPieceCell.self, forCellReuseIdentifier: ViewPieceCell.identifier)
+        tableView.register(ImageSelectionCell.self, forCellReuseIdentifier: ImageSelectionCell.identifier)
     }
     
     func cell(for path: IndexPath, in tableView: UITableView) -> UITableViewCell {
@@ -81,6 +85,10 @@ extension FocusSectionRow {
             let cell = tableView.dequeueReusableCell(withIdentifier: ViewPieceCell.identifier, for: path) as! ViewPieceCell
             cell.configure(with: configuration)
             return cell
+        case .image(let configuration):
+            let cell = tableView.dequeueReusableCell(withIdentifier: ImageSelectionCell.identifier, for: path) as! ImageSelectionCell
+            cell.configure(configuration: configuration)
+            return cell
         }
     }
     
@@ -102,6 +110,8 @@ extension FocusSectionRow {
             return height
         case .viewPiece:
             return 40
+        case .image(_):
+            return 170
         }
     }
 }

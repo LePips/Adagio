@@ -32,7 +32,11 @@ class PracticeSectionCell: AdagioCell {
         // Duration
         if let endDate = section.endDate {
             let formatter = DateComponentsFormatter()
-            formatter.allowedUnits = [.minute, .hour]
+            if DateInterval(start: section.startDate, end: endDate).duration < 60 {
+                formatter.allowedUnits = [.second]
+            } else {
+                formatter.allowedUnits = [.minute, .hour]
+            }
             formatter.unitsStyle = .short
             guard let duration = formatter.string(from: section.startDate, to: endDate) else { assertionFailure(); return }
             let durationView = IconLabelView.forAutoLayout()

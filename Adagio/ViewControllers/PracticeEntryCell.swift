@@ -43,7 +43,11 @@ class PracticeEntryCell: BasicCollectionViewCell {
         
         // Duration
         let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.minute, .hour]
+        if DateInterval(start: practice.startDate, end: endDate).duration < 60 {
+            formatter.allowedUnits = [.second]
+        } else {
+            formatter.allowedUnits = [.minute, .hour]
+        }
         formatter.unitsStyle = .short
         guard let duration = formatter.string(from: practice.startDate, to: endDate) else { assertionFailure(); return }
         let durationView = IconLabelView.forAutoLayout()
@@ -166,7 +170,12 @@ class PracticeEntryTableCell: AdagioCell {
         
         // Duration
         let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.minute, .hour]
+        
+        if DateInterval(start: practice.startDate, end: endDate).duration < 60 {
+            formatter.allowedUnits = [.second]
+        } else {
+            formatter.allowedUnits = [.minute, .hour]
+        }
         formatter.unitsStyle = .short
         guard let duration = formatter.string(from: practice.startDate, to: endDate) else { assertionFailure(); return }
         let durationView = IconLabelView.forAutoLayout()

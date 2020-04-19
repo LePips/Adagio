@@ -25,8 +25,8 @@ class CreateItemViewController<ObjectType: NSManagedObject & Titlable>: BasicVie
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         viewModel.delegate = self
-        self.modalTransitionStyle = .crossDissolve
-        self.modalPresentationStyle = .overFullScreen
+//        self.modalTransitionStyle = .crossDissolve
+//        self.modalPresentationStyle = .overFullScreen
     }
     
     required init?(coder: NSCoder) {
@@ -64,8 +64,8 @@ class CreateItemViewController<ObjectType: NSManagedObject & Titlable>: BasicVie
             doneButton.topAnchor ⩵ separatorView.bottomAnchor + 20
         ])
         NSLayoutConstraint.activate([
-            cardView.leftAnchor ⩵ view.leftAnchor + 10,
-            cardView.rightAnchor ⩵ view.rightAnchor - 10,
+            cardView.leftAnchor ⩵ view.leftAnchor + 40,
+            cardView.rightAnchor ⩵ view.rightAnchor - 40,
             cardView.topAnchor ⩵ titleLabel.topAnchor - 20,
             cardView.bottomAnchor ⩵ doneButton.bottomAnchor + 20
         ])

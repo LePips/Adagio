@@ -25,6 +25,7 @@ extension Section {
     @NSManaged public var startDate: Date
     @NSManaged public var endDate: Date?
     @NSManaged public var recordings: NSOrderedSet
+    @NSManaged public var images: [Image]
 
 }
 
