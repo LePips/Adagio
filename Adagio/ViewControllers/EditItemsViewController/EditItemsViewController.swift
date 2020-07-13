@@ -99,7 +99,7 @@ extension EditItemsViewController: EditItemsViewModelDelegate {
             textField.returnKeyType = .done
             textField.addTarget(alertViewController, action: #selector(alertViewController.textDidChangeNotEmpty), for: .editingChanged)
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: .none)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: .none)
         let createAction = UIAlertAction(title: "Create", style: .default) { (_) in
             viewModel.set(text: alertViewController.textFields?.first?.text)
             viewModel.saveItem()
@@ -120,7 +120,7 @@ extension EditItemsViewController: EditItemsViewModelDelegate {
             textField.returnKeyType = .done
             textField.addTarget(alertViewController, action: #selector(alertViewController.textDidChangeNotEmpty), for: .editingChanged)
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: .none)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: .none)
         let createAction = UIAlertAction(title: "Create", style: .default) { (_) in
             viewModel.set(text: alertViewController.textFields?.first?.text)
             viewModel.saveItem()
@@ -142,7 +142,7 @@ extension EditItemsViewController: UISearchResultsUpdating {
     }
 }
 
-fileprivate extension UIAlertController {
+extension UIAlertController {
     
     @objc func textDidChangeNotEmpty() {
         guard let textField = textFields?.first else { return }

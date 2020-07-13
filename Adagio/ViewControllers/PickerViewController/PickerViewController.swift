@@ -34,7 +34,7 @@ class PickerViewController: BasicViewController {
     override func setupSubviews() {
         view.addSubview(cardView)
         view.addSubview(titleLabel)
-//        view.addSubview(createButton)
+        view.addSubview(createButton)
         view.addSubview(pickerView)
         view.addSubview(doneButton)
         view.addSubview(cancelButton)
@@ -61,10 +61,10 @@ class PickerViewController: BasicViewController {
             titleLabel.bottomAnchor ⩵ pickerView.topAnchor - 10,
             titleLabel.centerXAnchor ⩵ view.centerXAnchor
         ])
-//        NSLayoutConstraint.activate([
-//            createButton.centerYAnchor ⩵ titleLabel.centerYAnchor,
-//            createButton.rightAnchor ⩵ cardView.rightAnchor - 20
-//        ])
+        NSLayoutConstraint.activate([
+            createButton.centerYAnchor ⩵ titleLabel.centerYAnchor,
+            createButton.rightAnchor ⩵ cardView.rightAnchor - 20
+        ])
         NSLayoutConstraint.activate([
             cardView.bottomAnchor ⩵ cancelButton.topAnchor - 20,
             cardView.leftAnchor ⩵ view.leftAnchor + 10,
@@ -83,6 +83,12 @@ class PickerViewController: BasicViewController {
         doneButton.isEnabled = !viewModel.objects.isEmpty
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.view.alpha = 1
+    }
+    
     private func makeCardView() -> UIView {
         let view = UIView.forAutoLayout()
         view.backgroundColor = UIColor.secondarySystemBackground
@@ -99,14 +105,26 @@ class PickerViewController: BasicViewController {
     
     private func makeCreateButton() -> UIButton {
         let button = UIButton.forAutoLayout()
-        let configuration = UIImage.SymbolConfiguration(pointSize: 17, weight: .regular)
+        let configuration = UIImage.SymbolConfiguration(pointSize: 18, weight: .regular)
         button.setImage(UIImage(systemName: "plus", withConfiguration: configuration), for: .normal)
         button.addTarget(self, action: #selector(createSelected), for: .touchUpInside)
         return button
     }
     
+    // MARK: - createSelected
     @objc private func createSelected() {
-        viewModel.createItem()
+        let createItemViewController = viewModel.getCreateItemViewController(doneAction: doneAction)
+        UIView.animate(withDuration: 0.2) {
+            self.view.alpha = 0
+        }
+        self.present(createItemViewController, animated: true, completion: nil)
+    }
+    
+    private func doneAction() {
+        self.viewModel.reloadRows()
+        UIView.animate(withDuration: 0.2) {
+            self.view.alpha = 1
+        }
     }
     
     private func makePickerView() -> UIPickerView {
