@@ -67,6 +67,7 @@ class SettingsViewModel: SettingsViewModelProtocol {
             TestData.setTestData()
         case .appIcon(let iconType):
             iconType.selectedAction()
+            delegate?.reloadRows()
         }
     }
 }

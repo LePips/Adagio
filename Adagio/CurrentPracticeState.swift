@@ -10,6 +10,7 @@ import CoreData
 import Foundation
 import SharedPips
 
+// MARK: - CurrentPracticeChange
 enum CurrentPracticeChange {
     case startNewPractice(Practice, NSManagedObjectContext)
     case saveCurrentPractice
@@ -18,12 +19,17 @@ enum CurrentPracticeChange {
     case endPractice(Practice)
     case focus(Section)
     case endFocusSection
+    case forceEndPractice
+    
+    case loadExistingPractice(Practice, NSManagedObjectContext)
 }
 
+// MARK: - sharedCore
 fileprivate var sharedCore: Core<CurrentPracticeState> = {
     return Core(state: CurrentPracticeState())
 }()
 
+// MARK: - CurrentPracticeState
 struct CurrentPracticeState: State {
     
     typealias EventType = CurrentPracticeChange
@@ -32,39 +38,40 @@ struct CurrentPracticeState: State {
     var section: Section?
     var managedObjectContext: NSManagedObjectContext?
     
+    // MARK: - respond
     mutating func respond(to event: CurrentPracticeChange) {
         switch event {
         case .startNewPractice(let newPractice, let managedObjectContext):
             newPractice.startDate = Date()
             self.practice = newPractice
             self.managedObjectContext = managedObjectContext
-            UserDefaults.standard.currentSessionDate = newPractice.startDate
-            Haptics.main.success()
+            UserDefaults.standard.inSession = true
             CurrentTimerState.core.fire(.start(newPractice.startDate))
         case .saveCurrentPractice:
             guard let practice = practice else { return }
             practice.save(writeToDisk: true, completion: nil)
         case .loadCurrentPractice:
             guard practice == nil else { return }
-            guard let startDate = UserDefaults.standard.currentSessionDate else { return }
+            guard UserDefaults.standard.inSession else { return }
             let fetchRequest: NSFetchRequest<Practice> = Practice.fetchRequest()
-            let predicate = NSPredicate(format: "startDate == %@", startDate as NSDate)
-            fetchRequest.predicate = predicate
-        CoreDataManager.main.fetch(request: fetchRequest) { (practices) in
-            guard let currentPractice = practices.first, practices.count == 1 else { UserDefaults.standard.currentSessionDate = nil; return }
-            let privateContext = CoreDataManager.main.privateChildManagedObjectContext()
-            guard let privateContextObject = privateContext.object(with: currentPractice.objectID) as? Practice else { return }
-            CurrentPracticeState.core.fire(.startNewPractice(privateContextObject, privateContext))
+            fetchRequest.fetchLimit = 1
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "startDate", ascending: false)]
+            CoreDataManager.main.fetch(request: fetchRequest) { (practices) in
+                guard let firstPractice = practices.first, practices.count == 1 else { UserDefaults.standard.inSession = false; return }
+                let privateContext = CoreDataManager.main.privateChildManagedObjectContext()
+                guard let privateContextObject = privateContext.object(with: firstPractice.objectID) as? Practice else { return }
+                CurrentPracticeState.core.fire(.loadExistingPractice(privateContextObject, privateContext))
             }
         case .deleteCurrentPractice(let completion):
             self.practice?.delete(writeToDisk: true, completion: completion)
             self.practice = nil
             self.managedObjectContext = nil
+            UserDefaults.standard.inSession = false
             CurrentTimerState.core.fire(.reset)
         case .endPractice(_):
             practice?.endDate = Date()
             practice?.save(writeToDisk: true, completion: nil)
-            UserDefaults.standard.currentSessionDate = nil
+            UserDefaults.standard.inSession = false
             self.practice = nil
             self.managedObjectContext = nil
             Haptics.main.success()
@@ -73,22 +80,38 @@ struct CurrentPracticeState: State {
             self.section = section
         case .endFocusSection:
             self.section = nil
+            
+        case .loadExistingPractice(let practice, let managedObjectContext):
+            self.practice = practice
+            self.managedObjectContext = managedObjectContext
+            UserDefaults.standard.inSession = true
+            CurrentTimerState.core.fire(.start(practice.startDate))
+            
+        case .forceEndPractice:
+            practice?.endDate = Date()
+            practice?.save(writeToDisk: true, completion: nil)
+            UserDefaults.standard.inSession = false
+            self.practice = nil
+            self.managedObjectContext = nil
+            CurrentTimerState.core.fire(.reset)
         }
     }
     
+    // MARK: - core
     static var core: Core<CurrentPracticeState> {
         return sharedCore
     }
 }
 
+// MARK: - UserDefaults
 fileprivate extension UserDefaults {
     
-    var currentSessionDate: Date? {
+    var inSession: Bool {
         get {
-            return self.object(forKey: "currentSessionDate") as? Date
+            return self.bool(forKey: "inSession")
         }
         set {
-            self.set(newValue, forKey: "currentSessionDate")
+            self.set(newValue, forKey: "inSession")
         }
     }
 }

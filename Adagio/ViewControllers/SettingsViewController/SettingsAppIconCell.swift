@@ -14,16 +14,19 @@ class SettingsAppIconCell: AdagioCell {
     private lazy var titleLabel = makeTitleLabel()
     private lazy var separatorView = makeSeparatorView()
     private lazy var iconImageView = makeIconImageView()
+    private lazy var checkMarkView = makeCheckMarkView()
     
-    func configure(title: String, icon: UIImage) {
+    func configure(title: String, icon: UIImage, current: Bool) {
         titleLabel.text = title
         iconImageView.image = icon
+        checkMarkView.isHidden = !current
     }
     
     override func setupSubviews() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(separatorView)
         contentView.addSubview(iconImageView)
+        contentView.addSubview(checkMarkView)
     }
     
     override func setupLayoutConstraints() {
@@ -42,6 +45,10 @@ class SettingsAppIconCell: AdagioCell {
             separatorView.rightAnchor ⩵ contentView.rightAnchor - 17,
             separatorView.bottomAnchor ⩵ iconImageView.bottomAnchor + 10,
             separatorView.heightAnchor ⩵ 1
+        ])
+        NSLayoutConstraint.activate([
+            checkMarkView.centerYAnchor ⩵ titleLabel.centerYAnchor,
+            checkMarkView.rightAnchor ⩵ iconImageView.leftAnchor - 17
         ])
     }
     
@@ -63,6 +70,14 @@ class SettingsAppIconCell: AdagioCell {
         imageView.layer.cornerRadius = 5
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
+        return imageView
+    }
+    
+    private func makeCheckMarkView() -> UIImageView {
+        let imageView = UIImageView.forAutoLayout()
+        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .regular)
+        imageView.image = UIImage(systemName: "checkmark", withConfiguration: config)
+        imageView.tintColor = UIColor.Adagio.textColor
         return imageView
     }
 }

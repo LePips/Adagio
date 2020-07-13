@@ -23,6 +23,8 @@
 		E10C483D23FB1B3900F47E23 /* ImageRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10C483C23FB1B3900F47E23 /* ImageRow.swift */; };
 		E10C483F23FB1CA800F47E23 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10C483E23FB1CA800F47E23 /* ImageCell.swift */; };
 		E10CE1FD23E53F7500BE8537 /* ChoosePieceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10CE1FC23E53F7500BE8537 /* ChoosePieceViewController.swift */; };
+		E124024C2462255800CB38EA /* ImagePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E124024B2462255800CB38EA /* ImagePageViewController.swift */; };
+		E124024F24622D0000CB38EA /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E124024E24622D0000CB38EA /* OnboardingViewController.swift */; };
 		E12FFC6523D38C5200705CFC /* YouRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFC6423D38C5200705CFC /* YouRow.swift */; };
 		E12FFC6823D3909C00705CFC /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFC6723D3909C00705CFC /* SettingsViewController.swift */; };
 		E12FFC6B23D3915200705CFC /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12FFC6A23D3915200705CFC /* SettingsViewModel.swift */; };
@@ -114,6 +116,7 @@
 		E1D34FC52403900F0097C3C2 /* PlaybackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D34FC42403900F0097C3C2 /* PlaybackViewController.swift */; };
 		E1D34FC8240390190097C3C2 /* PlaybackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D34FC7240390190097C3C2 /* PlaybackViewModel.swift */; };
 		E1DBC94823F1E960003F8012 /* RadioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DBC94723F1E960003F8012 /* RadioCell.swift */; };
+		E1DC38AC2454D96A0002BB64 /* CurrentPractice.json in Resources */ = {isa = PBXBuildFile; fileRef = E1DC38AB2454D96A0002BB64 /* CurrentPractice.json */; };
 		E1E869CD23E5431C00569475 /* ChoosePieceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E869CC23E5431C00569475 /* ChoosePieceViewModel.swift */; };
 		E1E869D023E5627B00569475 /* HideKeyboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E869CF23E5627B00569475 /* HideKeyboardButton.swift */; };
 		E1E869D323E56A6000569475 /* DeletePracticeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E869D223E56A6000569475 /* DeletePracticeCell.swift */; };
@@ -163,6 +166,8 @@
 		E10C483C23FB1B3900F47E23 /* ImageRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRow.swift; sourceTree = "<group>"; };
 		E10C483E23FB1CA800F47E23 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		E10CE1FC23E53F7500BE8537 /* ChoosePieceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePieceViewController.swift; sourceTree = "<group>"; };
+		E124024B2462255800CB38EA /* ImagePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePageViewController.swift; sourceTree = "<group>"; };
+		E124024E24622D0000CB38EA /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		E12FFC6423D38C5200705CFC /* YouRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouRow.swift; sourceTree = "<group>"; };
 		E12FFC6723D3909C00705CFC /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		E12FFC6A23D3915200705CFC /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -253,6 +258,7 @@
 		E1D34FC42403900F0097C3C2 /* PlaybackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackViewController.swift; sourceTree = "<group>"; };
 		E1D34FC7240390190097C3C2 /* PlaybackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackViewModel.swift; sourceTree = "<group>"; };
 		E1DBC94723F1E960003F8012 /* RadioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioCell.swift; sourceTree = "<group>"; };
+		E1DC38AB2454D96A0002BB64 /* CurrentPractice.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CurrentPractice.json; sourceTree = "<group>"; };
 		E1E869CC23E5431C00569475 /* ChoosePieceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePieceViewModel.swift; sourceTree = "<group>"; };
 		E1E869CF23E5627B00569475 /* HideKeyboardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboardButton.swift; sourceTree = "<group>"; };
 		E1E869D223E56A6000569475 /* DeletePracticeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePracticeCell.swift; sourceTree = "<group>"; };
@@ -313,6 +319,7 @@
 				E1522AEB23DF9E9F00221A79 /* BouncyLayout.swift */,
 				E10C482B23FA409E00F47E23 /* UIViewController+RemoveFromParent.swift */,
 				E1C5FE622448C692008130AE /* AppIcon.swift */,
+				E1DC38AB2454D96A0002BB64 /* CurrentPractice.json */,
 				E1C5FE5F24483657008130AE /* darkAppIcon */,
 				E17C8ADC23D2488200C74BBD /* AdagioModel.xcdatamodeld */,
 				E103FEBC23CE6B6F00BDE96A /* Main.storyboard */,
@@ -327,6 +334,7 @@
 			isa = PBXGroup;
 			children = (
 				E10C483723FB1B2600F47E23 /* ImageViewController.swift */,
+				E124024B2462255800CB38EA /* ImagePageViewController.swift */,
 				E10C483A23FB1B3500F47E23 /* ImageViewModel.swift */,
 				E10C483C23FB1B3900F47E23 /* ImageRow.swift */,
 				E10C483E23FB1CA800F47E23 /* ImageCell.swift */,
@@ -508,6 +516,7 @@
 				E1CF208123EA14B200E05E12 /* PracticeEntryCell.swift */,
 				E17736E123EB3ED60059411F /* SectionView.swift */,
 				E1CF208423EA29FA00E05E12 /* IconLabelView.swift */,
+				E124024E24622D0000CB38EA /* OnboardingViewController.swift */,
 				E146BAE323D251230036052B /* HomeViewController */,
 				E146BAE523D251290036052B /* PiecesViewController */,
 				E12FFCA923D5093200705CFC /* EditPieceViewController */,
@@ -645,6 +654,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E103FEC323CE6B7100BDE96A /* LaunchScreen.storyboard in Resources */,
+				E1DC38AC2454D96A0002BB64 /* CurrentPractice.json in Resources */,
 				E1C5FE5D24483653008130AE /* darkAppIcon@3x.png in Resources */,
 				E103FEC023CE6B7100BDE96A /* Assets.xcassets in Resources */,
 				E1C5FE5E24483653008130AE /* darkAppIcon@2x.png in Resources */,
@@ -727,6 +737,7 @@
 				E1A53AC823E6B2190059BBD5 /* CurrentPracticeTimer.swift in Sources */,
 				E12FFC7B23D4310600705CFC /* EditItemsViewController.swift in Sources */,
 				E12FFCA823D508D500705CFC /* EditPieceViewModel.swift in Sources */,
+				E124024F24622D0000CB38EA /* OnboardingViewController.swift in Sources */,
 				E10C482C23FA409E00F47E23 /* UIViewController+RemoveFromParent.swift in Sources */,
 				E1AC840C23FE66B900DB4DD8 /* RecordingViewModel.swift in Sources */,
 				E13C133723FF74590080EA79 /* Section+CoreDataClass.swift in Sources */,
@@ -759,6 +770,7 @@
 				E12FFCB323D53F8900705CFC /* PieceCell.swift in Sources */,
 				E1CF208523EA29FA00E05E12 /* IconLabelView.swift in Sources */,
 				E13109FD240393290092579C /* PlaybackRow.swift in Sources */,
+				E124024C2462255800CB38EA /* ImagePageViewController.swift in Sources */,
 				E12FFC6B23D3915200705CFC /* SettingsViewModel.swift in Sources */,
 				E10C482923F9E5BB00F47E23 /* RootPracticeViewController.swift in Sources */,
 				E10C483B23FB1B3500F47E23 /* ImageViewModel.swift in Sources */,

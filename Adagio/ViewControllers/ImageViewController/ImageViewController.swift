@@ -40,7 +40,7 @@ class ImageRootViewController: UINavigationController, UIAdaptivePresentationCon
     }
 }
 
-private class ImageViewController: SubAdagioViewController, UIAdaptivePresentationControllerDelegate {
+class ImageViewController: SubAdagioViewController, UIAdaptivePresentationControllerDelegate {
     
     private lazy var tableView = makeTableView()
     private lazy var hideKeyboardButton = makeHideKeyboardButton()

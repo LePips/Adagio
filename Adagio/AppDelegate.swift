@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         root.modalPresentationStyle = .fullScreen
         root.modalTransitionStyle = .crossDissolve
         window?.rootViewController?.present(root, animated: true, completion: nil)
-        CurrentPracticeState.core.fire(.loadCurrentPractice)
+//        CurrentPracticeState.core.fire(.loadCurrentPractice)
     }
     
     private func setDefaults() {
@@ -43,9 +43,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        CurrentPracticeState.core.fire(.saveCurrentPractice)
     }
     
-//    func applicationWillEnterForeground(_ application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
 //        CurrentPracticeState.core.fire(.loadCurrentPractice)
-//    }
+    }
     
     func applicationWillTerminate(_ application: UIApplication) {
 //        CurrentPracticeState.core.fire(.saveCurrentPractice)

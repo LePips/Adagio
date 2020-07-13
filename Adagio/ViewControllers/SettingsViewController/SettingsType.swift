@@ -14,13 +14,13 @@ enum SecondSettingSectionType: CaseIterable {
         var rows: [SettingsRow] = []
         rows.append(.spacer(10))
         rows.append(.title("Items"))
-        rows.append(.spacer(3))
+        rows.append(.spacer(10))
         rows.append(.item(.instruments))
         rows.append(.item(.groups))
         
         rows.append(.spacer(10))
         rows.append(.title("Vibrations"))
-        rows.append(.spacer(3))
+        rows.append(.spacer(10))
         rows.append(.switchSetting(.vibrationsEnabled))
         
         rows.append(.spacer(10))
@@ -237,6 +237,15 @@ enum SettingsAppIconType {
             UIApplication.shared.setAlternateIconName(nil, completionHandler: nil)
         case .dark:
             UIApplication.shared.setAlternateIconName("darkAppIcon", completionHandler: nil)
+        }
+    }
+    
+    var selected: Bool {
+        switch self {
+        case .light:
+            return UIApplication.shared.alternateIconName == nil
+        case .dark:
+            return UIApplication.shared.alternateIconName == "darkAppIcon"
         }
     }
 }

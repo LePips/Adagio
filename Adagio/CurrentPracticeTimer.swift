@@ -70,6 +70,8 @@ fileprivate class CurrentPracticeTimer {
     
     func start(from date: Date) {
         self.currentStartDate = date
+        let existingInterval = DateInterval(start: date, end: Date()).duration
+        self.currentInterval = existingInterval
         
         DispatchQueue.global(qos: .background).async {
             let timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.secondElapsed), userInfo: nil, repeats: true)
@@ -97,7 +99,6 @@ fileprivate class CurrentPracticeTimer {
         guard let timer = self.timer else { return }
         RunLoop.main.add(timer, forMode: .default)
     }
-    
     
     func reset() {
         self.pause()

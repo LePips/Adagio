@@ -9,6 +9,7 @@
 import CoreData
 import Foundation
 
+// MARK: - PracticeViewModelDelegate
 protocol PracticeViewModelDelegate {
     
     func updateRows()
@@ -18,6 +19,7 @@ protocol PracticeViewModelDelegate {
     func deletePracticeSelected()
 }
 
+// MARK: - PracticeViewModelProtocol
 protocol PracticeViewModelProtocol: class {
     
     var rows: [PracticeRow] { get set }
@@ -38,6 +40,7 @@ protocol PracticeViewModelProtocol: class {
     func saveEntry(current: Bool, completion: @escaping () -> Void)
 }
 
+// MARK: - PracticeViewModel
 class PracticeViewModel: PracticeViewModelProtocol {
     
     var rows: [PracticeRow] = [] {
@@ -138,7 +141,7 @@ class PracticeViewModel: PracticeViewModelProtocol {
     }
 }
 
-
+// MARK: - ViewPracticeViewModel
 class ViewPracticeViewModel: PracticeViewModelProtocol {
     
     var rows: [PracticeRow] = []

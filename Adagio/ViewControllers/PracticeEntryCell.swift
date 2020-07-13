@@ -19,7 +19,7 @@ class PracticeEntryCell: BasicCollectionViewCell {
     
     func configure(practice: Practice) {
         guard let endDate = practice.endDate else {
-            practice.delete(writeToDisk: true, completion: nil)
+//            practice.delete(writeToDisk: true, completion: nil)
             print("WARNING: Attempted to present practice that has not ended")
             return }
         
@@ -150,7 +150,7 @@ class PracticeEntryTableCell: AdagioCell {
     
     func configure(practice: Practice) {
         guard let endDate = practice.endDate else {
-            practice.delete(writeToDisk: true, completion: nil)
+//            practice.delete(writeToDisk: true, completion: nil)
             print("WARNING: Attempted to present practice that has not ended")
             return }
         

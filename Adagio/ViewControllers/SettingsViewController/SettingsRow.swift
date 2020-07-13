@@ -72,7 +72,7 @@ extension SettingsRow {
             return cell
         case .appIcon(let iconType):
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsAppIconCell.identifier, for: path) as! SettingsAppIconCell
-            cell.configure(title: iconType.title, icon: iconType.icon)
+            cell.configure(title: iconType.title, icon: iconType.icon, current: iconType.selected)
             return cell
         }
     }

@@ -84,12 +84,19 @@ class EndPracticeViewController: BasicViewController {
         
         practiceTitleLabel.text = viewModel.practice.title
         
+        let endDate = viewModel.practice.endDate == nil ? viewModel.practice.endDate! : Date()
+        
         // Duration
         let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.minute, .hour]
+        if DateInterval(start: viewModel.practice.startDate, end: endDate).duration < 60 {
+            formatter.allowedUnits = [.second]
+        } else {
+            formatter.allowedUnits = [.minute, .hour]
+        }
         formatter.unitsStyle = .short
-        guard let duration = formatter.string(from: viewModel.practice.startDate, to: viewModel.practice.endDate!) else { assertionFailure(); return }
+        guard let duration = formatter.string(from: viewModel.practice.startDate, to: endDate) else { assertionFailure(); return }
         durationLabel.text = duration
+        
         
         view.backgroundColor = UIColor.Adagio.backgroundColor
         
@@ -187,7 +194,7 @@ class EndPracticeViewController: BasicViewController {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         button.addTarget(self, action: #selector(doneSelected), for: .touchUpInside)
         button.layer.cornerRadius = 14
-        button.backgroundColor = UIColor.secondarySystemBackground
+        button.backgroundColor = UIColor.Adagio.Card.background
         button.setTitle("Done", for: .normal)
         return button
     }

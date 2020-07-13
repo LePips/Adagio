@@ -50,6 +50,11 @@ public class CoreDataManager {
         }
     }
     
+    // MARK: - registeredObject(for:_)
+    func registeredObject(for id: NSManagedObjectID) -> NSManagedObject? {
+        return privateManagedObjectContext.registeredObject(for: id)
+    }
+    
     // MARK: - Save
     /**
         Saves the changes from the `mainManagedObjectContext` to disk.
@@ -222,12 +227,13 @@ public class CoreDataManager {
     }
     
     // MARK: - PrivateManagedObjectContext
-    private lazy var privateManagedObjectContext: NSManagedObjectContext = {
+    public lazy var privateManagedObjectContext: NSManagedObjectContext = {
         // Initialize Managed Object Context
         let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         
         // Configure Managed Object Context
         managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
+        managedObjectContext.retainsRegisteredObjects = true
         
         return managedObjectContext
     }()
