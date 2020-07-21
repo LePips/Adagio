@@ -267,9 +267,14 @@ extension RecordingViewController: RecordingViewModelDelegate {
     
     func permissionDenied() {
         DispatchQueue.main.async {
-            let alertVC = UIAlertController(title: "Permission Denied", message: "Please give Adagio microphone access", preferredStyle: .alert)
+            let alertVC = UIAlertController(title: "Permission Denied", message: "Please give Adagio microphone access in Settings", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "Close", style: .default, handler: { (_) in
                 self.dismiss(animated: true, completion: nil)
+            }))
+            alertVC.addAction(UIAlertAction(title: "Settings", style: .default, handler: { (_) in
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
             }))
             self.present(alertVC, animated: true, completion: nil)
         }
