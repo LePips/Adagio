@@ -125,13 +125,13 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
                             let groupPickerViewModel = GroupPickerViewModel(title: "Add group", doneButtonTitle: "Add", selectedAction: self.addToGroup(title:))
                             self.presentGroupPicker(with: groupPickerViewModel)
                          })),
-                         .images(ImageSelectionCellConfiguration(images: piece?.images ?? [], addAction: {
-                            self.delegate?.presentImagePicker()
-                         },
-                            selectedAction: { image in
-                                self.delegate?.presentImage(with: ImageViewModel(image: image, deleteAction: self.delete(image:), replaceAction: self.replace(old:new:)))
-                         },
-                            editing: true))
+//                         .images(ImageSelectionCellConfiguration(images: piece?.images ?? [], addAction: {
+//                            self.delegate?.presentImagePicker()
+//                         },
+//                            selectedAction: { image in
+//                                self.delegate?.presentImage(with: ImageViewModel(image: image, deleteAction: self.delete(image:), replaceAction: self.replace(old:new:)))
+//                         },
+//                            editing: true))
             ]
         }
     }
@@ -176,13 +176,13 @@ class EditPieceViewModel: EditPieceViewModelProtocol {
                                                             let groupPickerViewModel = GroupPickerViewModel(title: "Add group", doneButtonTitle: "Add", selectedAction: self.addToGroup(title:))
                                                             self.presentGroupPicker(with: groupPickerViewModel)
                      }, editing: self.editing)),
-                     .images(ImageSelectionCellConfiguration(images: piece.images, addAction: {
-                        self.delegate?.presentImagePicker()
-                     },
-                        selectedAction: { image in
-                            self.delegate?.presentImage(with: ImageViewModel(image: image, deleteAction: self.delete(image:), replaceAction: self.replace(old:new:)))
-                     },
-                        editing: self.editing))
+//                     .images(ImageSelectionCellConfiguration(images: piece.images, addAction: {
+//                        self.delegate?.presentImagePicker()
+//                     },
+//                        selectedAction: { image in
+//                            self.delegate?.presentImage(with: ImageViewModel(image: image, deleteAction: self.delete(image:), replaceAction: self.replace(old:new:)))
+//                     },
+//                        editing: self.editing))
         ]
         
         if viewOnly {

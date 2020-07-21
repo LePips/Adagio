@@ -62,12 +62,12 @@ class FocusSectionViewModel {
             .recording(RecordingCellConfiguration(createAction: createRecording,
                                                   recordings: section.recordings.array as? [Recording] ?? [],
                                                   selectAction: present(recording:))),
-            .image(ImageSelectionCellConfiguration(images: section.images,
-                                                   addAction: { self.delegate?.presentImagePicker() },
-                                                   selectedAction: { image in
-                                                    self.delegate?.presentImage(with: ImageViewModel(image: image, deleteAction: self.delete(image:), replaceAction: self.replace(old:new:)))
-            },
-                                                   editing: true))
+//            .image(ImageSelectionCellConfiguration(images: section.images,
+//                                                   addAction: { self.delegate?.presentImagePicker() },
+//                                                   selectedAction: { image in
+//                                                    self.delegate?.presentImage(with: ImageViewModel(image: image, deleteAction: self.delete(image:), replaceAction: self.replace(old:new:)))
+//            },
+//                                                   editing: true))
         ]
     }
     
