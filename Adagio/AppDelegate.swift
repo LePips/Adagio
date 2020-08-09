@@ -31,7 +31,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let root = RootViewController()
         root.modalPresentationStyle = .fullScreen
         root.modalTransitionStyle = .crossDissolve
+        // Have to select a different tab rather than home and then select home in order
+        // to get the effect of the selected home tab
+        root.selectedIndex = 1
         window?.rootViewController?.present(root, animated: true, completion: nil)
+        root.selectedIndex = 0
+        
 //        CurrentPracticeState.core.fire(.loadCurrentPractice)
     }
     
