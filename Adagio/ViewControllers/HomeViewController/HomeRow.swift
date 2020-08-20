@@ -50,7 +50,7 @@ extension HomeRow {
             return "height".height(withConstrainedWidth: 200, font: UIFont.systemFont(ofSize: 18, weight: .medium))
         case .practice(let practice):
             var height: CGFloat = 105
-            height += CGFloat((practice.sections ?? []).count) * 30
+            height += CGFloat((practice.sections ?? []).count) * 36
             return height
         }
     }
