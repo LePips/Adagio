@@ -6,4 +6,11 @@
 //  Copyright © 2020 Ethan Pippin. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import SharedPips
+
+class OnboardingViewController: BasicViewController {
+    
+    
+    
+}
